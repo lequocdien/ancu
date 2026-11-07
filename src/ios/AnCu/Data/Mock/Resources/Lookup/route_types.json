@@ -1,0 +1,30 @@
+[
+  {
+    "code": "metro",
+    "label_vi": "Metro",
+    "sort_order": 1,
+    "color_hex": "#EF4444",
+    "sf_symbol": "tram.fill"
+  },
+  {
+    "code": "vanh_dai",
+    "label_vi": "Vành đai",
+    "sort_order": 2,
+    "color_hex": "#F97316",
+    "sf_symbol": "circle.dashed"
+  },
+  {
+    "code": "cao_toc",
+    "label_vi": "Cao tốc",
+    "sort_order": 3,
+    "color_hex": "#A855F7",
+    "sf_symbol": "road.lanes"
+  },
+  {
+    "code": "quoc_lo",
+    "label_vi": "Quốc lộ",
+    "sort_order": 4,
+    "color_hex": "#64748B",
+    "sf_symbol": "road.lanes"
+  }
+]

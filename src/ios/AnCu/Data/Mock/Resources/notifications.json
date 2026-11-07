@@ -1,0 +1,74 @@
+[
+  {
+    "id": "bfe6d239-de28-580a-ac70-bbd17872e7d4",
+    "type": "mo_nhan_ho_so",
+    "project_id": "ffe14cd8-75bb-5a59-b5dd-a91c233c5cfc",
+    "title": "NOXH Hòa Bình Xanh mở nhận hồ sơ",
+    "body": "Nhận hồ sơ từ 01/11 đến 18/11.",
+    "created_at": "2026-11-01T08:00:00+07:00",
+    "is_read": false
+  },
+  {
+    "id": "bc1be0a4-0889-5438-8ce4-89e03ed084b2",
+    "type": "mo_nhan_ho_so",
+    "project_id": "4cf400a9-42f5-5c59-84c5-c6e51a335fd2",
+    "title": "NOXH Biên Hòa Riverside mở nhận hồ sơ",
+    "body": "Nhận hồ sơ từ 02/11 đến 22/11.",
+    "created_at": "2026-11-02T08:30:00+07:00",
+    "is_read": false
+  },
+  {
+    "id": "e859f4e2-873c-502b-9bdc-05098f7c97e1",
+    "type": "doi_gia",
+    "project_id": "cbec8e47-fc11-5090-84e4-d56b8311036e",
+    "title": "NOXH Thuận An Center cập nhật giá",
+    "body": "Giá tham khảo đổi từ 16,5 lên 16,9–17,5 triệu/m².",
+    "created_at": "2026-10-30T10:15:00+07:00",
+    "is_read": true
+  },
+  {
+    "id": "4e911698-dcd6-595c-8361-fdf41541224d",
+    "type": "doi_trang_thai",
+    "project_id": "48636dd5-66d7-544f-b744-124e832769ac",
+    "title": "Khu nhà ở Sóng Thần Mới sắp mở",
+    "body": "Dự kiến nhận hồ sơ từ 25/11.",
+    "created_at": "2026-10-29T09:00:00+07:00",
+    "is_read": true
+  },
+  {
+    "id": "2eafc81c-a1ce-5427-8285-c77101123046",
+    "type": "doi_trang_thai",
+    "project_id": "55553913-5abc-5025-8cc7-ea04082bbb31",
+    "title": "Nhà Bè Riverside đóng đợt nhận hồ sơ",
+    "body": "Đợt 1 đã kết thúc ngày 30/09.",
+    "created_at": "2026-09-30T18:00:00+07:00",
+    "is_read": true
+  },
+  {
+    "id": "ed4f5fd7-82d7-5e23-8a41-db031065a87c",
+    "type": "doi_gia",
+    "project_id": "2c6a5d28-60ae-5a2c-a369-99c9a74db602",
+    "title": "Khu nhà ở An Phú Lộc có giá dự kiến",
+    "body": "Giá dự kiến 20,5–21,8 triệu/m², chưa phê duyệt.",
+    "created_at": "2026-10-20T14:00:00+07:00",
+    "is_read": true
+  },
+  {
+    "id": "0e914ac4-a103-5dfd-873c-3372d8fb455e",
+    "type": "mo_nhan_ho_so",
+    "project_id": "e6d175ba-5622-50eb-80bc-8d4556d15f4e",
+    "title": "NOXH Tân Đông Hiệp mở nhận hồ sơ",
+    "body": "Nhận hồ sơ từ 04/11 đến 30/11.",
+    "created_at": "2026-11-04T08:00:00+07:00",
+    "is_read": false
+  },
+  {
+    "id": "93a92e4c-2464-5dde-97e6-493c14715548",
+    "type": "doi_trang_thai",
+    "project_id": "54f2042f-fa51-5ba9-9729-034e29add2cd",
+    "title": "Long Thành Sky có giấy phép xây dựng",
+    "body": "Dự kiến nhận hồ sơ từ 15/12.",
+    "created_at": "2026-10-15T11:00:00+07:00",
+    "is_read": true
+  }
+]

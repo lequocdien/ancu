@@ -1,0 +1,26 @@
+[
+  {
+    "code": "da_khai_thac",
+    "label_vi": "Đã khai thác",
+    "sort_order": 1,
+    "attributes": {
+      "line_style": "solid"
+    }
+  },
+  {
+    "code": "dang_thi_cong",
+    "label_vi": "Đang thi công",
+    "sort_order": 2,
+    "attributes": {
+      "line_style": "thin"
+    }
+  },
+  {
+    "code": "quy_hoach",
+    "label_vi": "Quy hoạch",
+    "sort_order": 3,
+    "attributes": {
+      "line_style": "dashed"
+    }
+  }
+]

@@ -1,0 +1,23 @@
+[
+  {
+    "code": "mo_nhan_ho_so",
+    "label_vi": "Mở nhận hồ sơ",
+    "sort_order": 1,
+    "color_hex": "#10B981",
+    "sf_symbol": "envelope.open.fill"
+  },
+  {
+    "code": "doi_gia",
+    "label_vi": "Thay đổi giá",
+    "sort_order": 2,
+    "color_hex": "#FF5A3C",
+    "sf_symbol": "tag.fill"
+  },
+  {
+    "code": "doi_trang_thai",
+    "label_vi": "Thay đổi trạng thái",
+    "sort_order": 3,
+    "color_hex": "#6366F1",
+    "sf_symbol": "arrow.triangle.2.circlepath"
+  }
+]

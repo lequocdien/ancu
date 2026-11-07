@@ -1,0 +1,510 @@
+[
+  {
+    "id": "114bfa70-5447-58b6-ac1e-59ae01daa9c2",
+    "name": "Metro số 1 Bến Thành – Suối Tiên",
+    "type": "metro",
+    "status": "da_khai_thac",
+    "expected_year": 2024,
+    "color_hex": "#EF4444",
+    "segments": [
+      [
+        {
+          "lat": 10.7721,
+          "lng": 106.6983
+        },
+        {
+          "lat": 10.7766,
+          "lng": 106.7031
+        },
+        {
+          "lat": 10.7814,
+          "lng": 106.7072
+        },
+        {
+          "lat": 10.7962,
+          "lng": 106.7153
+        },
+        {
+          "lat": 10.7987,
+          "lng": 106.7237
+        },
+        {
+          "lat": 10.802,
+          "lng": 106.7342
+        },
+        {
+          "lat": 10.8023,
+          "lng": 106.7425
+        },
+        {
+          "lat": 10.8085,
+          "lng": 106.7553
+        },
+        {
+          "lat": 10.8213,
+          "lng": 106.759
+        },
+        {
+          "lat": 10.8327,
+          "lng": 106.7637
+        },
+        {
+          "lat": 10.8459,
+          "lng": 106.7714
+        },
+        {
+          "lat": 10.8592,
+          "lng": 106.7889
+        },
+        {
+          "lat": 10.8664,
+          "lng": 106.8013
+        },
+        {
+          "lat": 10.8794,
+          "lng": 106.8139
+        }
+      ]
+    ],
+    "source_url": "https://mock.ancu.vn/nguon/tuyen/metro1",
+    "verified_at": "2026-10-28"
+  },
+  {
+    "id": "d86c6e10-7c33-54bb-b4c9-23041c2734de",
+    "name": "Metro số 2 Bến Thành – Tham Lương",
+    "type": "metro",
+    "status": "dang_thi_cong",
+    "expected_year": 2030,
+    "color_hex": "#3B82F6",
+    "segments": [
+      [
+        {
+          "lat": 10.7721,
+          "lng": 106.6983
+        },
+        {
+          "lat": 10.7745,
+          "lng": 106.6915
+        },
+        {
+          "lat": 10.7779,
+          "lng": 106.6814
+        },
+        {
+          "lat": 10.7809,
+          "lng": 106.6769
+        },
+        {
+          "lat": 10.7863,
+          "lng": 106.6662
+        },
+        {
+          "lat": 10.797,
+          "lng": 106.653
+        },
+        {
+          "lat": 10.8046,
+          "lng": 106.6436
+        },
+        {
+          "lat": 10.8247,
+          "lng": 106.631
+        }
+      ]
+    ],
+    "source_url": "https://tuoitre.vn/hoan-thanh-metro-ben-thanh-tham-luong-vao-nam-2029-som-hon-ke-hoach-1-nam-100260806203434232.htm",
+    "verified_at": "2026-11-07"
+  },
+  {
+    "id": "d527a176-b1be-57c3-880c-b802f64ad47d",
+    "name": "Metro Suối Tiên – Sân bay Long Thành",
+    "type": "metro",
+    "status": "quy_hoach",
+    "expected_year": null,
+    "color_hex": "#22C55E",
+    "segments": [
+      [
+        {
+          "lat": 10.8794,
+          "lng": 106.8139
+        },
+        {
+          "lat": 10.895,
+          "lng": 106.825
+        },
+        {
+          "lat": 10.915,
+          "lng": 106.835
+        },
+        {
+          "lat": 10.935,
+          "lng": 106.842
+        },
+        {
+          "lat": 10.955,
+          "lng": 106.848
+        }
+      ]
+    ],
+    "source_url": "https://cafeland.vn/tin-tuc/tphcm-chuan-bi-thu-hoi-dat-lam-tuyen-metro-435km-chay-den-san-bay-long-thanh-153352.html",
+    "verified_at": "2026-11-07"
+  },
+  {
+    "id": "f1bea0cd-de17-5fcf-ba75-ff2062b121a4",
+    "name": "Metro Thành phố mới Bình Dương – Suối Tiên",
+    "type": "metro",
+    "status": "quy_hoach",
+    "expected_year": 2030,
+    "color_hex": "#14B8A6",
+    "segments": [
+      [
+        {
+          "lat": 10.8794,
+          "lng": 106.8139
+        },
+        {
+          "lat": 10.895,
+          "lng": 106.79
+        },
+        {
+          "lat": 10.91,
+          "lng": 106.765
+        },
+        {
+          "lat": 10.935,
+          "lng": 106.73
+        },
+        {
+          "lat": 10.96,
+          "lng": 106.695
+        },
+        {
+          "lat": 10.98,
+          "lng": 106.665
+        }
+      ]
+    ],
+    "source_url": "https://24hmoney.vn/news/tp-hcm-du-kien-khoi-cong-them-ba-tuyen-metro-vao-cuoi-nam-c27a2835162.html",
+    "verified_at": "2026-11-07"
+  },
+  {
+    "id": "5422da2a-789b-53a5-80a0-78dcfdf57274",
+    "name": "Vành đai 3",
+    "type": "vanh_dai",
+    "status": "dang_thi_cong",
+    "expected_year": 2026,
+    "color_hex": "#F97316",
+    "segments": [
+      [
+        {
+          "lat": 10.735,
+          "lng": 106.865
+        },
+        {
+          "lat": 10.77,
+          "lng": 106.815
+        },
+        {
+          "lat": 10.81,
+          "lng": 106.84
+        },
+        {
+          "lat": 10.86,
+          "lng": 106.83
+        },
+        {
+          "lat": 10.905,
+          "lng": 106.815
+        }
+      ],
+      [
+        {
+          "lat": 10.905,
+          "lng": 106.815
+        },
+        {
+          "lat": 10.945,
+          "lng": 106.77
+        },
+        {
+          "lat": 10.975,
+          "lng": 106.73
+        },
+        {
+          "lat": 10.95,
+          "lng": 106.68
+        },
+        {
+          "lat": 10.92,
+          "lng": 106.63
+        },
+        {
+          "lat": 10.88,
+          "lng": 106.6
+        },
+        {
+          "lat": 10.83,
+          "lng": 106.585
+        },
+        {
+          "lat": 10.78,
+          "lng": 106.58
+        },
+        {
+          "lat": 10.73,
+          "lng": 106.585
+        },
+        {
+          "lat": 10.7,
+          "lng": 106.59
+        }
+      ]
+    ],
+    "source_url": "https://cafef.vn/can-canh-gan-15-km-vanh-dai-3-tren-cao-truoc-ngay-thong-xe-188261104135210243.chn",
+    "verified_at": "2026-11-07"
+  },
+  {
+    "id": "a4ae12dc-9423-592d-98f1-ee50509b0f76",
+    "name": "Vành đai 4",
+    "type": "vanh_dai",
+    "status": "dang_thi_cong",
+    "expected_year": 2029,
+    "color_hex": "#FB923C",
+    "segments": [
+      [
+        {
+          "lat": 10.59,
+          "lng": 107.05
+        },
+        {
+          "lat": 10.72,
+          "lng": 107.0
+        },
+        {
+          "lat": 10.9,
+          "lng": 106.98
+        },
+        {
+          "lat": 11.05,
+          "lng": 106.9
+        },
+        {
+          "lat": 11.15,
+          "lng": 106.8
+        },
+        {
+          "lat": 11.1,
+          "lng": 106.65
+        },
+        {
+          "lat": 11.03,
+          "lng": 106.53
+        },
+        {
+          "lat": 10.9,
+          "lng": 106.48
+        },
+        {
+          "lat": 10.75,
+          "lng": 106.47
+        },
+        {
+          "lat": 10.62,
+          "lng": 106.52
+        }
+      ]
+    ],
+    "source_url": "https://www.sggp.org.vn/khoi-cong-duong-vanh-dai-4-tphcm-doan-qua-dia-ban-tinh-binh-duong-post799962.html",
+    "verified_at": "2026-11-07"
+  },
+  {
+    "id": "132c3bff-66ac-5855-a163-bbd68eacbcbf",
+    "name": "Cao tốc TP.HCM – Long Thành – Dầu Giây",
+    "type": "cao_toc",
+    "status": "da_khai_thac",
+    "expected_year": 2015,
+    "color_hex": "#A855F7",
+    "segments": [
+      [
+        {
+          "lat": 10.795,
+          "lng": 106.75
+        },
+        {
+          "lat": 10.8,
+          "lng": 106.79
+        },
+        {
+          "lat": 10.8,
+          "lng": 106.83
+        },
+        {
+          "lat": 10.795,
+          "lng": 106.89
+        },
+        {
+          "lat": 10.79,
+          "lng": 106.95
+        },
+        {
+          "lat": 10.83,
+          "lng": 107.03
+        },
+        {
+          "lat": 10.89,
+          "lng": 107.1
+        },
+        {
+          "lat": 10.95,
+          "lng": 107.15
+        }
+      ]
+    ],
+    "source_url": "https://mock.ancu.vn/nguon/tuyen/ct_lt_dg",
+    "verified_at": "2026-10-28"
+  },
+  {
+    "id": "1d328163-4918-5314-a257-71af63f4adba",
+    "name": "Cao tốc Biên Hòa – Vũng Tàu",
+    "type": "cao_toc",
+    "status": "da_khai_thac",
+    "expected_year": 2026,
+    "color_hex": "#C084FC",
+    "segments": [
+      [
+        {
+          "lat": 10.92,
+          "lng": 106.88
+        },
+        {
+          "lat": 10.86,
+          "lng": 106.92
+        },
+        {
+          "lat": 10.79,
+          "lng": 106.96
+        },
+        {
+          "lat": 10.7,
+          "lng": 107.01
+        },
+        {
+          "lat": 10.59,
+          "lng": 107.05
+        }
+      ]
+    ],
+    "source_url": "https://tienphong.vn/thong-xe-toan-tuyen-cao-toc-bien-hoa-vung-tau-post1844264.tpo",
+    "verified_at": "2026-11-07"
+  },
+  {
+    "id": "a688ee0c-cc24-5230-8b84-d186ad0f8b81",
+    "name": "Quốc lộ 1",
+    "type": "quoc_lo",
+    "status": "da_khai_thac",
+    "expected_year": null,
+    "color_hex": "#64748B",
+    "segments": [
+      [
+        {
+          "lat": 10.74,
+          "lng": 106.6
+        },
+        {
+          "lat": 10.8,
+          "lng": 106.62
+        },
+        {
+          "lat": 10.85,
+          "lng": 106.64
+        },
+        {
+          "lat": 10.87,
+          "lng": 106.72
+        },
+        {
+          "lat": 10.87,
+          "lng": 106.77
+        },
+        {
+          "lat": 10.905,
+          "lng": 106.815
+        },
+        {
+          "lat": 10.95,
+          "lng": 106.88
+        },
+        {
+          "lat": 10.96,
+          "lng": 107.05
+        }
+      ]
+    ],
+    "source_url": "https://mock.ancu.vn/nguon/tuyen/ql1",
+    "verified_at": "2026-10-28"
+  },
+  {
+    "id": "e5017d31-768c-5c1d-9d06-6064124dc18f",
+    "name": "Quốc lộ 13",
+    "type": "quoc_lo",
+    "status": "da_khai_thac",
+    "expected_year": null,
+    "color_hex": "#64748B",
+    "segments": [
+      [
+        {
+          "lat": 10.81,
+          "lng": 106.71
+        },
+        {
+          "lat": 10.86,
+          "lng": 106.72
+        },
+        {
+          "lat": 10.92,
+          "lng": 106.7
+        },
+        {
+          "lat": 10.98,
+          "lng": 106.66
+        },
+        {
+          "lat": 11.1,
+          "lng": 106.62
+        }
+      ]
+    ],
+    "source_url": "https://mock.ancu.vn/nguon/tuyen/ql13",
+    "verified_at": "2026-10-28"
+  },
+  {
+    "id": "f54e8fec-4f55-5196-a9cd-c13bc9dbc9bb",
+    "name": "Quốc lộ 51",
+    "type": "quoc_lo",
+    "status": "da_khai_thac",
+    "expected_year": null,
+    "color_hex": "#64748B",
+    "segments": [
+      [
+        {
+          "lat": 10.94,
+          "lng": 106.87
+        },
+        {
+          "lat": 10.82,
+          "lng": 106.95
+        },
+        {
+          "lat": 10.7,
+          "lng": 107.02
+        },
+        {
+          "lat": 10.55,
+          "lng": 107.1
+        }
+      ]
+    ],
+    "source_url": "https://mock.ancu.vn/nguon/tuyen/ql51",
+    "verified_at": "2026-10-28"
+  }
+]

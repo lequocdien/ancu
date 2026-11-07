@@ -1,0 +1,17 @@
+[
+  {
+    "code": "chua_co_nha",
+    "label_vi": "Chưa có nhà ở tại tỉnh/thành có dự án",
+    "sort_order": 1
+  },
+  {
+    "code": "nha_duoi_15m2_nguoi",
+    "label_vi": "Có nhà tại tỉnh/thành có dự án nhưng dưới 15 m²/người",
+    "sort_order": 2
+  },
+  {
+    "code": "da_co_nha",
+    "label_vi": "Đã có nhà tại tỉnh/thành có dự án (từ 15 m²/người trở lên)",
+    "sort_order": 3
+  }
+]

@@ -1,0 +1,11 @@
+// Cấu hình build Release của target AnCu (TestFlight / App Store).
+// Giá trị thật đặt trong Secrets-Release.xcconfig (KHÔNG commit) — copy từ Secrets.example.xcconfig.
+// CI: sinh file này từ secret của pipeline trước khi build.
+
+ANCU_SUPABASE_URL =
+ANCU_SUPABASE_KEY =
+// Đăng nhập bên thứ ba bật trong bản build: apple,google,facebook (cần cấu hình provider phía Supabase).
+// Để trống = chỉ email OTP. Có google/facebook → app tự thêm apple (App Store Review 4.8).
+ANCU_AUTH_PROVIDERS =
+
+#include? "Secrets-Release.xcconfig"

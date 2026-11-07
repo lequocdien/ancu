@@ -1,0 +1,69 @@
+[
+  {
+    "rule_key": "income_max_single_million",
+    "value_type": "number",
+    "value_number": 25,
+    "legal_reference": "Nghị định 100/2024/NĐ-CP, Điều 30 khoản 1 (sửa đổi bởi NĐ 136/2026/NĐ-CP), điểm a",
+    "effective_from": "2026-04-07",
+    "is_mock": true
+  },
+  {
+    "rule_key": "income_max_single_with_child_million",
+    "value_type": "number",
+    "value_number": 35,
+    "legal_reference": "Nghị định 100/2024/NĐ-CP, Điều 30 khoản 1 (sửa đổi bởi NĐ 136/2026/NĐ-CP), điểm a",
+    "effective_from": "2026-04-07",
+    "is_mock": true
+  },
+  {
+    "rule_key": "income_max_married_million",
+    "value_type": "number",
+    "value_number": 50,
+    "legal_reference": "Nghị định 100/2024/NĐ-CP, Điều 30 khoản 1 (sửa đổi bởi NĐ 136/2026/NĐ-CP), điểm b",
+    "effective_from": "2026-04-07",
+    "is_mock": true
+  },
+  {
+    "rule_key": "income_ceiling_subjects",
+    "value_type": "codes",
+    "value_codes": [
+      "thu_nhap_thap_do_thi",
+      "cong_nhan",
+      "can_bo_cong_chuc"
+    ],
+    "legal_reference": "Luật Nhà ở 2023, Điều 77 khoản 2; NĐ 100/2024, Điều 30",
+    "effective_from": "2026-04-07",
+    "is_mock": true
+  },
+  {
+    "rule_key": "min_housing_area_per_person_sqm",
+    "value_type": "number",
+    "value_number": 15,
+    "legal_reference": "Nghị định 100/2024/NĐ-CP, Điều 29 (sửa đổi bởi NĐ 54/2026/NĐ-CP); Luật Nhà ở 2023, Điều 77",
+    "effective_from": "2026-02-09",
+    "is_mock": true
+  },
+  {
+    "rule_key": "eligible_subjects",
+    "value_type": "codes",
+    "value_codes": [
+      "thu_nhap_thap_do_thi",
+      "cong_nhan",
+      "can_bo_cong_chuc",
+      "luc_luong_vu_trang",
+      "ho_ngheo_can_ngheo",
+      "nhieu_con"
+    ],
+    "legal_reference": "Luật Nhà ở 2023, Điều 76 (khoản 13 bổ sung bởi Luật Dân số 2025)",
+    "effective_from": "2026-07-01",
+    "is_mock": true
+  },
+  {
+    "rule_key": "disclaimer",
+    "value_type": "text",
+    "value_text": "Kết quả chỉ để tham khảo, cơ quan có thẩm quyền xét duyệt mới là căn cứ cuối cùng.",
+    "legal_reference": "",
+    "effective_from": "2024-08-01",
+    "is_mock": false
+  }
+]

@@ -1,0 +1,438 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>An Cư Preview</title>
+<style>
+:root{
+  --primary:#0D9488; --primary-2:#14B8A6; --accent:#FF5A3C;
+  --open:#10B981; --soon:#F59E0B; --closed:#94A3B8; --building:#6366F1;
+  --ring:#F97316; --exp:#A855F7; --m1:#EF4444; --m2:#3B82F6; --mx:#22C55E;
+  --text:#0F172A; --text-2:#475569; --text-3:#94A3B8;
+  --page:#E9EEF2; --solid:rgba(255,255,255,.72); --solid-border:rgba(15,23,42,.06);
+  --glass-bg:rgba(255,255,255,.38); --glass-border:rgba(255,255,255,.75);
+  --glass-hi:rgba(255,255,255,.95); --glass-shadow:rgba(15,23,42,.14);
+  --land:#EEF1EC; --land-2:#E4EAE2; --water:#BFDDEB; --road:#FFFFFF; --road-2:#D9DEE3; --park:#D6E8CF;
+  --mesh-a:#CCFBF1; --mesh-b:#F0FDFA; --mesh-c:#FFE4DC; --mesh-d:#99F6E4;
+}
+body.dark{
+  --primary:#2DD4BF; --primary-2:#14B8A6; --accent:#FF7A5C;
+  --open:#34D399; --soon:#FBBF24; --closed:#64748B; --building:#818CF8;
+  --text:#F1F5F9; --text-2:#CBD5E1; --text-3:#64748B;
+  --page:#05080F; --solid:rgba(30,41,59,.72); --solid-border:rgba(255,255,255,.06);
+  --glass-bg:rgba(30,41,59,.38); --glass-border:rgba(255,255,255,.16);
+  --glass-hi:rgba(255,255,255,.28); --glass-shadow:rgba(0,0,0,.5);
+  --land:#141C26; --land-2:#18222E; --water:#0F2C3D; --road:#273444; --road-2:#1E2A38; --park:#132A22;
+  --mesh-a:#042F2E; --mesh-b:#0B1120; --mesh-c:#3B1A12; --mesh-d:#064E46;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,"SF Pro Text","Inter",system-ui,sans-serif;background:var(--page);color:var(--text);
+  -webkit-font-smoothing:antialiased;padding:40px 40px 48px}
+.num{font-variant-numeric:tabular-nums}
+header.page{display:flex;align-items:baseline;gap:16px;margin-bottom:28px}
+header.page h1{font-size:26px;letter-spacing:-.02em}
+header.page p{color:var(--text-2);font-size:15px}
+.row{display:flex;gap:36px;flex-wrap:wrap}
+figure{display:flex;flex-direction:column;align-items:center;gap:14px}
+figcaption{font-size:14px;color:var(--text-2);font-weight:600}
+
+/* ---------- phone ---------- */
+.phone{width:393px;height:852px;border-radius:56px;position:relative;overflow:hidden;
+  box-shadow:0 0 0 11px #11151C,0 0 0 12.5px #3A404A,0 30px 60px rgba(0,0,0,.28);background:var(--land)}
+.island{position:absolute;top:11px;left:50%;transform:translateX(-50%);width:124px;height:36px;border-radius:20px;background:#000;z-index:50}
+.status{position:absolute;top:0;left:0;right:0;height:54px;display:flex;justify-content:space-between;align-items:center;
+  padding:6px 34px 0 46px;font-weight:600;font-size:16.5px;z-index:40;color:var(--text)}
+.status .ic{display:flex;gap:6px;align-items:center}
+.home{position:absolute;bottom:8px;left:50%;transform:translateX(-50%);width:139px;height:5px;border-radius:3px;background:var(--text);opacity:.85;z-index:60}
+
+/* ---------- liquid glass ---------- */
+.glass{position:relative;background:var(--glass-bg);
+  backdrop-filter:blur(14px) saturate(190%) brightness(1.04);-webkit-backdrop-filter:blur(14px) saturate(190%) brightness(1.04);
+  border:1px solid var(--glass-border);
+  box-shadow:inset 0 1px 0 var(--glass-hi),inset 0 -1px 1px rgba(255,255,255,.18),0 10px 28px -6px var(--glass-shadow),0 2px 6px -2px var(--glass-shadow)}
+.glass::before{content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;
+  background:linear-gradient(160deg,rgba(255,255,255,.55) 0%,rgba(255,255,255,0) 38%,rgba(255,255,255,0) 70%,rgba(255,255,255,.18) 100%);opacity:.6}
+body.dark .glass::before{opacity:.18}
+.glass.tint{background:linear-gradient(135deg,color-mix(in srgb,var(--primary) 78%,transparent),color-mix(in srgb,var(--primary-2) 62%,transparent));
+  border-color:rgba(255,255,255,.45);color:#fff}
+.solid{background:var(--solid);border:1px solid var(--solid-border);border-radius:20px}
+
+/* ---------- map ---------- */
+.map{position:absolute;inset:0}
+.top-ui{position:absolute;top:58px;left:16px;right:16px;z-index:20;display:flex;flex-direction:column;gap:10px}
+.search{height:50px;border-radius:25px;display:flex;align-items:center;gap:10px;padding:0 8px 0 16px;font-size:16px;color:var(--text-2)}
+.search .grow{flex:1}
+.avatar{width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,var(--primary),#0EA5E9);color:#fff;
+  display:grid;place-items:center;font-size:14px;font-weight:700}
+.seg{height:36px;border-radius:18px;display:flex;padding:3px;font-size:13.5px;font-weight:600}
+.seg span{flex:1;display:grid;place-items:center;border-radius:15px;color:var(--text-2)}
+.seg span.on{background:var(--solid);color:var(--text);box-shadow:0 2px 6px rgba(0,0,0,.12)}
+body.dark .seg span.on{background:rgba(255,255,255,.16)}
+.chips{display:flex;gap:8px;overflow:hidden;margin-right:-16px}
+.chip{height:34px;border-radius:17px;padding:0 13px;display:flex;align-items:center;gap:6px;font-size:13.5px;font-weight:600;white-space:nowrap;color:var(--text)}
+.chip i{width:9px;height:9px;border-radius:50%;display:inline-block}
+.chip.on{color:#fff}
+.fab-col{position:absolute;right:16px;top:262px;z-index:20;display:flex;flex-direction:column;border-radius:24px;overflow:hidden}
+.fab-col div{width:48px;height:48px;display:grid;place-items:center;color:var(--text)}
+.fab-col div+div{border-top:1px solid var(--glass-border)}
+
+.pin{position:absolute;z-index:10;transform:translate(-50%,-50%)}
+.pin .dot{width:30px;height:30px;border-radius:50%;border:2.5px solid #fff;display:grid;place-items:center;
+  box-shadow:0 4px 10px rgba(0,0,0,.28);color:#fff}
+.pin.sel .dot{width:44px;height:44px;border-width:3px;box-shadow:0 0 0 6px color-mix(in srgb,var(--open) 30%,transparent),0 6px 14px rgba(0,0,0,.3)}
+.pin.cluster .dot{width:38px;height:38px;font-size:13px;font-weight:700;background:var(--primary)}
+.pin.pulse::after{content:"";position:absolute;inset:-9px;border-radius:50%;border:2px solid var(--open);opacity:.5}
+.lbl{position:absolute;z-index:9;font-size:10.5px;font-weight:600;color:var(--text-2);transform:translate(-50%,0);white-space:nowrap;
+  text-shadow:0 0 3px var(--land),0 0 3px var(--land)}
+
+/* ---------- sheet ---------- */
+.sheet{position:absolute;left:8px;right:8px;bottom:8px;height:478px;border-radius:38px;z-index:30;padding:10px 18px 20px}
+.grab{width:38px;height:5px;border-radius:3px;background:var(--text-3);opacity:.6;margin:0 auto 12px}
+.sh-head{display:flex;justify-content:space-between;align-items:flex-start;gap:10px}
+.sh-head h2{font-size:21px;letter-spacing:-.02em;line-height:1.2}
+.sh-head p{font-size:13.5px;color:var(--text-2);margin-top:3px}
+.close{width:32px;height:32px;border-radius:50%;display:grid;place-items:center;flex:none;color:var(--text-2)}
+.badges{display:flex;gap:8px;margin:12px 0 14px}
+.badge{height:26px;border-radius:13px;padding:0 10px;display:flex;align-items:center;gap:6px;font-size:12.5px;font-weight:700}
+.badge.open{background:color-mix(in srgb,var(--open) 16%,transparent);color:var(--open)}
+.badge.hot{background:color-mix(in srgb,var(--accent) 14%,transparent);color:var(--accent)}
+.badge.soon{background:color-mix(in srgb,var(--soon) 18%,transparent);color:var(--soon)}
+.badge.closed{background:color-mix(in srgb,var(--closed) 22%,transparent);color:var(--text-2)}
+.grid4{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.tile{padding:11px 13px;border-radius:18px}
+.tile small{display:block;font-size:12px;color:var(--text-2);font-weight:500}
+.tile b{display:block;font-size:17.5px;margin-top:3px;letter-spacing:-.01em}
+.tile b em{font-style:normal;font-size:12.5px;color:var(--text-2);font-weight:500}
+.conn{margin-top:8px;padding:10px 13px;border-radius:18px;display:flex;flex-direction:column;gap:8px}
+.conn .r{display:flex;align-items:center;gap:10px;font-size:13.5px}
+.conn .r i{width:26px;height:26px;border-radius:8px;display:grid;place-items:center;color:#fff;flex:none;font-style:normal;font-size:11px;font-weight:800}
+.conn .r span{flex:1}
+.conn .r b{font-size:13.5px}
+.conn .note{font-size:11px;color:var(--text-3)}
+.actions{display:flex;gap:10px;margin-top:12px}
+.btn{height:50px;border-radius:25px;display:flex;align-items:center;justify-content:center;gap:8px;font-weight:650;font-size:16px}
+.btn.g{flex:0 0 108px;color:var(--text)}
+.btn.p{flex:1}
+.src{font-size:11.5px;color:var(--text-3);margin-top:10px;display:flex;justify-content:space-between}
+.src a{color:var(--accent);font-weight:600;text-decoration:none}
+
+/* ---------- mesh screens ---------- */
+.mesh{position:absolute;inset:0;
+  background:
+   radial-gradient(60% 45% at 12% 8%,var(--mesh-d) 0%,transparent 70%),
+   radial-gradient(55% 40% at 95% 30%,var(--mesh-c) 0%,transparent 70%),
+   radial-gradient(70% 50% at 20% 75%,var(--mesh-a) 0%,transparent 70%),
+   radial-gradient(60% 45% at 90% 95%,var(--mesh-c) 0%,transparent 70%),
+   var(--mesh-b)}
+.scr{position:absolute;inset:0;padding:60px 16px 0;z-index:5}
+.nav{display:flex;justify-content:space-between;align-items:center;height:44px}
+.circ{width:44px;height:44px;border-radius:50%;display:grid;place-items:center;color:var(--text)}
+.ltitle{font-size:34px;font-weight:800;letter-spacing:-.025em;margin:6px 4px 14px}
+.seg3{height:38px;border-radius:19px;display:flex;padding:3px;font-size:13.5px;font-weight:600;margin-bottom:16px}
+.seg3 span{flex:1;display:grid;place-items:center;border-radius:16px;color:var(--text-2)}
+.seg3 span.on{background:var(--solid);color:var(--text);box-shadow:0 2px 6px rgba(0,0,0,.1)}
+body.dark .seg3 span.on{background:rgba(255,255,255,.16)}
+.card{border-radius:26px;padding:14px 15px;margin-bottom:12px}
+.card .t{display:flex;justify-content:space-between;align-items:center}
+.card h3{font-size:16.5px;letter-spacing:-.01em}
+.card .sub{font-size:12.5px;color:var(--text-2);margin-top:2px}
+.card .meta{display:flex;gap:14px;margin-top:10px;font-size:13px;color:var(--text-2)}
+.card .meta b{color:var(--text);font-weight:650}
+.bar{height:6px;border-radius:3px;background:color-mix(in srgb,var(--text-3) 30%,transparent);margin-top:11px;overflow:hidden}
+.bar i{display:block;height:100%;border-radius:3px}
+.check{width:24px;height:24px;border-radius:50%;border:2px solid var(--text-3);flex:none}
+.check.on{background:var(--primary);border-color:var(--primary);display:grid;place-items:center;color:#fff}
+.tabbar{position:absolute;left:24px;right:24px;bottom:28px;height:62px;border-radius:31px;z-index:30;display:flex;padding:5px}
+.tabbar div{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;font-size:10.5px;font-weight:600;color:var(--text);border-radius:26px}
+.tabbar div.on{background:color-mix(in srgb,var(--primary) 16%,transparent);color:var(--primary)}
+.float-cta{position:absolute;left:24px;right:24px;bottom:104px;z-index:30}
+
+/* eligibility */
+.prog{display:flex;gap:5px;margin:10px 4px 16px}
+.prog i{flex:1;height:5px;border-radius:3px;background:var(--primary)}
+.result{border-radius:30px;padding:22px 18px 18px;text-align:center}
+.big{width:72px;height:72px;border-radius:50%;margin:0 auto 12px;display:grid;place-items:center;color:#fff;
+  background:linear-gradient(135deg,var(--open),#0EA5E9);box-shadow:0 10px 24px -6px color-mix(in srgb,var(--open) 60%,transparent)}
+.result h2{font-size:24px;letter-spacing:-.02em}
+.result p{font-size:13.5px;color:var(--text-2);margin-top:6px;line-height:1.45}
+.crit{margin-top:14px;text-align:left;padding:4px 12px;border-radius:18px}
+.crit .r{display:flex;align-items:center;gap:10px;padding:9px 0;font-size:13.5px}
+.crit .r+.r{border-top:1px solid var(--solid-border)}
+.crit .r span{flex:1;color:var(--text-2)}
+.crit .r b{font-weight:650}
+.ok{color:var(--open)} .warn{color:var(--soon)}
+.mock{font-size:9.5px;font-weight:800;letter-spacing:.06em;color:var(--accent);border:1px solid var(--accent);border-radius:5px;padding:1px 4px;margin-left:4px}
+.cites{display:flex;gap:6px;flex-wrap:wrap;margin-top:12px}
+.cites span{font-size:11.5px;font-weight:600;padding:5px 9px;border-radius:10px;background:color-mix(in srgb,var(--primary) 12%,transparent);color:var(--primary)}
+.disc{margin-top:12px;font-size:12px;color:var(--text-2);line-height:1.45;padding:11px 13px;border-radius:16px;text-align:left;display:flex;gap:8px}
+.lock{display:flex;align-items:center;justify-content:center;gap:6px;font-size:12px;color:var(--text-2);margin-top:12px}
+
+/* account */
+.prof{border-radius:28px;padding:16px;display:flex;gap:14px;align-items:center}
+.prof .av{width:58px;height:58px;border-radius:50%;background:linear-gradient(135deg,var(--primary),#0EA5E9);display:grid;place-items:center;color:#fff;font-weight:800;font-size:21px}
+.prof h3{font-size:18px}
+.prof p{font-size:13px;color:var(--text-2);margin-top:2px;display:flex;align-items:center;gap:5px}
+.elig{border-radius:28px;padding:18px;margin-top:14px;overflow:hidden}
+.elig h3{font-size:19px;letter-spacing:-.01em}
+.elig p{font-size:13px;opacity:.9;margin-top:4px;line-height:1.4}
+.elig .go{margin-top:14px;display:inline-flex;align-items:center;gap:6px;height:38px;padding:0 16px;border-radius:19px;background:rgba(255,255,255,.92);color:#0F766E;font-weight:700;font-size:14px}
+.elig .deco{position:absolute;right:-16px;top:-10px;width:120px;height:120px;border-radius:50%;background:rgba(255,255,255,.14)}
+.list{border-radius:22px;margin-top:14px;padding:0 14px}
+.list .r{display:flex;align-items:center;gap:12px;height:50px;font-size:15px}
+.list .r+.r{border-top:1px solid var(--solid-border)}
+.list .r i{width:30px;height:30px;border-radius:9px;display:grid;place-items:center;color:#fff;flex:none}
+.list .r span{flex:1}
+.list .r .chev{color:var(--text-3)}
+.danger{color:#EF4444;font-weight:600}
+svg{display:block}
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute">
+  <defs>
+    <symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7" fill="none" stroke="currentColor" stroke-width="2.2"/><path d="M16.5 16.5L21 21" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></symbol>
+    <symbol id="i-loc" viewBox="0 0 24 24"><path d="M3 11l18-8-8 18-2-8-8-2z" fill="currentColor"/></symbol>
+    <symbol id="i-layers" viewBox="0 0 24 24"><path d="M12 3l9 5-9 5-9-5 9-5z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><path d="M3 13l9 5 9-5" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></symbol>
+    <symbol id="i-info" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="2"/><path d="M12 11v6M12 7.5v.5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"/></symbol>
+    <symbol id="i-x" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></symbol>
+    <symbol id="i-bm" viewBox="0 0 24 24"><path d="M6 3h12v18l-6-4-6 4V3z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></symbol>
+    <symbol id="i-bell" viewBox="0 0 24 24"><path d="M6 16V11a6 6 0 0112 0v5l2 2H4l2-2z" fill="currentColor"/><path d="M10 20a2 2 0 004 0" fill="currentColor"/></symbol>
+    <symbol id="i-house" viewBox="0 0 24 24"><path d="M4 11l8-7 8 7v9H4z" fill="currentColor"/></symbol>
+    <symbol id="i-map" viewBox="0 0 24 24"><path d="M9 4l6 2 6-2v16l-6 2-6-2-6 2V6z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><path d="M9 4v16M15 6v16" stroke="currentColor" stroke-width="2"/></symbol>
+    <symbol id="i-star" viewBox="0 0 24 24"><path d="M12 3l2.7 5.6 6.1.9-4.4 4.3 1 6.1L12 17l-5.4 2.9 1-6.1L3.2 9.5l6.1-.9z" fill="currentColor"/></symbol>
+    <symbol id="i-user" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4" fill="currentColor"/><path d="M4 21a8 8 0 0116 0z" fill="currentColor"/></symbol>
+    <symbol id="i-check" viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="i-back" viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="i-chev" viewBox="0 0 24 24"><path d="M9 5l7 7-7 7" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="i-lock" viewBox="0 0 24 24"><rect x="5" y="10" width="14" height="11" rx="2.5" fill="currentColor"/><path d="M8 10V7a4 4 0 018 0v3" fill="none" stroke="currentColor" stroke-width="2"/></symbol>
+    <symbol id="i-shield" viewBox="0 0 24 24"><path d="M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6z" fill="currentColor"/></symbol>
+    <symbol id="i-doc" viewBox="0 0 24 24"><path d="M6 3h8l4 4v14H6z" fill="currentColor"/></symbol>
+    <symbol id="i-trash" viewBox="0 0 24 24"><path d="M5 7h14M10 7V4h4v3M7 7l1 13h8l1-13" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="i-people" viewBox="0 0 24 24"><circle cx="9" cy="8" r="3.5" fill="currentColor"/><circle cx="17" cy="9" r="2.8" fill="currentColor"/><path d="M2 20a7 7 0 0114 0zM14 20a5 5 0 018 0z" fill="currentColor"/></symbol>
+    <symbol id="i-wifi" viewBox="0 0 24 24"><path d="M2 9a15 15 0 0120 0M5.5 12.5a10 10 0 0113 0M9 16a5 5 0 016 0" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/><circle cx="12" cy="19.5" r="1.6" fill="currentColor"/></symbol>
+    <symbol id="i-warn" viewBox="0 0 24 24"><path d="M12 3l10 18H2z" fill="currentColor"/><path d="M12 10v5M12 17.5v.5" stroke="#fff" stroke-width="2.2" stroke-linecap="round"/></symbol>
+  </defs>
+</svg>
+
+<header class="page">
+  <h1>An Cư · Prototype preview</h1>
+  <p id="mode-label">Liquid Glass · Light mode · iOS 26 (iOS 17–25 dùng fallback material)</p>
+</header>
+
+<div class="row">
+
+<!-- ================= 1. MAP ================= -->
+<figure>
+<div class="phone">
+  <div class="island"></div>
+  <div class="status"><span class="num">9:41</span><span class="ic"><svg width="18" height="14"><use href="#i-wifi"/></svg><svg width="27" height="13" viewBox="0 0 27 13"><rect x=".5" y=".5" width="23" height="12" rx="3.5" fill="none" stroke="currentColor" opacity=".5"/><rect x="2" y="2" width="18" height="9" rx="2" fill="currentColor"/><rect x="24.5" y="4.5" width="2" height="4" rx="1" fill="currentColor" opacity=".5"/></svg></span></div>
+
+  <svg class="map" viewBox="0 0 393 852" preserveAspectRatio="xMidYMid slice">
+    <rect width="393" height="852" fill="var(--land)"/>
+    <!-- districts patches -->
+    <path d="M0 470 L120 430 L210 470 L200 600 L60 640 L0 610Z" fill="var(--land-2)"/>
+    <path d="M230 120 L393 90 L393 330 L290 360 L240 270Z" fill="var(--land-2)"/>
+    <ellipse cx="120" cy="250" rx="60" ry="36" fill="var(--park)"/>
+    <ellipse cx="330" cy="560" rx="70" ry="44" fill="var(--park)"/>
+    <!-- rivers: Sài Gòn & Đồng Nai -->
+    <path d="M150 0 C170 120 120 200 175 300 C215 370 185 430 230 500 C270 560 250 640 300 720 C330 770 320 820 340 852" fill="none" stroke="var(--water)" stroke-width="16" stroke-linecap="round"/>
+    <path d="M393 260 C340 300 330 360 290 400 C262 430 250 470 236 505" fill="none" stroke="var(--water)" stroke-width="13" stroke-linecap="round"/>
+    <!-- minor roads -->
+    <g stroke="var(--road-2)" stroke-width="3" fill="none">
+      <path d="M0 330 L393 300"/><path d="M0 560 L393 520"/><path d="M60 0 L90 852"/><path d="M270 0 L250 852"/>
+      <path d="M0 190 L393 160"/><path d="M0 700 L393 680"/><path d="M200 0 L330 852"/>
+    </g>
+    <!-- Quốc lộ -->
+    <path d="M0 420 C120 400 220 360 393 330" fill="none" stroke="var(--road)" stroke-width="7"/>
+    <path d="M100 0 C120 150 150 260 175 380" fill="none" stroke="var(--road)" stroke-width="7"/>
+    <!-- Vành đai 3 -->
+    <path d="M30 760 C10 560 40 330 150 210 C240 120 350 140 393 190" fill="none" stroke="var(--ring)" stroke-width="5" stroke-linecap="round"/>
+    <path d="M30 760 C80 800 150 820 220 852" fill="none" stroke="var(--ring)" stroke-width="3.5" stroke-dasharray="9 7" stroke-linecap="round" opacity=".75"/>
+    <!-- Cao tốc HCM - Long Thành - Dầu Giây -->
+    <path d="M215 520 C270 520 330 500 393 470" fill="none" stroke="var(--exp)" stroke-width="5" stroke-linecap="round"/>
+    <!-- Metro 2 (đang thi công) -->
+    <path d="M150 585 C120 560 90 520 40 470" fill="none" stroke="var(--m2)" stroke-width="3.5" stroke-linecap="round"/>
+    <!-- Metro 1 (đã khai thác) -->
+    <path d="M150 585 C180 540 200 470 230 420 C260 370 290 320 330 270" fill="none" stroke="var(--m1)" stroke-width="5.5" stroke-linecap="round"/>
+    <!-- Metro kéo dài (quy hoạch) -->
+    <path d="M330 270 C350 240 370 200 393 175" fill="none" stroke="var(--mx)" stroke-width="3.5" stroke-dasharray="8 6" stroke-linecap="round" opacity=".7"/>
+    <!-- stations -->
+    <g fill="#fff" stroke="var(--m1)" stroke-width="2.5">
+      <circle cx="150" cy="585" r="5"/><circle cx="190" cy="510" r="4.5"/><circle cx="230" cy="420" r="4.5"/><circle cx="275" cy="345" r="4.5"/><circle cx="330" cy="270" r="5"/>
+    </g>
+  </svg>
+  <span class="lbl" style="left:150px;top:595px">Bến Thành</span>
+  <span class="lbl" style="left:330px;top:281px">Suối Tiên</span>
+  <span class="lbl" style="left:255px;top:352px">Bình Thái</span>
+  <span class="lbl" style="left:60px;top:420px;color:var(--ring)">Vành đai 3</span>
+
+  <!-- pins -->
+  <div class="pin pulse" style="left:110px;top:400px"><div class="dot" style="background:var(--open)"><svg width="14" height="14"><use href="#i-house"/></svg></div></div>
+  <div class="pin" style="left:70px;top:620px"><div class="dot" style="background:var(--soon)"><svg width="14" height="14"><use href="#i-house"/></svg></div></div>
+  <div class="pin" style="left:205px;top:250px"><div class="dot" style="background:var(--building)"><svg width="14" height="14"><use href="#i-house"/></svg></div></div>
+  <div class="pin cluster" style="left:360px;top:225px"><div class="dot num">4</div></div>
+  <div class="pin" style="left:330px;top:360px"><div class="dot" style="background:var(--closed)"><svg width="14" height="14"><use href="#i-house"/></svg></div></div>
+  <div class="pin sel" style="left:262px;top:322px"><div class="dot" style="background:var(--open)"><svg width="18" height="18"><use href="#i-house"/></svg></div></div>
+
+  <div class="top-ui">
+    <div class="search glass"><svg width="19" height="19"><use href="#i-search"/></svg><span class="grow">Tìm dự án, phường/xã…</span><div class="avatar">MA</div></div>
+    <div class="seg glass"><span class="on">TP.HCM</span><span>Bình Dương</span><span>Đồng Nai</span></div>
+    <div class="chips">
+      <div class="chip glass tint on"><i style="background:#fff"></i>Metro</div>
+      <div class="chip glass tint on"><i style="background:#fff"></i>Vành đai</div>
+      <div class="chip glass"><i style="background:var(--exp)"></i>Cao tốc</div>
+      <div class="chip glass"><i style="background:var(--open)"></i>Đang nhận hồ sơ</div>
+      <div class="chip glass">Quốc lộ</div>
+    </div>
+  </div>
+  <div class="fab-col glass"><div><svg width="20" height="20"><use href="#i-loc"/></svg></div><div><svg width="21" height="21"><use href="#i-layers"/></svg></div><div><svg width="21" height="21"><use href="#i-info"/></svg></div></div>
+
+  <div class="sheet glass">
+    <div class="grab"></div>
+    <div class="sh-head">
+      <div><h2>NOXH Hòa Bình Xanh</h2><p>Phường Linh Xuân (Thủ Đức cũ), TP.HCM</p></div>
+      <div class="close glass"><svg width="13" height="13"><use href="#i-x"/></svg></div>
+    </div>
+    <div class="badges"><span class="badge open">● Đang nhận hồ sơ</span><span class="badge hot num">Còn 12 ngày</span></div>
+    <div class="grid4">
+      <div class="tile solid"><small>Giá tham khảo</small><b class="num">22,5 <em>tr/m²</em></b></div>
+      <div class="tile solid"><small>Số căn</small><b class="num">1.240 <em>căn</em></b></div>
+      <div class="tile solid"><small>Pháp lý</small><b>Đủ ĐK bán</b></div>
+      <div class="tile solid"><small>Nhận hồ sơ</small><b class="num">01/11–18/11</b></div>
+    </div>
+    <div class="conn solid">
+      <div class="r"><i style="background:var(--m1)">M1</i><span>Ga Bình Thái</span><b class="num">1,2 km</b></div>
+      <div class="r"><i style="background:var(--ring)">VĐ3</i><span>Nút giao Tân Vạn · 2026</span><b class="num">3,8 km</b></div>
+      <div class="note">Khoảng cách đường chim bay</div>
+    </div>
+    <div class="actions">
+      <div class="btn g glass"><svg width="17" height="17"><use href="#i-bm"/></svg>Lưu</div>
+      <div class="btn p glass tint"><svg width="18" height="18"><use href="#i-bell"/></svg>Bật thông báo</div>
+    </div>
+    <div class="src"><span>Nguồn: Sở Xây dựng TP.HCM · Cập nhật: 02/11/2026</span><a>Báo sai</a></div>
+  </div>
+  <div class="home"></div>
+</div>
+<figcaption>1 · Bản đồ + sheet chi tiết dự án</figcaption>
+</figure>
+
+<!-- ================= 2. TRACKING ================= -->
+<figure>
+<div class="phone">
+  <div class="mesh"></div>
+  <div class="island"></div>
+  <div class="status"><span class="num">9:41</span><span class="ic"><svg width="18" height="14"><use href="#i-wifi"/></svg><svg width="27" height="13" viewBox="0 0 27 13"><rect x=".5" y=".5" width="23" height="12" rx="3.5" fill="none" stroke="currentColor" opacity=".5"/><rect x="2" y="2" width="18" height="9" rx="2" fill="currentColor"/></svg></span></div>
+  <div class="scr">
+    <div class="nav"><span></span><div class="circ glass"><svg width="20" height="20"><use href="#i-bell"/></svg></div></div>
+    <div class="ltitle">Theo dõi</div>
+    <div class="seg3 glass"><span class="on">Đã lưu · 3</span><span>So sánh</span><span>Thông báo · 2</span></div>
+
+    <div class="card glass">
+      <div class="t"><div><h3>NOXH Hòa Bình Xanh</h3><div class="sub">Linh Xuân · TP.HCM</div></div><div class="check on"><svg width="13" height="13"><use href="#i-check"/></svg></div></div>
+      <div class="badges" style="margin:10px 0 0"><span class="badge open">● Đang nhận hồ sơ</span><span class="badge hot num">Còn 12 ngày</span></div>
+      <div class="bar"><i style="width:30%;background:var(--accent)"></i></div>
+      <div class="meta num"><span><b>22,5</b> tr/m²</span><span>Ga M1 <b>1,2 km</b></span><span><b>1.240</b> căn</span></div>
+    </div>
+    <div class="card glass">
+      <div class="t"><div><h3>Khu nhà ở Sóng Thần Mới</h3><div class="sub">Dĩ An (Bình Dương cũ) · TP.HCM</div></div><div class="check on"><svg width="13" height="13"><use href="#i-check"/></svg></div></div>
+      <div class="badges" style="margin:10px 0 0"><span class="badge soon">● Sắp mở · 25/11</span></div>
+      <div class="bar"><i style="width:62%;background:var(--soon)"></i></div>
+      <div class="meta num"><span><b>17,8</b> tr/m²</span><span>Ga M1 <b>4,6 km</b></span><span><b>860</b> căn</span></div>
+    </div>
+    <div class="card glass">
+      <div class="t"><div><h3>NOXH Nhơn Trạch Garden</h3><div class="sub">Nhơn Trạch · Đồng Nai</div></div><div class="check"></div></div>
+      <div class="badges" style="margin:10px 0 0"><span class="badge closed">Đã đóng đợt 1</span></div>
+      <div class="meta num"><span><b>15,9</b> tr/m²</span><span>Sân bay LT <b>9,1 km</b></span><span><b>1.050</b> căn</span></div>
+    </div>
+  </div>
+  <div class="float-cta"><div class="btn glass tint" style="width:100%">So sánh 2 dự án</div></div>
+  <div class="tabbar glass">
+    <div><svg width="23" height="23"><use href="#i-map"/></svg>Bản đồ</div>
+    <div class="on"><svg width="23" height="23"><use href="#i-star"/></svg>Theo dõi</div>
+    <div><svg width="23" height="23"><use href="#i-user"/></svg>Tài khoản</div>
+  </div>
+  <div class="home"></div>
+</div>
+<figcaption>2 · Theo dõi (đã lưu, chọn để so sánh)</figcaption>
+</figure>
+
+<!-- ================= 3. ELIGIBILITY ================= -->
+<figure>
+<div class="phone">
+  <div class="mesh"></div>
+  <div class="island"></div>
+  <div class="status"><span class="num">9:41</span><span class="ic"><svg width="18" height="14"><use href="#i-wifi"/></svg><svg width="27" height="13" viewBox="0 0 27 13"><rect x=".5" y=".5" width="23" height="12" rx="3.5" fill="none" stroke="currentColor" opacity=".5"/><rect x="2" y="2" width="18" height="9" rx="2" fill="currentColor"/></svg></span></div>
+  <div class="scr">
+    <div class="nav"><div class="circ glass"><svg width="19" height="19"><use href="#i-back"/></svg></div><b style="font-size:16px">Kiểm tra điều kiện</b><div class="circ glass"><svg width="15" height="15"><use href="#i-x"/></svg></div></div>
+    <div class="prog"><i></i><i></i><i></i><i></i><i></i></div>
+    <div class="result glass">
+      <div class="big"><svg width="34" height="34"><use href="#i-check"/></svg></div>
+      <h2>Có thể đủ điều kiện</h2>
+      <p>Bạn đáp ứng các tiêu chí chính để mua NOXH.<br>Hãy chuẩn bị hồ sơ theo hướng dẫn của chủ đầu tư.</p>
+      <div class="crit solid">
+        <div class="r"><span>Đối tượng</span><b>Thu nhập thấp đô thị</b><svg class="ok" width="18" height="18"><use href="#i-check"/></svg></div>
+        <div class="r"><span>Nhà ở hiện tại</span><b>Chưa có nhà</b><svg class="ok" width="18" height="18"><use href="#i-check"/></svg></div>
+        <div class="r"><span>Thu nhập</span><b class="num">≤ 15 tr/tháng<span class="mock">MOCK</span></b><svg class="ok" width="18" height="18"><use href="#i-check"/></svg></div>
+        <div class="r"><span>Nơi làm việc</span><b>Cần xác nhận</b><svg class="warn" width="18" height="18"><use href="#i-warn"/></svg></div>
+      </div>
+      <div class="cites"><span>Luật Nhà ở 2023 · Đ.77</span><span>NĐ 100/2024 · Đ.30</span></div>
+      <div class="disc solid"><svg class="warn" width="16" height="16" style="flex:none;margin-top:1px"><use href="#i-info"/></svg>Kết quả chỉ để tham khảo, cơ quan có thẩm quyền xét duyệt mới là căn cứ cuối cùng.</div>
+    </div>
+    <div class="lock"><svg width="13" height="13"><use href="#i-lock"/></svg>Câu trả lời không được lưu lên máy chủ</div>
+  </div>
+  <div class="float-cta" style="bottom:40px"><div class="btn glass tint" style="width:100%">Xem dự án phù hợp</div></div>
+  <div class="home"></div>
+</div>
+<figcaption>3 · Kết quả kiểm tra điều kiện mua</figcaption>
+</figure>
+
+<!-- ================= 4. ACCOUNT ================= -->
+<figure>
+<div class="phone">
+  <div class="mesh"></div>
+  <div class="island"></div>
+  <div class="status"><span class="num">9:41</span><span class="ic"><svg width="18" height="14"><use href="#i-wifi"/></svg><svg width="27" height="13" viewBox="0 0 27 13"><rect x=".5" y=".5" width="23" height="12" rx="3.5" fill="none" stroke="currentColor" opacity=".5"/><rect x="2" y="2" width="18" height="9" rx="2" fill="currentColor"/></svg></span></div>
+  <div class="scr">
+    <div class="nav"></div>
+    <div class="ltitle">Tài khoản</div>
+    <div class="prof glass">
+      <div class="av">MA</div>
+      <div><h3>Nguyễn Minh An</h3><p><svg class="ok" width="14" height="14"><use href="#i-shield"/></svg>SĐT đã xác thực · ••• 482</p></div>
+    </div>
+    <div class="elig glass tint">
+      <div class="deco"></div>
+      <h3>Kiểm tra điều kiện mua NOXH</h3>
+      <p>5 câu hỏi · khoảng 2 phút<br>Theo Luật Nhà ở 2023 và NĐ 100/2024</p>
+      <div class="go">Bắt đầu <svg width="13" height="13"><use href="#i-chev"/></svg></div>
+    </div>
+    <div class="list glass">
+      <div class="r"><i style="background:var(--accent)"><svg width="16" height="16"><use href="#i-bell"/></svg></i><span>Cài đặt thông báo</span><svg class="chev" width="14" height="14"><use href="#i-chev"/></svg></div>
+      <div class="r"><i style="background:var(--building)"><svg width="16" height="16"><use href="#i-people"/></svg></i><span>Quy tắc cộng đồng</span><svg class="chev" width="14" height="14"><use href="#i-chev"/></svg></div>
+      <div class="r"><i style="background:var(--primary)"><svg width="16" height="16"><use href="#i-shield"/></svg></i><span>Chính sách quyền riêng tư</span><svg class="chev" width="14" height="14"><use href="#i-chev"/></svg></div>
+      <div class="r"><i style="background:#64748B"><svg width="16" height="16"><use href="#i-doc"/></svg></i><span>Điều khoản sử dụng</span><svg class="chev" width="14" height="14"><use href="#i-chev"/></svg></div>
+    </div>
+    <div class="list glass">
+      <div class="r"><span style="color:var(--primary);font-weight:600">Đăng xuất</span></div>
+      <div class="r"><i style="background:#EF4444"><svg width="16" height="16" style="color:#fff"><use href="#i-trash"/></svg></i><span class="danger">Xóa tài khoản</span></div>
+    </div>
+  </div>
+  <div class="tabbar glass">
+    <div><svg width="23" height="23"><use href="#i-map"/></svg>Bản đồ</div>
+    <div><svg width="23" height="23"><use href="#i-star"/></svg>Theo dõi</div>
+    <div class="on"><svg width="23" height="23"><use href="#i-user"/></svg>Tài khoản</div>
+  </div>
+  <div class="home"></div>
+</div>
+<figcaption>4 · Tài khoản</figcaption>
+</figure>
+
+</div>
+<script>
+  if (location.hash === '#dark') {
+    document.body.classList.add('dark');
+    document.getElementById('mode-label').textContent = 'Liquid Glass · Dark mode · iOS 26 (iOS 17–25 dùng fallback material)';
+  }
+</script>
+</body>
+</html>

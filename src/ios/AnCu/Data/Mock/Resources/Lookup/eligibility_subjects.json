@@ -1,0 +1,37 @@
+[
+  {
+    "code": "thu_nhap_thap_do_thi",
+    "label_vi": "Người thu nhập thấp tại đô thị",
+    "sort_order": 1
+  },
+  {
+    "code": "cong_nhan",
+    "label_vi": "Công nhân, người lao động trong doanh nghiệp, KCN",
+    "sort_order": 2
+  },
+  {
+    "code": "can_bo_cong_chuc",
+    "label_vi": "Cán bộ, công chức, viên chức",
+    "sort_order": 3
+  },
+  {
+    "code": "luc_luong_vu_trang",
+    "label_vi": "Lực lượng vũ trang",
+    "sort_order": 4
+  },
+  {
+    "code": "ho_ngheo_can_ngheo",
+    "label_vi": "Hộ nghèo, cận nghèo",
+    "sort_order": 5
+  },
+  {
+    "code": "nhieu_con",
+    "label_vi": "Có từ 2 con đẻ trở lên",
+    "sort_order": 6
+  },
+  {
+    "code": "khac",
+    "label_vi": "Đối tượng khác",
+    "sort_order": 7
+  }
+]

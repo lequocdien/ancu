@@ -1,0 +1,342 @@
+[
+  {
+    "id": "5bb6fb99-d6a2-5008-bffc-df22460939b8",
+    "route_id": "114bfa70-5447-58b6-ac1e-59ae01daa9c2",
+    "name": "Ga Bến Thành",
+    "type": "ga_metro",
+    "location": {
+      "lat": 10.7721,
+      "lng": 106.6983
+    }
+  },
+  {
+    "id": "7eb8e164-510c-5165-9ac4-09ec96681116",
+    "route_id": "114bfa70-5447-58b6-ac1e-59ae01daa9c2",
+    "name": "Ga Nhà hát Thành phố",
+    "type": "ga_metro",
+    "location": {
+      "lat": 10.7766,
+      "lng": 106.7031
+    }
+  },
+  {
+    "id": "01af3d77-95a7-5c8e-8186-8db66f1e42f6",
+    "route_id": "114bfa70-5447-58b6-ac1e-59ae01daa9c2",
+    "name": "Ga Ba Son",
+    "type": "ga_metro",
+    "location": {
+      "lat": 10.7814,
+      "lng": 106.7072
+    }
+  },
+  {
+    "id": "8147db72-86b5-5500-8420-49c7b332c0da",
+    "route_id": "114bfa70-5447-58b6-ac1e-59ae01daa9c2",
+    "name": "Ga Văn Thánh",
+    "type": "ga_metro",
+    "location": {
+      "lat": 10.7962,
+      "lng": 106.7153
+    }
+  },
+  {
+    "id": "31aee842-9a2a-5ccd-85ae-8aff2e967061",
+    "route_id": "114bfa70-5447-58b6-ac1e-59ae01daa9c2",
+    "name": "Ga Tân Cảng",
+    "type": "ga_metro",
+    "location": {
+      "lat": 10.7987,
+      "lng": 106.7237
+    }
+  },
+  {
+    "id": "00d2927f-b6b1-5930-a70c-a83a48a9d15b",
+    "route_id": "114bfa70-5447-58b6-ac1e-59ae01daa9c2",
+    "name": "Ga Thảo Điền",
+    "type": "ga_metro",
+    "location": {
+      "lat": 10.802,
+      "lng": 106.7342
+    }
+  },
+  {
+    "id": "9c6a12bd-b14d-549a-8a9f-9d9ea8dd533a",
+    "route_id": "114bfa70-5447-58b6-ac1e-59ae01daa9c2",
+    "name": "Ga An Phú",
+    "type": "ga_metro",
+    "location": {
+      "lat": 10.8023,
+      "lng": 106.7425
+    }
+  },
+  {
+    "id": "ce0234dc-7529-51a9-8a6b-e2f92fa385ad",
+    "route_id": "114bfa70-5447-58b6-ac1e-59ae01daa9c2",
+    "name": "Ga Rạch Chiếc",
+    "type": "ga_metro",
+    "location": {
+      "lat": 10.8085,
+      "lng": 106.7553
+    }
+  },
+  {
+    "id": "134d7a02-2dae-5b2f-b92f-649e9db2211b",
+    "route_id": "114bfa70-5447-58b6-ac1e-59ae01daa9c2",
+    "name": "Ga Phước Long",
+    "type": "ga_metro",
+    "location": {
+      "lat": 10.8213,
+      "lng": 106.759
+    }
+  },
+  {
+    "id": "3c5d7dff-ef3f-53f9-9818-d0738c7e0cec",
+    "route_id": "114bfa70-5447-58b6-ac1e-59ae01daa9c2",
+    "name": "Ga Bình Thái",
+    "type": "ga_metro",
+    "location": {
+      "lat": 10.8327,
+      "lng": 106.7637
+    }
+  },
+  {
+    "id": "e44f42cc-5717-5d37-8f5c-12bb6188b12b",
+    "route_id": "114bfa70-5447-58b6-ac1e-59ae01daa9c2",
+    "name": "Ga Thủ Đức",
+    "type": "ga_metro",
+    "location": {
+      "lat": 10.8459,
+      "lng": 106.7714
+    }
+  },
+  {
+    "id": "e88d8e2f-c515-586e-a928-7e98d8e583b0",
+    "route_id": "114bfa70-5447-58b6-ac1e-59ae01daa9c2",
+    "name": "Ga Khu Công nghệ cao",
+    "type": "ga_metro",
+    "location": {
+      "lat": 10.8592,
+      "lng": 106.7889
+    }
+  },
+  {
+    "id": "032ec483-c0e0-5619-bcab-f8d759188c4e",
+    "route_id": "114bfa70-5447-58b6-ac1e-59ae01daa9c2",
+    "name": "Ga Đại học Quốc gia",
+    "type": "ga_metro",
+    "location": {
+      "lat": 10.8664,
+      "lng": 106.8013
+    }
+  },
+  {
+    "id": "fdc6af55-9b9e-5382-ac97-3dd36fc210e4",
+    "route_id": "114bfa70-5447-58b6-ac1e-59ae01daa9c2",
+    "name": "Ga Suối Tiên",
+    "type": "ga_metro",
+    "location": {
+      "lat": 10.8794,
+      "lng": 106.8139
+    }
+  },
+  {
+    "id": "4ec5d32e-8a35-54da-8750-2e4fb9a728ad",
+    "route_id": "d86c6e10-7c33-54bb-b4c9-23041c2734de",
+    "name": "Ga Tao Đàn",
+    "type": "ga_metro",
+    "location": {
+      "lat": 10.7745,
+      "lng": 106.6915
+    }
+  },
+  {
+    "id": "e39a677e-e96f-5677-b1bc-3c3d46f1e76c",
+    "route_id": "d86c6e10-7c33-54bb-b4c9-23041c2734de",
+    "name": "Ga Dân Chủ",
+    "type": "ga_metro",
+    "location": {
+      "lat": 10.7779,
+      "lng": 106.6814
+    }
+  },
+  {
+    "id": "c741698a-4be3-5a64-965e-a0e42eef0894",
+    "route_id": "d86c6e10-7c33-54bb-b4c9-23041c2734de",
+    "name": "Ga Hòa Hưng",
+    "type": "ga_metro",
+    "location": {
+      "lat": 10.7809,
+      "lng": 106.6769
+    }
+  },
+  {
+    "id": "dc7742c7-2f41-52d5-9ce5-96c0754c82bc",
+    "route_id": "d86c6e10-7c33-54bb-b4c9-23041c2734de",
+    "name": "Ga Lê Thị Riêng",
+    "type": "ga_metro",
+    "location": {
+      "lat": 10.7863,
+      "lng": 106.6662
+    }
+  },
+  {
+    "id": "5db5ec97-4d33-552a-9839-a22728cde9f0",
+    "route_id": "d86c6e10-7c33-54bb-b4c9-23041c2734de",
+    "name": "Ga Phạm Văn Bạch",
+    "type": "ga_metro",
+    "location": {
+      "lat": 10.797,
+      "lng": 106.653
+    }
+  },
+  {
+    "id": "ecc71c86-fb3e-53bd-a28a-d2d17853dd87",
+    "route_id": "d86c6e10-7c33-54bb-b4c9-23041c2734de",
+    "name": "Ga Bà Quẹo",
+    "type": "ga_metro",
+    "location": {
+      "lat": 10.8046,
+      "lng": 106.6436
+    }
+  },
+  {
+    "id": "ee382115-b849-5493-8a33-752a5a5f044b",
+    "route_id": "d86c6e10-7c33-54bb-b4c9-23041c2734de",
+    "name": "Ga Tham Lương",
+    "type": "ga_metro",
+    "location": {
+      "lat": 10.8247,
+      "lng": 106.631
+    }
+  },
+  {
+    "id": "45959c8b-5bf1-5ec7-b8ca-b8942f825a37",
+    "route_id": "d527a176-b1be-57c3-880c-b802f64ad47d",
+    "name": "Ga Biên Hòa (dự kiến)",
+    "type": "ga_metro",
+    "location": {
+      "lat": 10.955,
+      "lng": 106.848
+    }
+  },
+  {
+    "id": "db59e0e3-bef1-5973-a04e-105024475578",
+    "route_id": "f1bea0cd-de17-5fcf-ba75-ff2062b121a4",
+    "name": "Ga Dĩ An (dự kiến)",
+    "type": "ga_metro",
+    "location": {
+      "lat": 10.91,
+      "lng": 106.765
+    }
+  },
+  {
+    "id": "e6bf1f4c-d5d2-50ea-983a-1467584cc39c",
+    "route_id": "f1bea0cd-de17-5fcf-ba75-ff2062b121a4",
+    "name": "Ga Thủ Dầu Một (dự kiến)",
+    "type": "ga_metro",
+    "location": {
+      "lat": 10.98,
+      "lng": 106.665
+    }
+  },
+  {
+    "id": "792902de-79db-574c-b033-897b1184a208",
+    "route_id": "5422da2a-789b-53a5-80a0-78dcfdf57274",
+    "name": "Nút giao Tân Vạn",
+    "type": "nut_giao",
+    "location": {
+      "lat": 10.905,
+      "lng": 106.815
+    }
+  },
+  {
+    "id": "94132e30-5d91-504d-8aa9-ca3f64c70067",
+    "route_id": "5422da2a-789b-53a5-80a0-78dcfdf57274",
+    "name": "Nút giao Long Phước",
+    "type": "nut_giao",
+    "location": {
+      "lat": 10.81,
+      "lng": 106.84
+    }
+  },
+  {
+    "id": "7994ab03-debf-5a52-a144-b6df408d1b3c",
+    "route_id": "5422da2a-789b-53a5-80a0-78dcfdf57274",
+    "name": "Nút giao Nhơn Trạch",
+    "type": "nut_giao",
+    "location": {
+      "lat": 10.735,
+      "lng": 106.865
+    }
+  },
+  {
+    "id": "51709f77-d2bc-59d1-9c15-fa527fd26bc7",
+    "route_id": "5422da2a-789b-53a5-80a0-78dcfdf57274",
+    "name": "Nút giao Bình Chuẩn",
+    "type": "nut_giao",
+    "location": {
+      "lat": 10.975,
+      "lng": 106.73
+    }
+  },
+  {
+    "id": "6b317bbd-f3ae-586a-ba4c-328946476ec9",
+    "route_id": "5422da2a-789b-53a5-80a0-78dcfdf57274",
+    "name": "Nút giao Hóc Môn",
+    "type": "nut_giao",
+    "location": {
+      "lat": 10.88,
+      "lng": 106.6
+    }
+  },
+  {
+    "id": "653e9780-f379-5f1f-8362-9046c42045cb",
+    "route_id": "5422da2a-789b-53a5-80a0-78dcfdf57274",
+    "name": "Nút giao Tân Kiên",
+    "type": "nut_giao",
+    "location": {
+      "lat": 10.7,
+      "lng": 106.59
+    }
+  },
+  {
+    "id": "e474f2f5-5bf2-5458-acb7-05577232301a",
+    "route_id": "a4ae12dc-9423-592d-98f1-ee50509b0f76",
+    "name": "Nút giao Tân Uyên (dự kiến)",
+    "type": "nut_giao",
+    "location": {
+      "lat": 11.05,
+      "lng": 106.9
+    }
+  },
+  {
+    "id": "621c2248-8f2d-51d6-96bf-551113c9a3d7",
+    "route_id": "132c3bff-66ac-5855-a163-bbd68eacbcbf",
+    "name": "Nút giao Long Thành",
+    "type": "nut_giao",
+    "location": {
+      "lat": 10.79,
+      "lng": 106.95
+    }
+  },
+  {
+    "id": "662f7c53-78cb-5c4f-89bf-9201fa2d854a",
+    "route_id": "1d328163-4918-5314-a257-71af63f4adba",
+    "name": "Nút giao Tam Phước",
+    "type": "nut_giao",
+    "location": {
+      "lat": 10.86,
+      "lng": 106.92
+    }
+  },
+  {
+    "id": "05bc7467-93bf-51b6-b9db-72420c18d339",
+    "route_id": null,
+    "name": "Sân bay Long Thành",
+    "type": "diem_hat_nhan",
+    "location": {
+      "lat": 10.77,
+      "lng": 107.035
+    }
+  }
+]

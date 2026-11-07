@@ -1,0 +1,30 @@
+[
+  {
+    "code": "nhan_ho_so",
+    "label_vi": "Đang nhận hồ sơ",
+    "sort_order": 1,
+    "color_hex": "#10B981",
+    "sf_symbol": "envelope.open.fill"
+  },
+  {
+    "code": "sap_mo",
+    "label_vi": "Sắp mở",
+    "sort_order": 2,
+    "color_hex": "#F59E0B",
+    "sf_symbol": "clock.fill"
+  },
+  {
+    "code": "dang_xay",
+    "label_vi": "Đang xây dựng",
+    "sort_order": 3,
+    "color_hex": "#6366F1",
+    "sf_symbol": "hammer.fill"
+  },
+  {
+    "code": "da_dong",
+    "label_vi": "Đã đóng",
+    "sort_order": 4,
+    "color_hex": "#94A3B8",
+    "sf_symbol": "lock.fill"
+  }
+]

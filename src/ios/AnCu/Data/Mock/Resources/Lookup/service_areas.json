@@ -1,0 +1,67 @@
+[
+  {
+    "code": "hcm_cu",
+    "label_vi": "TP.HCM",
+    "sort_order": 1,
+    "attributes": {
+      "new_province": "TP.HCM",
+      "in_mvp": "true"
+    },
+    "center": {
+      "lat": 10.8,
+      "lng": 106.7
+    }
+  },
+  {
+    "code": "binh_duong_cu",
+    "label_vi": "Bình Dương",
+    "sort_order": 2,
+    "attributes": {
+      "new_province": "TP.HCM",
+      "in_mvp": "true"
+    },
+    "center": {
+      "lat": 10.98,
+      "lng": 106.68
+    }
+  },
+  {
+    "code": "dong_nai_cu",
+    "label_vi": "Đồng Nai",
+    "sort_order": 3,
+    "attributes": {
+      "new_province": "Đồng Nai",
+      "in_mvp": "true"
+    },
+    "center": {
+      "lat": 10.86,
+      "lng": 106.92
+    }
+  },
+  {
+    "code": "ba_ria_vung_tau_cu",
+    "label_vi": "Bà Rịa – Vũng Tàu",
+    "sort_order": 4,
+    "attributes": {
+      "new_province": "TP.HCM",
+      "in_mvp": "false"
+    },
+    "center": {
+      "lat": 10.5,
+      "lng": 107.17
+    }
+  },
+  {
+    "code": "binh_phuoc_cu",
+    "label_vi": "Bình Phước",
+    "sort_order": 5,
+    "attributes": {
+      "new_province": "Đồng Nai",
+      "in_mvp": "false"
+    },
+    "center": {
+      "lat": 11.75,
+      "lng": 106.9
+    }
+  }
+]

@@ -1,0 +1,302 @@
+[
+  {
+    "code": "hcm_thu_duc",
+    "name": "Phường Thủ Đức",
+    "province": "TP.HCM",
+    "service_area": "hcm_cu",
+    "old_names": [
+      "Thủ Đức",
+      "Quận Thủ Đức"
+    ],
+    "center": {
+      "lat": 10.849,
+      "lng": 106.77
+    }
+  },
+  {
+    "code": "hcm_linh_xuan",
+    "name": "Phường Linh Xuân",
+    "province": "TP.HCM",
+    "service_area": "hcm_cu",
+    "old_names": [
+      "Thủ Đức",
+      "Linh Trung"
+    ],
+    "center": {
+      "lat": 10.876,
+      "lng": 106.778
+    }
+  },
+  {
+    "code": "hcm_tang_nhon_phu",
+    "name": "Phường Tăng Nhơn Phú",
+    "province": "TP.HCM",
+    "service_area": "hcm_cu",
+    "old_names": [
+      "Quận 9",
+      "Thủ Đức"
+    ],
+    "center": {
+      "lat": 10.842,
+      "lng": 106.785
+    }
+  },
+  {
+    "code": "hcm_long_phuoc",
+    "name": "Phường Long Phước",
+    "province": "TP.HCM",
+    "service_area": "hcm_cu",
+    "old_names": [
+      "Quận 9",
+      "Thủ Đức"
+    ],
+    "center": {
+      "lat": 10.815,
+      "lng": 106.84
+    }
+  },
+  {
+    "code": "hcm_long_binh",
+    "name": "Phường Long Bình",
+    "province": "TP.HCM",
+    "service_area": "hcm_cu",
+    "old_names": [
+      "Quận 9",
+      "Thủ Đức"
+    ],
+    "center": {
+      "lat": 10.88,
+      "lng": 106.83
+    }
+  },
+  {
+    "code": "hcm_vinh_loc",
+    "name": "Xã Vĩnh Lộc",
+    "province": "TP.HCM",
+    "service_area": "hcm_cu",
+    "old_names": [
+      "Bình Chánh",
+      "Vĩnh Lộc A"
+    ],
+    "center": {
+      "lat": 10.81,
+      "lng": 106.57
+    }
+  },
+  {
+    "code": "hcm_binh_chanh",
+    "name": "Xã Bình Chánh",
+    "province": "TP.HCM",
+    "service_area": "hcm_cu",
+    "old_names": [
+      "Bình Chánh"
+    ],
+    "center": {
+      "lat": 10.69,
+      "lng": 106.58
+    }
+  },
+  {
+    "code": "hcm_nha_be",
+    "name": "Xã Nhà Bè",
+    "province": "TP.HCM",
+    "service_area": "hcm_cu",
+    "old_names": [
+      "Nhà Bè"
+    ],
+    "center": {
+      "lat": 10.69,
+      "lng": 106.74
+    }
+  },
+  {
+    "code": "hcm_cu_chi",
+    "name": "Xã Củ Chi",
+    "province": "TP.HCM",
+    "service_area": "hcm_cu",
+    "old_names": [
+      "Củ Chi"
+    ],
+    "center": {
+      "lat": 10.96,
+      "lng": 106.52
+    }
+  },
+  {
+    "code": "bd_di_an",
+    "name": "Phường Dĩ An",
+    "province": "TP.HCM",
+    "service_area": "binh_duong_cu",
+    "old_names": [
+      "Dĩ An",
+      "Bình Dương"
+    ],
+    "center": {
+      "lat": 10.905,
+      "lng": 106.765
+    }
+  },
+  {
+    "code": "bd_tan_dong_hiep",
+    "name": "Phường Tân Đông Hiệp",
+    "province": "TP.HCM",
+    "service_area": "binh_duong_cu",
+    "old_names": [
+      "Dĩ An",
+      "Bình Dương"
+    ],
+    "center": {
+      "lat": 10.92,
+      "lng": 106.775
+    }
+  },
+  {
+    "code": "bd_thuan_an",
+    "name": "Phường Thuận An",
+    "province": "TP.HCM",
+    "service_area": "binh_duong_cu",
+    "old_names": [
+      "Thuận An",
+      "Lái Thiêu",
+      "Bình Dương"
+    ],
+    "center": {
+      "lat": 10.905,
+      "lng": 106.7
+    }
+  },
+  {
+    "code": "bd_thu_dau_mot",
+    "name": "Phường Thủ Dầu Một",
+    "province": "TP.HCM",
+    "service_area": "binh_duong_cu",
+    "old_names": [
+      "Thủ Dầu Một",
+      "Bình Dương"
+    ],
+    "center": {
+      "lat": 10.98,
+      "lng": 106.66
+    }
+  },
+  {
+    "code": "bd_phu_loi",
+    "name": "Phường Phú Lợi",
+    "province": "TP.HCM",
+    "service_area": "binh_duong_cu",
+    "old_names": [
+      "Thủ Dầu Một",
+      "Bình Dương"
+    ],
+    "center": {
+      "lat": 10.99,
+      "lng": 106.68
+    }
+  },
+  {
+    "code": "bd_ben_cat",
+    "name": "Phường Bến Cát",
+    "province": "TP.HCM",
+    "service_area": "binh_duong_cu",
+    "old_names": [
+      "Bến Cát",
+      "Bình Dương"
+    ],
+    "center": {
+      "lat": 11.1,
+      "lng": 106.6
+    }
+  },
+  {
+    "code": "dn_tran_bien",
+    "name": "Phường Trấn Biên",
+    "province": "Đồng Nai",
+    "service_area": "dong_nai_cu",
+    "old_names": [
+      "Biên Hòa"
+    ],
+    "center": {
+      "lat": 10.945,
+      "lng": 106.825
+    }
+  },
+  {
+    "code": "dn_bien_hoa",
+    "name": "Phường Biên Hòa",
+    "province": "Đồng Nai",
+    "service_area": "dong_nai_cu",
+    "old_names": [
+      "Biên Hòa"
+    ],
+    "center": {
+      "lat": 10.96,
+      "lng": 106.845
+    }
+  },
+  {
+    "code": "dn_long_binh",
+    "name": "Phường Long Bình",
+    "province": "Đồng Nai",
+    "service_area": "dong_nai_cu",
+    "old_names": [
+      "Biên Hòa"
+    ],
+    "center": {
+      "lat": 10.93,
+      "lng": 106.88
+    }
+  },
+  {
+    "code": "dn_tam_phuoc",
+    "name": "Phường Tam Phước",
+    "province": "Đồng Nai",
+    "service_area": "dong_nai_cu",
+    "old_names": [
+      "Biên Hòa"
+    ],
+    "center": {
+      "lat": 10.86,
+      "lng": 106.92
+    }
+  },
+  {
+    "code": "dn_long_thanh",
+    "name": "Xã Long Thành",
+    "province": "Đồng Nai",
+    "service_area": "dong_nai_cu",
+    "old_names": [
+      "Long Thành"
+    ],
+    "center": {
+      "lat": 10.78,
+      "lng": 106.96
+    }
+  },
+  {
+    "code": "dn_nhon_trach",
+    "name": "Xã Nhơn Trạch",
+    "province": "Đồng Nai",
+    "service_area": "dong_nai_cu",
+    "old_names": [
+      "Nhơn Trạch"
+    ],
+    "center": {
+      "lat": 10.73,
+      "lng": 106.9
+    }
+  },
+  {
+    "code": "brvt_phu_my",
+    "name": "Phường Phú Mỹ",
+    "province": "TP.HCM",
+    "service_area": "ba_ria_vung_tau_cu",
+    "old_names": [
+      "Phú Mỹ",
+      "Bà Rịa – Vũng Tàu"
+    ],
+    "center": {
+      "lat": 10.59,
+      "lng": 107.05
+    }
+  }
+]

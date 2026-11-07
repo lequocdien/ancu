@@ -1,0 +1,22 @@
+[
+  {
+    "code": "chu_truong_dau_tu",
+    "label_vi": "Có chủ trương đầu tư",
+    "sort_order": 1
+  },
+  {
+    "code": "da_co_giay_phep_xd",
+    "label_vi": "Đã có giấy phép xây dựng",
+    "sort_order": 2
+  },
+  {
+    "code": "du_dieu_kien_ban",
+    "label_vi": "Đủ điều kiện bán",
+    "sort_order": 3
+  },
+  {
+    "code": "da_ban_giao",
+    "label_vi": "Đã bàn giao",
+    "sort_order": 4
+  }
+]

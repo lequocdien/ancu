@@ -1,0 +1,4 @@
+# Secret local của Edge Functions — không commit.
+functions/.env
+.temp
+.branches
