@@ -7,8 +7,16 @@
       "url": "https://soxaydung.hochiminhcity.gov.vn",
       "noi_dung": "Thông báo dự án NOXH đủ điều kiện bán / nhận hồ sơ, giá phê duyệt",
       "tan_suat": "hằng tuần",
-      "trang_thai": "chưa khảo sát",
-      "ghi_chu_phap_ly": "Thông tin công khai của cơ quan nhà nước; ghi nguồn, lưu bằng chứng"
+      "trang_thai": "đã khảo sát 2026-11-08 — PDF bị WAF chặn",
+      "ghi_chu_phap_ly": "Thông tin công khai của cơ quan nhà nước; ghi nguồn, lưu bằng chứng",
+      "khao_sat": {
+        "robots_txt": "cho phép /Tin-tuc/ và /DesktopModules/MVC/ (chỉ cấm /admin/, /*/ctl/, thư mục hệ thống); không có Crawl-delay",
+        "danh_sach": "https://soxaydung.hochiminhcity.gov.vn/Tin-tuc/Du-an-Nha-o-xa-hoi — nạp bằng JS: GET /DesktopModules/MVC/TinTucModule/BaiViet/StyleView?ViewStyle=DanhSach&moduleID=2635 (header ModuleId=2635, TabId=1499)",
+        "bai_chinh": "'Danh mục các dự án nhà ở xã hội đang tiếp nhận hồ sơ mua, thuê, thuê mua' — /Tin-tuc/Chi-tiet-bai-viet/tin/d982db54-b849-4a0a-9c7f-ef3a2b8df125",
+        "cau_truc": "không có bảng HTML; mỗi dự án là 1 PDF đính kèm (/Files/5964/…). Tên file = <ngày>-<số văn bản>-<tiêu đề dự án>-<chủ đầu tư>",
+        "chan": "tải PDF → 'Request Rejected' (F5 WAF). KHÔNG lách (đổi User-Agent / thử lại cách khác)",
+        "ban_quyen": "Bản quyền thuộc Sở Xây dựng TP.HCM; Terms Of Use: /Terms (chưa đọc); liên hệ sxd@tphcm.gov.vn"
+      }
     },
     {
       "name": "maur_hcm",

@@ -1,7 +1,9 @@
 from __future__ import annotations
 
-from ..contract import Run
-from ..fetch import Fetcher
+import pathlib
+
+from .contract import Run
+from .fetch import Fetcher
 
 
 class Source:
@@ -11,5 +13,6 @@ class Source:
     entity: str = "projects"
     start_urls: list[str] = []
 
-    def crawl(self, fetcher: Fetcher, run: Run, *, limit: int | None = None) -> None:
+    def crawl(self, fetcher: Fetcher, run: Run, *, limit: int | None = None, pdf_dir: "pathlib.Path | None" = None) -> None:
+        """`pdf_dir`: thư mục PDF người dùng tự tải bằng trình duyệt (nguồn chặn tải tự động) — ghép theo số văn bản."""
         raise NotImplementedError

@@ -1,0 +1,5 @@
+# Dependency của crawler — phiên bản GHIM cứng, nâng cấp có chủ đích (đọc changelog). Đã duyệt 2026-11-08.
+# Cài: python3 -m venv .venv && .venv/bin/pip install -r requirements.txt
+httpx==0.28.1            # tải trang (timeout, retry, MockTransport cho test)
+beautifulsoup4==4.13.4   # đọc HTML (parser html.parser chuẩn — không cần lxml)
+pdfplumber==0.11.7       # đọc chữ trong PDF công văn

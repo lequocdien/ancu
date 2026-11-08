@@ -12,8 +12,8 @@ from urllib.parse import urlsplit
 
 import httpx
 
-# Liên hệ: đặt URL/email liên hệ thật của An Cư trước khi crawl nguồn thật (chủ trang cần biết ai đang truy cập).
-USER_AGENT = "AnCuCrawler/0.1 (+https://ancu.vn/crawler)"
+# Tự xưng là bot (không giả trình duyệt). Không kèm thông tin liên hệ — quyết định của chủ dự án 2026-11-08.
+USER_AGENT = "AnCuCrawler/0.1"
 
 
 class FetchBlocked(Exception):
@@ -84,7 +84,10 @@ class Fetcher:
             self._robots[origin] = parser
         return parser.can_fetch(USER_AGENT, url)
 
-    def get(self, url: str) -> FetchResult:
+    def get(self, url: str, *, params: dict | None = None, headers: dict | None = None) -> FetchResult:
+        """`params`/`headers`: cho endpoint mà chính trang web gọi (vd danh sách nạp bằng JS) — không dùng để giả danh."""
+        if headers and any(k.lower() == "user-agent" for k in headers):
+            raise ValueError("không được đổi User-Agent (tự xưng là bot)")
         if not self.allowed(url):
             raise FetchBlocked(f"robots.txt không cho phép: {url}")
         host = urlsplit(url).netloc
@@ -92,7 +95,7 @@ class Fetcher:
         while True:
             self._wait_turn(host)
             try:
-                response = self._client.get(url)
+                response = self._client.get(url, params=params, headers=headers)
             except httpx.TransportError:
                 if attempt >= self.max_retries:
                     raise

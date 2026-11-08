@@ -17,9 +17,7 @@ sys.path.insert(0, str(ROOT))
 sys.path.insert(0, str(ROOT.parent / "data" / "scripts"))   # phía tiêu thụ contract
 import staging  # noqa: E402
 
-from ancu_crawler.contract import Run, stable_id  # noqa: E402
-from ancu_crawler.fetch import Fetcher, FetchBlocked, USER_AGENT  # noqa: E402
-from ancu_crawler.sources.base import Source  # noqa: E402
+from app.core import USER_AGENT, Fetcher, FetchBlocked, Run, Source, stable_id  # noqa: E402
 
 FIXTURE = (pathlib.Path(__file__).parent / "fixtures" / "thong_bao_mau.html").read_bytes()
 
@@ -121,7 +119,7 @@ class DemoSource(Source):
             code = row["data-ma"]
             props = {"name": row.select_one(".ten").get_text(strip=True),
                      "address": row.select_one(".dia-chi").get_text(strip=True),
-                     "service_area": "hcm_cu", "status": "sap_mo", "legal_status": "du_dieu_kien_ban",
+                     "service_area": "tp_hcm", "status": "sap_mo", "legal_status": "du_dieu_kien_ban",
                      "source_url": page.url}
             prices = re.findall(r"\d+(?:,\d+)?", row.select_one(".gia").get_text())
             if len(prices) == 2:
