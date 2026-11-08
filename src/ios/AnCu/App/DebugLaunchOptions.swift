@@ -41,7 +41,7 @@ enum DebugLaunchOptions {
     /// `-Tab map|tracking|account`
     static var initialTab: String? { value(after: "-Tab") }
 
-    /// `-FocusArea hcm_cu` — như bấm chip vùng (highlight ranh giới).
+    /// `-FocusArea tp_hcm` — như bấm chip vùng (highlight ranh giới). Mã: tp_hcm, dong_nai, tay_ninh, dong_thap, lam_dong.
     static var focusArea: String? { value(after: "-FocusArea") }
 
     private static func value(after flag: String) -> String? {

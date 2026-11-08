@@ -76,9 +76,22 @@ enum NodeType: String, LookupCode {
     static let category = LookupCategory.nodeType
 }
 
-/// Vùng phục vụ theo địa giới CŨ. Không lọc theo tỉnh mới vì TP.HCM mới gồm cả Bà Rịa – Vũng Tàu cũ,
-/// Đồng Nai mới gồm cả Bình Phước cũ — hai vùng này ngoài MVP (data-strategy.md).
+/// Vùng phục vụ theo địa giới MỚI (sau sáp nhập 1/7/2025): TP.HCM + 4 tỉnh giáp ranh (data-strategy.md, 2026-11-08).
+/// Mã cũ (`…Old`) vẫn còn trong danh mục (`in_mvp = false`, `merged_into`) để đọc dữ liệu/lịch sử cũ — không còn là chip.
 enum ServiceArea: String, LookupCode {
+    /// TP.HCM cũ + Bình Dương cũ + Bà Rịa – Vũng Tàu cũ.
+    case hcm = "tp_hcm"
+    /// Đồng Nai cũ + Bình Phước cũ.
+    case dongNai = "dong_nai"
+    /// Tây Ninh cũ + Long An cũ.
+    case tayNinh = "tay_ninh"
+    /// Đồng Tháp cũ + Tiền Giang cũ.
+    case dongThap = "dong_thap"
+    /// Lâm Đồng cũ + Đắk Nông cũ + Bình Thuận cũ.
+    case lamDong = "lam_dong"
+    /// Chưa phục vụ (in_mvp = false) — tìm kiếm hiện "Sắp có".
+    case haNoi = "ha_noi"
+    // Mã cũ đã gộp
     case hcmOld = "hcm_cu"
     case binhDuongOld = "binh_duong_cu"
     case dongNaiOld = "dong_nai_cu"

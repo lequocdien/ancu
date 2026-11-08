@@ -187,7 +187,7 @@ Spring khi mở sheet. glassEffectID morph cho chip và nút. `.symbolEffect(.bo
 
 # 7. Màn hình
 ## Tab 1 — Bản đồ
-- Map style `.standard(pointsOfInterest: .excludingAll)`.
+- Map style `.standard(pointsOfInterest: .including([.school, .university, .hospital, .airport, .publicTransport, .store, .foodMarket, .park]))` — tiện ích quanh dự án, chỉ hiển thị, không chọn được (2026-11-08; trước đó `.excludingAll`).
 - Search bar nổi (tìm theo tên dự án, phường/xã, cả tên mới lẫn tên cũ) + nút "Gần tôi" (mock vị trí).
 - Segmented đổi vùng: TP.HCM / Bình Dương / Đồng Nai.
 - Hàng chip cuộn ngang: Metro · Vành đai · Cao tốc · Quốc lộ · Tất cả NOXH · Đã lưu, kèm chip lọc nhanh "Đang nhận hồ sơ".

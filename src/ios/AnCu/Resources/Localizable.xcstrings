@@ -8,9 +8,15 @@
     "%lld/%lld ký tự. Đội dữ liệu xử lý trong 72 giờ.": {},
     "123456": {},
     "4 câu hỏi · khoảng 1 phút · không lưu câu trả lời": {},
-    "An Cư hiện có dữ liệu TP.HCM (gồm Bình Dương cũ) và Đồng Nai.": {},
-    "An Cư hiện hỗ trợ TP.HCM, Bình Dương cũ và Đồng Nai cũ": {},
-    "An Cư hiện hỗ trợ TP.HCM, Bình Dương cũ và Đồng Nai cũ. Địa điểm này chưa lưu được.": {},
+    "An Cư hiện có dữ liệu TP.HCM (gồm Bình Dương cũ) và Đồng Nai.": {
+      "extractionState": "stale"
+    },
+    "An Cư hiện hỗ trợ TP.HCM, Bình Dương cũ và Đồng Nai cũ": {
+      "extractionState": "stale"
+    },
+    "An Cư hiện hỗ trợ TP.HCM, Bình Dương cũ và Đồng Nai cũ. Địa điểm này chưa lưu được.": {
+      "extractionState": "stale"
+    },
     "An Cư không nhận quảng cáo từ môi giới; nội dung trả phí (nếu có) được gắn nhãn.": {},
     "Báo ngay khi dự án mở nhận hồ sơ, đổi giá hoặc đổi trạng thái": {},
     "Báo thông tin sai": {},
@@ -148,8 +154,14 @@
     "Mục": {},
     "NOXH không có suất ngoại giao — cẩn trọng lời mời mua suất.": {},
     "Ngoài khu vực hỗ trợ": {},
-    "Ngoài khu vực hỗ trợ — An Cư hiện hỗ trợ TP.HCM, Bình Dương cũ và Đồng Nai cũ.": {},
-    "Ngoài khu vực hỗ trợ — kéo ghim vào TP.HCM, Bình Dương cũ hoặc Đồng Nai cũ.": {},
+    "Ngoài khu vực hỗ trợ — An Cư hiện hỗ trợ TP.HCM, Bình Dương cũ và Đồng Nai cũ.": {
+      "extractionState": "stale"
+    },
+    "Ngoài khu vực hỗ trợ — kéo ghim vào TP.HCM, Bình Dương cũ hoặc Đồng Nai cũ.": {
+      "extractionState": "stale"
+    },
+    "Ngoài khu vực hỗ trợ — kéo ghim vào một tỉnh có trong hàng chọn vùng.": {},
+    "Ngoài khu vực hỗ trợ — địa điểm phải thuộc một tỉnh An Cư đang hỗ trợ.": {},
     "Nguồn:": {},
     "Người dùng An Cư": {},
     "Ngưỡng tổng hợp từ báo chí, chưa đối chiếu nguyên văn văn bản pháp luật.": {},
@@ -216,6 +228,7 @@
     "Ví dụ: giá 45 tr/m², đã xem nhà mẫu, cách chỗ làm 8 km": {},
     "Ví dụ: hỏi lại chủ đầu tư về tiến độ, cách chỗ làm 5 km": {},
     "Vẫn muốn lưu riêng? Điền thông tin bên dưới.": {},
+    "Vị trí của bạn nằm ngoài các tỉnh An Cư đang hỗ trợ.": {},
     "Vị trí đã chọn": {},
     "Xem dự án %@": {},
     "Xem kết quả": {},
@@ -270,6 +283,8 @@
     "Địa điểm của tôi": {},
     "Địa điểm khác · lưu riêng cho bạn": {},
     "Địa điểm này không còn tồn tại.": {},
+    "Địa điểm này nằm ngoài các tỉnh An Cư đang hỗ trợ nên chưa lưu được.": {},
+    "Địa điểm nằm ngoài các tỉnh An Cư hỗ trợ, chưa lưu được": {},
     "Đối tượng": {},
     "Đổi email": {},
     "Độc thân": {},

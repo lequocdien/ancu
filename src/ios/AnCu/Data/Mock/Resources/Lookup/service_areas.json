@@ -1,11 +1,88 @@
 [
   {
-    "code": "hcm_cu",
+    "code": "tp_hcm",
     "label_vi": "TP.HCM",
     "sort_order": 1,
     "attributes": {
-      "new_province": "TP.HCM",
-      "in_mvp": "true"
+      "in_mvp": "true",
+      "gom": "TP.HCM cũ, Bình Dương cũ, Bà Rịa – Vũng Tàu cũ"
+    },
+    "center": {
+      "lat": 10.85,
+      "lng": 106.75
+    }
+  },
+  {
+    "code": "dong_nai",
+    "label_vi": "Đồng Nai",
+    "sort_order": 2,
+    "attributes": {
+      "in_mvp": "true",
+      "gom": "Đồng Nai cũ, Bình Phước cũ"
+    },
+    "center": {
+      "lat": 11.2,
+      "lng": 107.0
+    }
+  },
+  {
+    "code": "tay_ninh",
+    "label_vi": "Tây Ninh",
+    "sort_order": 3,
+    "attributes": {
+      "in_mvp": "true",
+      "gom": "Tây Ninh cũ, Long An cũ"
+    },
+    "center": {
+      "lat": 11.0,
+      "lng": 106.15
+    }
+  },
+  {
+    "code": "dong_thap",
+    "label_vi": "Đồng Tháp",
+    "sort_order": 4,
+    "attributes": {
+      "in_mvp": "true",
+      "gom": "Đồng Tháp cũ, Tiền Giang cũ"
+    },
+    "center": {
+      "lat": 10.45,
+      "lng": 105.95
+    }
+  },
+  {
+    "code": "lam_dong",
+    "label_vi": "Lâm Đồng",
+    "sort_order": 5,
+    "attributes": {
+      "in_mvp": "true",
+      "gom": "Lâm Đồng cũ, Đắk Nông cũ, Bình Thuận cũ"
+    },
+    "center": {
+      "lat": 11.65,
+      "lng": 108.05
+    }
+  },
+  {
+    "code": "ha_noi",
+    "label_vi": "Hà Nội",
+    "sort_order": 6,
+    "attributes": {
+      "in_mvp": "false"
+    },
+    "center": {
+      "lat": 21.03,
+      "lng": 105.85
+    }
+  },
+  {
+    "code": "hcm_cu",
+    "label_vi": "TP.HCM cũ",
+    "sort_order": 11,
+    "attributes": {
+      "in_mvp": "false",
+      "merged_into": "tp_hcm"
     },
     "center": {
       "lat": 10.8,
@@ -14,11 +91,11 @@
   },
   {
     "code": "binh_duong_cu",
-    "label_vi": "Bình Dương",
-    "sort_order": 2,
+    "label_vi": "Bình Dương cũ",
+    "sort_order": 12,
     "attributes": {
-      "new_province": "TP.HCM",
-      "in_mvp": "true"
+      "in_mvp": "false",
+      "merged_into": "tp_hcm"
     },
     "center": {
       "lat": 10.98,
@@ -27,11 +104,11 @@
   },
   {
     "code": "dong_nai_cu",
-    "label_vi": "Đồng Nai",
-    "sort_order": 3,
+    "label_vi": "Đồng Nai cũ",
+    "sort_order": 13,
     "attributes": {
-      "new_province": "Đồng Nai",
-      "in_mvp": "true"
+      "in_mvp": "false",
+      "merged_into": "dong_nai"
     },
     "center": {
       "lat": 10.86,
@@ -40,11 +117,11 @@
   },
   {
     "code": "ba_ria_vung_tau_cu",
-    "label_vi": "Bà Rịa – Vũng Tàu",
-    "sort_order": 4,
+    "label_vi": "Bà Rịa – Vũng Tàu cũ",
+    "sort_order": 14,
     "attributes": {
-      "new_province": "TP.HCM",
-      "in_mvp": "false"
+      "in_mvp": "false",
+      "merged_into": "tp_hcm"
     },
     "center": {
       "lat": 10.5,
@@ -53,11 +130,11 @@
   },
   {
     "code": "binh_phuoc_cu",
-    "label_vi": "Bình Phước",
-    "sort_order": 5,
+    "label_vi": "Bình Phước cũ",
+    "sort_order": 15,
     "attributes": {
-      "new_province": "Đồng Nai",
-      "in_mvp": "false"
+      "in_mvp": "false",
+      "merged_into": "dong_nai"
     },
     "center": {
       "lat": 11.75,

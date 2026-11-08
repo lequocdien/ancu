@@ -5,7 +5,7 @@
 
 ## 1. Mục tiêu sản phẩm
 
-Ra mắt app iOS (SwiftUI + MapKit) cho **một vùng — TP.HCM (gồm Bình Dương cũ) + Đồng Nai** với 3 giá trị theo thứ tự: bản đồ NOXH + hạ tầng → theo dõi đợt nhận hồ sơ + kiểm tra điều kiện mua → cộng đồng có kiểm duyệt. Trang web công khai cho từng dự án làm ở giai đoạn sau.
+Ra mắt app iOS (SwiftUI + MapKit) cho **TP.HCM và 4 tỉnh giáp ranh theo địa giới mới — Đồng Nai, Tây Ninh, Đồng Tháp, Lâm Đồng** (đổi 2026-11-08; trước: TP.HCM cũ + Bình Dương cũ + Đồng Nai cũ) với 3 giá trị theo thứ tự: bản đồ NOXH + hạ tầng → theo dõi đợt nhận hồ sơ + kiểm tra điều kiện mua → cộng đồng có kiểm duyệt. Trang web công khai cho từng dự án làm ở giai đoạn sau.
 
 ## 2. User Persona & User Stories
 
@@ -66,7 +66,7 @@ User stories:
 - Nguồn: tìm kiếm Apple Maps (`MKLocalSearch`) hoặc ghim tay. Loại: NOXH · Thương mại · Khác.
 - **Icon tự chọn** *(2026-11-07)*: bộ ~16 icon có sẵn (nhà, chung cư, chỗ làm, trường học, bệnh viện, chợ, nhà bố mẹ…); không chọn = icon theo loại. Màu ghim vẫn theo loại.
 - **Xem trên bản đồ trước khi lưu** *(2026-11-07)*: bấm kết quả tìm kiếm hoặc nhấn giữ → camera tới điểm, ghim **cố định theo tọa độ** (kéo/zoom bản đồ thoải mái, ghim không đổi), **kéo chính cái ghim để chỉnh vị trí**, nút "Đưa ghim vào giữa" khi ghim trôi khỏi màn hình (cũng là cách chỉnh cho VoiceOver) *(đổi 2026-11-07 theo góp ý: cần zoom trong lúc ghim)*; thẻ dưới đáy báo vùng (ngoài vùng → nút Lưu tắt) + "Hủy" / "Lưu tại đây" → mới mở form tên/loại/ghi chú. **Địa chỉ cập nhật theo vị trí ghim** (Apple reverse geocoding, tiếng Việt, tra khi dừng kéo 0,5 s). Dời ghim > 100 m khỏi kết quả Apple Maps → giữ tên, địa chỉ tra lại theo vị trí mới, bỏ mã Apple Maps. Khách xem trước được, đăng nhập khi bấm Lưu.
-- **Chỉ trong vùng MVP** (TP.HCM, Bình Dương cũ, Đồng Nai cũ — dung sai 3 km quanh ranh giới vì ranh giới đang là mock). Ngoài vùng → thông báo, không lưu.
+- **Chỉ trong vùng MVP** (TP.HCM, Đồng Nai, Tây Ninh, Đồng Tháp, Lâm Đồng — địa giới mới; dung sai 3 km quanh ranh giới vì ranh giới đang là mock). Ngoài vùng → thông báo, không lưu.
 - **Chống trùng**: trong 300 m có dự án trong An Cư → gợi ý "Dự án này đã có trong An Cư — theo dõi để nhận thông báo?" (vẫn cho lưu riêng nếu người dùng muốn).
 - Loại NOXH có nút **"Đề xuất An Cư thêm dự án này"** (người dùng chủ động; gửi tên, địa chỉ, vị trí — không gửi ghi chú; chung giới hạn 10/24h với "Báo thông tin sai").
 - Giới hạn: 200 địa điểm/tài khoản. Không có thông báo cho địa điểm riêng (không có dữ liệu theo dõi). Không lưu vị trí GPS của máy (không có nút "lưu vị trí hiện tại").
@@ -99,7 +99,7 @@ Kiểm duyệt chạy hoàn toàn phía server, có cơ chế độ tin cậy th
 ## 5. Scope MVP
 
 ### Trong Scope (LÀM) — bản iOS đầu tiên (trước Cổng C)
-- [ ] Bản đồ NOXH + lớp hạ tầng + bottom sheet chi tiết (vùng TP.HCM + Bình Dương cũ + Đồng Nai)
+- [ ] Bản đồ NOXH + lớp hạ tầng + bottom sheet chi tiết (TP.HCM + Đồng Nai, Tây Ninh, Đồng Tháp, Lâm Đồng — địa giới mới)
 - [ ] Đăng nhập Apple / Google / Facebook, chế độ khách
 - [ ] Lưu dự án, tab Theo dõi, so sánh dự án
 - [ ] Địa điểm đã lưu (ngoài hệ thống) + ghi chú (mục 4.6)

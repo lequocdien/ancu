@@ -3,7 +3,7 @@
     "code": "hcm_thu_duc",
     "name": "Phường Thủ Đức",
     "province": "TP.HCM",
-    "service_area": "hcm_cu",
+    "service_area": "tp_hcm",
     "old_names": [
       "Thủ Đức",
       "Quận Thủ Đức"
@@ -17,7 +17,7 @@
     "code": "hcm_linh_xuan",
     "name": "Phường Linh Xuân",
     "province": "TP.HCM",
-    "service_area": "hcm_cu",
+    "service_area": "tp_hcm",
     "old_names": [
       "Thủ Đức",
       "Linh Trung"
@@ -31,7 +31,7 @@
     "code": "hcm_tang_nhon_phu",
     "name": "Phường Tăng Nhơn Phú",
     "province": "TP.HCM",
-    "service_area": "hcm_cu",
+    "service_area": "tp_hcm",
     "old_names": [
       "Quận 9",
       "Thủ Đức"
@@ -45,7 +45,7 @@
     "code": "hcm_long_phuoc",
     "name": "Phường Long Phước",
     "province": "TP.HCM",
-    "service_area": "hcm_cu",
+    "service_area": "tp_hcm",
     "old_names": [
       "Quận 9",
       "Thủ Đức"
@@ -59,7 +59,7 @@
     "code": "hcm_long_binh",
     "name": "Phường Long Bình",
     "province": "TP.HCM",
-    "service_area": "hcm_cu",
+    "service_area": "tp_hcm",
     "old_names": [
       "Quận 9",
       "Thủ Đức"
@@ -73,7 +73,7 @@
     "code": "hcm_vinh_loc",
     "name": "Xã Vĩnh Lộc",
     "province": "TP.HCM",
-    "service_area": "hcm_cu",
+    "service_area": "tp_hcm",
     "old_names": [
       "Bình Chánh",
       "Vĩnh Lộc A"
@@ -87,7 +87,7 @@
     "code": "hcm_binh_chanh",
     "name": "Xã Bình Chánh",
     "province": "TP.HCM",
-    "service_area": "hcm_cu",
+    "service_area": "tp_hcm",
     "old_names": [
       "Bình Chánh"
     ],
@@ -100,7 +100,7 @@
     "code": "hcm_nha_be",
     "name": "Xã Nhà Bè",
     "province": "TP.HCM",
-    "service_area": "hcm_cu",
+    "service_area": "tp_hcm",
     "old_names": [
       "Nhà Bè"
     ],
@@ -113,7 +113,7 @@
     "code": "hcm_cu_chi",
     "name": "Xã Củ Chi",
     "province": "TP.HCM",
-    "service_area": "hcm_cu",
+    "service_area": "tp_hcm",
     "old_names": [
       "Củ Chi"
     ],
@@ -126,7 +126,7 @@
     "code": "bd_di_an",
     "name": "Phường Dĩ An",
     "province": "TP.HCM",
-    "service_area": "binh_duong_cu",
+    "service_area": "tp_hcm",
     "old_names": [
       "Dĩ An",
       "Bình Dương"
@@ -140,7 +140,7 @@
     "code": "bd_tan_dong_hiep",
     "name": "Phường Tân Đông Hiệp",
     "province": "TP.HCM",
-    "service_area": "binh_duong_cu",
+    "service_area": "tp_hcm",
     "old_names": [
       "Dĩ An",
       "Bình Dương"
@@ -154,7 +154,7 @@
     "code": "bd_thuan_an",
     "name": "Phường Thuận An",
     "province": "TP.HCM",
-    "service_area": "binh_duong_cu",
+    "service_area": "tp_hcm",
     "old_names": [
       "Thuận An",
       "Lái Thiêu",
@@ -169,7 +169,7 @@
     "code": "bd_thu_dau_mot",
     "name": "Phường Thủ Dầu Một",
     "province": "TP.HCM",
-    "service_area": "binh_duong_cu",
+    "service_area": "tp_hcm",
     "old_names": [
       "Thủ Dầu Một",
       "Bình Dương"
@@ -183,7 +183,7 @@
     "code": "bd_phu_loi",
     "name": "Phường Phú Lợi",
     "province": "TP.HCM",
-    "service_area": "binh_duong_cu",
+    "service_area": "tp_hcm",
     "old_names": [
       "Thủ Dầu Một",
       "Bình Dương"
@@ -197,7 +197,7 @@
     "code": "bd_ben_cat",
     "name": "Phường Bến Cát",
     "province": "TP.HCM",
-    "service_area": "binh_duong_cu",
+    "service_area": "tp_hcm",
     "old_names": [
       "Bến Cát",
       "Bình Dương"
@@ -211,7 +211,7 @@
     "code": "dn_tran_bien",
     "name": "Phường Trấn Biên",
     "province": "Đồng Nai",
-    "service_area": "dong_nai_cu",
+    "service_area": "dong_nai",
     "old_names": [
       "Biên Hòa"
     ],
@@ -224,7 +224,7 @@
     "code": "dn_bien_hoa",
     "name": "Phường Biên Hòa",
     "province": "Đồng Nai",
-    "service_area": "dong_nai_cu",
+    "service_area": "dong_nai",
     "old_names": [
       "Biên Hòa"
     ],
@@ -237,7 +237,7 @@
     "code": "dn_long_binh",
     "name": "Phường Long Bình",
     "province": "Đồng Nai",
-    "service_area": "dong_nai_cu",
+    "service_area": "dong_nai",
     "old_names": [
       "Biên Hòa"
     ],
@@ -250,7 +250,7 @@
     "code": "dn_tam_phuoc",
     "name": "Phường Tam Phước",
     "province": "Đồng Nai",
-    "service_area": "dong_nai_cu",
+    "service_area": "dong_nai",
     "old_names": [
       "Biên Hòa"
     ],
@@ -263,7 +263,7 @@
     "code": "dn_long_thanh",
     "name": "Xã Long Thành",
     "province": "Đồng Nai",
-    "service_area": "dong_nai_cu",
+    "service_area": "dong_nai",
     "old_names": [
       "Long Thành"
     ],
@@ -276,7 +276,7 @@
     "code": "dn_nhon_trach",
     "name": "Xã Nhơn Trạch",
     "province": "Đồng Nai",
-    "service_area": "dong_nai_cu",
+    "service_area": "dong_nai",
     "old_names": [
       "Nhơn Trạch"
     ],
@@ -289,7 +289,7 @@
     "code": "brvt_phu_my",
     "name": "Phường Phú Mỹ",
     "province": "TP.HCM",
-    "service_area": "ba_ria_vung_tau_cu",
+    "service_area": "tp_hcm",
     "old_names": [
       "Phú Mỹ",
       "Bà Rịa – Vũng Tàu"

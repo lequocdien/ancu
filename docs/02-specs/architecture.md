@@ -38,6 +38,8 @@ Phương án dự phòng:
 
 **Quyết định 2026-11-07 (Phase 1 bước 0.4):** dùng `cameraBounds` — khóa tâm camera trong khung vùng MVP và giới hạn khoảng cách zoom out (600 km; nửa đường chéo khung nhìn ≈ 0,24 × khoảng cách → ~145 km, quần đảo gần nhất cách mép khung ~490 km), để không kéo được ra Biển Đông. Khung lưu ở `MapRegion.allowedArea` (mở rộng khi thêm Hà Nội). Vẫn cần kiểm tra mắt thường trên máy thật trước khi phát hành.
 
+**Cập nhật 2026-11-08 (vùng phục vụ = TP.HCM + 4 tỉnh mới):** khung tâm camera nới tới Tây Ninh / Đồng Tháp / Lâm Đồng (Lâm Đồng mới gồm Bình Thuận — **gần Trường Sa hơn**). Ràng buộc giữ nguyên: test `MapBoundsTests` đòi mọi tâm camera cách các điểm Hoàng Sa/Trường Sa > `maxCameraDistance × visibleHalfDiagonalRatio` → mép đông của khung và zoom tối đa do test quyết định. Côn Đảo (TP.HCM mới) nằm ngoài khung tâm camera — chấp nhận (không có dự án NOXH).
+
 ## 4. Luồng xử lý phía server
 
 ### 4.1. Pipeline kiểm duyệt bình luận (Edge Function)

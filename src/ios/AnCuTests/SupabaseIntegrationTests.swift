@@ -83,8 +83,8 @@ struct SupabaseIntegrationTests {
             #expect(catalog.items(in: category).map(\.code) == mockCatalog.items(in: category).map(\.code), "\(category)")
         }
         #expect((try await container.lookup.administrativeUnits()).count == (try await mock.lookup.administrativeUnits()).count)
-        let remoteBoundary = try #require(try await container.lookup.boundary(of: .hcmOld))
-        let mockBoundary = try #require(try await mock.lookup.boundary(of: .hcmOld))
+        let remoteBoundary = try #require(try await container.lookup.boundary(of: .hcm))
+        let mockBoundary = try #require(try await mock.lookup.boundary(of: .hcm))
         // Giản lược (0,0005°) chỉ được bỏ đỉnh, không làm lệch đỉnh còn lại (vd đỉnh thẳng hàng 10,55/106,75 bị bỏ).
         let original = Set(mockBoundary.polygons.flatMap { $0 })
         #expect(remoteBoundary.polygons.allSatisfy { $0.count >= 3 && $0.allSatisfy(original.contains) })
@@ -141,7 +141,7 @@ struct SupabaseIntegrationTests {
         _ = try await auth.verifyEmailCode(try await Mailpit.latestCode(for: email), email: email)
 
         let created = try await container.savedPlaces.create(draft)
-        #expect(created.serviceArea == .hcmOld && created.note == "giá 70 tr/m²" && created.kind == .commercial)
+        #expect(created.serviceArea == .hcm && created.note == "giá 70 tr/m²" && created.kind == .commercial)
         await #expect(throws: RepositoryError.outsideServiceArea) {
             var hanoi = draft
             hanoi.location = GeoPoint(latitude: 21.004, longitude: 105.747)

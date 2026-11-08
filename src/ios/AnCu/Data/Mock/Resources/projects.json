@@ -4,7 +4,7 @@
     "name": "NOXH Hòa Bình Xanh",
     "address": "Phường Thủ Đức, TP.HCM",
     "ward_code": "hcm_thu_duc",
-    "service_area": "hcm_cu",
+    "service_area": "tp_hcm",
     "location": {
       "lat": 10.842,
       "lng": 106.772
@@ -27,7 +27,7 @@
     "name": "Khu nhà ở An Phú Lộc",
     "address": "Phường Long Phước, TP.HCM",
     "ward_code": "hcm_long_phuoc",
-    "service_area": "hcm_cu",
+    "service_area": "tp_hcm",
     "location": {
       "lat": 10.815,
       "lng": 106.835
@@ -50,7 +50,7 @@
     "name": "NOXH Vĩnh Lộc Garden",
     "address": "Xã Vĩnh Lộc, TP.HCM",
     "ward_code": "hcm_vinh_loc",
-    "service_area": "hcm_cu",
+    "service_area": "tp_hcm",
     "location": {
       "lat": 10.81,
       "lng": 106.575
@@ -73,7 +73,7 @@
     "name": "Nhà ở xã hội Nhà Bè Riverside",
     "address": "Xã Nhà Bè, TP.HCM",
     "ward_code": "hcm_nha_be",
-    "service_area": "hcm_cu",
+    "service_area": "tp_hcm",
     "location": {
       "lat": 10.695,
       "lng": 106.74
@@ -96,7 +96,7 @@
     "name": "NOXH Củ Chi Xanh",
     "address": "Xã Củ Chi, TP.HCM",
     "ward_code": "hcm_cu_chi",
-    "service_area": "hcm_cu",
+    "service_area": "tp_hcm",
     "location": {
       "lat": 10.95,
       "lng": 106.53
@@ -119,7 +119,7 @@
     "name": "Khu nhà ở Sóng Thần Mới",
     "address": "Phường Dĩ An, TP.HCM",
     "ward_code": "bd_di_an",
-    "service_area": "binh_duong_cu",
+    "service_area": "tp_hcm",
     "location": {
       "lat": 10.905,
       "lng": 106.765
@@ -142,7 +142,7 @@
     "name": "NOXH Thuận An Center",
     "address": "Phường Thuận An, TP.HCM",
     "ward_code": "bd_thuan_an",
-    "service_area": "binh_duong_cu",
+    "service_area": "tp_hcm",
     "location": {
       "lat": 10.9,
       "lng": 106.705
@@ -165,7 +165,7 @@
     "name": "NOXH Bến Cát Green",
     "address": "Phường Bến Cát, TP.HCM",
     "ward_code": "bd_ben_cat",
-    "service_area": "binh_duong_cu",
+    "service_area": "tp_hcm",
     "location": {
       "lat": 11.095,
       "lng": 106.605
@@ -188,7 +188,7 @@
     "name": "Khu nhà ở Phú Lợi",
     "address": "Phường Phú Lợi, TP.HCM",
     "ward_code": "bd_phu_loi",
-    "service_area": "binh_duong_cu",
+    "service_area": "tp_hcm",
     "location": {
       "lat": 10.99,
       "lng": 106.68
@@ -211,7 +211,7 @@
     "name": "NOXH Tân Đông Hiệp",
     "address": "Phường Tân Đông Hiệp, TP.HCM",
     "ward_code": "bd_tan_dong_hiep",
-    "service_area": "binh_duong_cu",
+    "service_area": "tp_hcm",
     "location": {
       "lat": 10.92,
       "lng": 106.775
@@ -234,7 +234,7 @@
     "name": "NOXH Nhơn Trạch Garden",
     "address": "Xã Nhơn Trạch, Đồng Nai",
     "ward_code": "dn_nhon_trach",
-    "service_area": "dong_nai_cu",
+    "service_area": "dong_nai",
     "location": {
       "lat": 10.73,
       "lng": 106.9
@@ -257,7 +257,7 @@
     "name": "NOXH Biên Hòa Riverside",
     "address": "Phường Trấn Biên, Đồng Nai",
     "ward_code": "dn_tran_bien",
-    "service_area": "dong_nai_cu",
+    "service_area": "dong_nai",
     "location": {
       "lat": 10.945,
       "lng": 106.83
@@ -280,7 +280,7 @@
     "name": "Khu nhà ở Long Thành Sky",
     "address": "Xã Long Thành, Đồng Nai",
     "ward_code": "dn_long_thanh",
-    "service_area": "dong_nai_cu",
+    "service_area": "dong_nai",
     "location": {
       "lat": 10.78,
       "lng": 106.97
@@ -303,7 +303,7 @@
     "name": "NOXH Tam Phước",
     "address": "Phường Tam Phước, Đồng Nai",
     "ward_code": "dn_tam_phuoc",
-    "service_area": "dong_nai_cu",
+    "service_area": "dong_nai",
     "location": {
       "lat": 10.86,
       "lng": 106.925
@@ -326,7 +326,7 @@
     "name": "Nhà ở công nhân Long Bình",
     "address": "Phường Long Bình, Đồng Nai",
     "ward_code": "dn_long_binh",
-    "service_area": "dong_nai_cu",
+    "service_area": "dong_nai",
     "location": {
       "lat": 10.93,
       "lng": 106.88

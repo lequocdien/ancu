@@ -22,7 +22,7 @@ struct MapPreferencesTests {
         await first.start()
         first.toggleRouteType(.nationalHighway)
         first.toggleAcceptingApplicationsFilter()
-        first.focus(on: .dongNaiOld)
+        first.focus(on: .dongNai)
         await first.boundaryTask?.value
 
         let second = make(store)
@@ -31,8 +31,8 @@ struct MapPreferencesTests {
         #expect(second.showsOnlyAcceptingApplications)
         await second.start()
         await second.boundaryTask?.value
-        #expect(second.focusedArea == .dongNaiOld)
-        #expect(second.focusedBoundary?.area == .dongNaiOld)
+        #expect(second.focusedArea == .dongNai)
+        #expect(second.focusedBoundary?.area == .dongNai)
         #expect(second.cameraRequest?.region == second.focusedBoundary?.region)
         #expect(second.projects.allSatisfy { $0.status == .acceptingApplications })
     }
@@ -65,7 +65,7 @@ struct MapPreferencesTests {
         #expect(store.load()?.focusedArea == nil)
     }
 
-    /// Vùng ngoài MVP (vd Bình Phước cũ) không được khôi phục dù còn trong danh mục.
+    /// Mã cũ đã gộp (vd Bình Phước cũ, lưu từ bản app trước 2026-11) không được khôi phục dù còn trong danh mục.
     @Test func areaOutsideMVPIsDropped() async {
         let store = InMemoryMapPreferencesStore(MapPreferences(focusedArea: "binh_phuoc_cu"))
         let viewModel = make(store)
@@ -76,19 +76,19 @@ struct MapPreferencesTests {
 
     /// Mở app từ thông báo dự án: camera đi tới dự án, vùng đã lưu chỉ highlight, không kéo camera về.
     @Test func deepLinkWinsOverRestoredArea() async throws {
-        let store = InMemoryMapPreferencesStore(MapPreferences(focusedArea: "hcm_cu"))
+        let store = InMemoryMapPreferencesStore(MapPreferences(focusedArea: "tp_hcm"))
         let viewModel = make(store)
         let target = try #require(try await container.projects.projects(in: .mvpArea, filter: .all)
-            .first { $0.serviceArea == .dongNaiOld })
+            .first { $0.serviceArea == .dongNai })
 
         await viewModel.open(projectID: target.id)
         await viewModel.start()
         await viewModel.boundaryTask?.value
 
-        #expect(viewModel.focusedArea == .hcmOld)
-        #expect(viewModel.focusedBoundary?.area == .hcmOld)
+        #expect(viewModel.focusedArea == .hcm)
+        #expect(viewModel.focusedBoundary?.area == .hcm)
         #expect(viewModel.cameraRequest?.region.center == target.location)
-        #expect(store.load()?.focusedArea == "hcm_cu")
+        #expect(store.load()?.focusedArea == "tp_hcm")
     }
 
     /// Ranh giới tải xong sau khi người dùng đã chọn dự án khác → không giật camera về khung vùng.
@@ -97,11 +97,11 @@ struct MapPreferencesTests {
         await viewModel.start()
         let project = try #require(viewModel.projects.first)
 
-        viewModel.focus(on: .hcmOld)
+        viewModel.focus(on: .hcm)
         viewModel.selectSearchResult(.project(project))
         await viewModel.boundaryTask?.value
 
-        #expect(viewModel.focusedBoundary?.area == .hcmOld)
+        #expect(viewModel.focusedBoundary?.area == .hcm)
         #expect(viewModel.cameraRequest?.region.center == project.location)
     }
 
@@ -110,7 +110,7 @@ struct MapPreferencesTests {
         let store = InMemoryMapPreferencesStore()
         let first = make(store)
         await first.start()
-        first.focus(on: .binhDuongOld)
+        first.focus(on: .tayNinh)
         first.showWholeArea()
 
         let second = make(store)
@@ -120,10 +120,10 @@ struct MapPreferencesTests {
 
     /// Đổi lớp tuyến trước khi danh mục tải xong không làm mất vùng đang chờ khôi phục.
     @Test func earlyToggleKeepsPendingArea() {
-        let store = InMemoryMapPreferencesStore(MapPreferences(focusedArea: "dong_nai_cu"))
+        let store = InMemoryMapPreferencesStore(MapPreferences(focusedArea: "dong_nai"))
         let viewModel = make(store)
         viewModel.toggleRouteType(.metro)
-        #expect(store.load() == MapPreferences(disabledRouteTypes: ["metro"], focusedArea: "dong_nai_cu"))
+        #expect(store.load() == MapPreferences(disabledRouteTypes: ["metro"], focusedArea: "dong_nai"))
     }
 
     @Test func userDefaultsStoreRoundTripsAndToleratesBadData() throws {
@@ -131,13 +131,13 @@ struct MapPreferencesTests {
         let store = UserDefaultsMapPreferencesStore(suite: suite)
         #expect(store.load() == nil)
 
-        let prefs = MapPreferences(disabledRouteTypes: ["quoc_lo"], acceptingApplicationsOnly: true, focusedArea: "hcm_cu")
+        let prefs = MapPreferences(disabledRouteTypes: ["quoc_lo"], acceptingApplicationsOnly: true, focusedArea: "tp_hcm")
         store.save(prefs)
         #expect(store.load() == prefs)
 
         // Bản ghi thiếu khóa (định dạng cũ/mới) → giá trị mặc định cho khóa thiếu.
-        suite.open().set(Data(#"{"focusedArea":"hcm_cu"}"#.utf8), forKey: UserDefaultsMapPreferencesStore.key)
-        #expect(store.load() == MapPreferences(focusedArea: "hcm_cu"))
+        suite.open().set(Data(#"{"focusedArea":"tp_hcm"}"#.utf8), forKey: UserDefaultsMapPreferencesStore.key)
+        #expect(store.load() == MapPreferences(focusedArea: "tp_hcm"))
 
         // Hỏng định dạng → như chưa lưu, không crash.
         suite.open().set(Data("not json".utf8), forKey: UserDefaultsMapPreferencesStore.key)

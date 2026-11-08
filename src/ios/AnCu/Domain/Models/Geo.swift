@@ -33,18 +33,19 @@ struct MapRegion: Hashable, Sendable {
             && (minLongitude...maxLongitude).contains(point.longitude)
     }
 
-    /// Khung TÂM camera được phép (Phase 1 bước 0.4, architecture.md mục 3): phủ vùng MVP + biên ~0,5°,
-    /// kết hợp `maxCameraDistance` để không kéo/zoom ra Biển Đông (Hoàng Sa ~16°B 112°Đ, Trường Sa từ ~111,5°Đ).
-    /// Thêm Hà Nội → nới khung này (hoặc đổi thành danh sách khung theo vùng).
+    /// Khung TÂM camera được phép (Phase 1 bước 0.4, architecture.md mục 3) — 5 tỉnh mới (2026-11-08):
+    /// vĩ 10,0–12,6 · kinh 105,3–108,5 (Đồng Tháp → Lâm Đồng). Mép đông DỪNG ở 108,5 dù Bình Thuận cũ ra tới ~108,95:
+    /// góc gần Trường Sa nhất (10,0°B 108,5°Đ) cách đảo Trường Sa (8,6°B 111,9°Đ) ~404 km > nửa đường chéo khung nhìn
+    /// ở zoom tối đa (750 km × 0,5 = 375 km) → không kéo/zoom ra được Biển Đông. Côn Đảo nằm ngoài (không có dự án).
     static let allowedArea = MapRegion(
-        center: GeoPoint(latitude: 11.05, longitude: 106.95),
-        latitudeDelta: 1.5,
-        longitudeDelta: 1.5
+        center: GeoPoint(latitude: 11.3, longitude: 106.9),
+        latitudeDelta: 2.6,
+        longitudeDelta: 3.2
     )
 
-    /// Khoảng cách camera tối đa (mét). Đo trên iPhone dọc: 250 km chỉ thấy ~75 km bề ngang → không ôm nổi
-    /// một tỉnh (TP.HCM cũ ~0,9° kể cả lề). 600 km ≈ 180 km ngang × 230 km dọc, vẫn cách Trường Sa gần nhất ~490 km.
-    static let maxCameraDistance: Double = 600_000
+    /// Khoảng cách camera tối đa (mét). 600 km ≈ 180 km ngang × 230 km dọc — không ôm nổi Lâm Đồng mới (~250 km cao)
+    /// → 750 km. Giới hạn trên do test chủ quyền (`MapBoundsTests`) quyết định cùng `allowedArea`.
+    static let maxCameraDistance: Double = 750_000
     /// Tỉ lệ nửa đường chéo khung nhìn / khoảng cách camera (đo ~0,24; lấy dư 0,5 cho máy màn lớn / iPad).
     static let visibleHalfDiagonalRatio: Double = 0.5
     static let minCameraDistance: Double = 300
@@ -64,10 +65,11 @@ struct MapRegion: Hashable, Sendable {
         )
     }
 
-    /// Vùng MVP: TP.HCM cũ – Bình Dương cũ – Đồng Nai cũ.
+    /// Khung mặc định ("Xem toàn vùng", mở app): lõi TP.HCM mới + Biên Hòa — nơi tập trung dự án. 5 tỉnh không vừa
+    /// một màn hình ở zoom tối đa → chọn tỉnh bằng chip.
     static let mvpArea = MapRegion(
-        center: GeoPoint(latitude: 10.88, longitude: 106.80),
-        latitudeDelta: 0.6,
-        longitudeDelta: 0.6
+        center: GeoPoint(latitude: 10.9, longitude: 106.8),
+        latitudeDelta: 0.9,
+        longitudeDelta: 0.9
     )
 }

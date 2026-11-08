@@ -101,7 +101,7 @@ struct PlacePickCard: View {
             }
         } else {
             Label {
-                Text("Ngoài khu vực hỗ trợ — kéo ghim vào TP.HCM, Bình Dương cũ hoặc Đồng Nai cũ.")
+                Text("Ngoài khu vực hỗ trợ — kéo ghim vào một tỉnh có trong hàng chọn vùng.")
             } icon: {
                 Image(systemName: "mappin.slash").foregroundStyle(Color.brandAccent)
             }

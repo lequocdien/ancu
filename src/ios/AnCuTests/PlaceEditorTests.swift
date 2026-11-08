@@ -19,7 +19,7 @@ struct PlaceSearchTests {
         await viewModel.searchTask?.value
 
         let byName = Dictionary(uniqueKeysWithValues: viewModel.placeResults.map { ($0.candidate.name, $0) })
-        #expect(byName["Vinhomes Grand Park"]?.area == .hcmOld)
+        #expect(byName["Vinhomes Grand Park"]?.area == .hcm)
         #expect(byName["Vinhomes Smart City"]?.isAvailable == false)   // Hà Nội
     }
 
@@ -49,8 +49,9 @@ struct PlaceSearchTests {
     @Test func serviceAreaAtUsesSameRuleAsServer() async {
         let viewModel = make()
         await viewModel.start()
-        #expect(await viewModel.serviceArea(at: GeoPoint(latitude: 10.95, longitude: 106.83)) == .dongNaiOld)
-        #expect(await viewModel.serviceArea(at: GeoPoint(latitude: 10.346, longitude: 107.0843)) == nil)
+        #expect(await viewModel.serviceArea(at: GeoPoint(latitude: 10.95, longitude: 106.83)) == .dongNai)
+        #expect(await viewModel.serviceArea(at: GeoPoint(latitude: 10.346, longitude: 107.0843)) == .hcm)   // Vũng Tàu
+        #expect(await viewModel.serviceArea(at: GeoPoint(latitude: 21.004, longitude: 105.747)) == nil)    // Hà Nội
     }
 }
 
@@ -87,7 +88,7 @@ struct PlaceEditorViewModelTests {
         let editor = make(.create(.init(candidate: try candidate("mock-masteri"))), session: session)
         #expect(!editor.canSave)   // đang kiểm tra vùng
         await editor.load()
-        #expect(editor.area == .hcmOld && editor.nearbyProject == nil && editor.canSave)
+        #expect(editor.area == .hcm && editor.nearbyProject == nil && editor.canSave)
 
         editor.note = "  Giá 70 tr/m²  "
         #expect(await editor.save())
@@ -98,7 +99,7 @@ struct PlaceEditorViewModelTests {
 
     @Test func outsideAreaCannotSave() async throws {
         let session = try await signedInSession()
-        let editor = make(.create(.init(candidate: try candidate("mock-vungtau"))), session: session)
+        let editor = make(.create(.init(candidate: try candidate("mock-hanoi"))), session: session)
         await editor.load()
         #expect(editor.isOutsideServiceArea)
         #expect(!editor.canSave)
@@ -205,7 +206,7 @@ struct PlacePickTests {
         #expect(viewModel.placePick?.isCheckingArea == true && viewModel.placePick?.canSave == false)
 
         await viewModel.pickAreaTaskForTesting?.value
-        #expect(viewModel.placePick?.area == .hcmOld && viewModel.placePick?.canSave == true)
+        #expect(viewModel.placePick?.area == .hcm && viewModel.placePick?.canSave == true)
         let origin = viewModel.placePick?.editorOrigin
         #expect(origin?.name == "Masteri Thảo Điền" && origin?.externalRef == "mock-masteri" && origin?.source == "search")
     }
@@ -216,8 +217,8 @@ struct PlacePickTests {
         await viewModel.pickAreaTaskForTesting?.value
         #expect(viewModel.placePick?.canSave == true)
 
-        // Kéo ra biển Vũng Tàu: đang kéo → khóa nút Lưu; dừng → báo ngoài vùng.
-        let sea = GeoPoint(latitude: 10.40, longitude: 107.10)
+        // Kéo ra khơi (Côn Đảo hướng, ngoài mọi ranh giới): đang kéo → khóa nút Lưu; dừng → báo ngoài vùng.
+        let sea = GeoPoint(latitude: 9.60, longitude: 107.20)
         viewModel.movePick(to: sea)
         #expect(viewModel.placePick?.location == sea && viewModel.placePick?.canSave == false)
         viewModel.finishMovingPick()
@@ -228,7 +229,7 @@ struct PlacePickTests {
         viewModel.movePick(to: GeoPoint(latitude: 10.95, longitude: 106.83))
         viewModel.finishMovingPick()
         await viewModel.pickAreaTaskForTesting?.value
-        #expect(viewModel.placePick?.area == .dongNaiOld)
+        #expect(viewModel.placePick?.area == .dongNai)
     }
 
     /// Dời ghim xa kết quả Apple Maps > 100 m → giữ tên, địa chỉ tra lại theo vị trí mới, bỏ mã Apple Maps.
@@ -303,7 +304,7 @@ struct PlacePickTests {
         viewModel.movePick(to: viewModel.visibleRegion.center)
         viewModel.finishMovingPick()
         await viewModel.pickAreaTaskForTesting?.value
-        #expect(viewModel.placePick?.location == visible.center && viewModel.placePick?.area == .dongNaiOld)
+        #expect(viewModel.placePick?.location == visible.center && viewModel.placePick?.area == .dongNai)
     }
 
     @Test func startingPickClosesProjectSheetAndCancelClears() async throws {

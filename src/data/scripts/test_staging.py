@@ -20,7 +20,7 @@ def crawler_file(features, **header):
 
 
 def project(**props):
-    base = {"id": PROJECT_ID, "name": "NOXH O'Neil", "address": "Phường Thủ Đức", "service_area": "hcm_cu",
+    base = {"id": PROJECT_ID, "name": "NOXH O'Neil", "address": "Phường Thủ Đức", "service_area": "tp_hcm",
             "status": "sap_mo", "legal_status": "chu_truong_dau_tu", "price_min": 18, "price_max": 20.5,
             "source_url": "https://soxaydung.hochiminhcity.gov.vn/a", "_crawled_at": "2026-11-08T09:00:00+07:00",
             "_evidence": "runs/2026-11-08_so_xay_dung_hcm/raw/a.html", "_raw": {"tieu_de": "NOXH O'Neil"}}

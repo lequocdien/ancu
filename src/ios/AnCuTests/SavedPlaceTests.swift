@@ -5,7 +5,7 @@ import Testing
 /// Vùng MVP ở client — phải khớp quy tắc `mvp_service_area_at` ở server (migration 13).
 struct ServiceAreaLocatorTests {
     private let square = AreaBoundary(
-        area: .hcmOld,
+        area: .hcm,
         polygons: [[GeoPoint(latitude: 10.0, longitude: 106.0), GeoPoint(latitude: 10.0, longitude: 106.2),
                     GeoPoint(latitude: 10.2, longitude: 106.2), GeoPoint(latitude: 10.2, longitude: 106.0)]],
         isMock: true
@@ -13,7 +13,7 @@ struct ServiceAreaLocatorTests {
 
     @Test func insideHasZeroDistance() {
         #expect(ServiceAreaLocator.distanceMeters(from: GeoPoint(latitude: 10.1, longitude: 106.1), to: square.polygons[0]) == 0)
-        #expect(ServiceAreaLocator.area(at: GeoPoint(latitude: 10.1, longitude: 106.1), in: [square]) == .hcmOld)
+        #expect(ServiceAreaLocator.area(at: GeoPoint(latitude: 10.1, longitude: 106.1), in: [square]) == .hcm)
     }
 
     @Test func toleranceAroundBorder() {
@@ -22,31 +22,31 @@ struct ServiceAreaLocatorTests {
         let far = GeoPoint(latitude: 10.1, longitude: 105.94)
         let nearDistance = ServiceAreaLocator.distanceMeters(from: near, to: square.polygons[0])
         #expect(abs(nearDistance - 2192) < 30)
-        #expect(ServiceAreaLocator.area(at: near, in: [square]) == .hcmOld)
+        #expect(ServiceAreaLocator.area(at: near, in: [square]) == .hcm)
         #expect(ServiceAreaLocator.area(at: far, in: [square]) == nil)
     }
 
     @Test func nearestAreaWins() {
         let east = AreaBoundary(
-            area: .dongNaiOld,
+            area: .dongNai,
             polygons: [[GeoPoint(latitude: 10.0, longitude: 106.21), GeoPoint(latitude: 10.0, longitude: 106.4),
                         GeoPoint(latitude: 10.2, longitude: 106.4), GeoPoint(latitude: 10.2, longitude: 106.21)]],
             isMock: true
         )
         // Nằm trong Đồng Nai, cách TP.HCM ~1 km → Đồng Nai (khoảng cách 0).
-        #expect(ServiceAreaLocator.area(at: GeoPoint(latitude: 10.1, longitude: 106.209), in: [square, east]) == .dongNaiOld)
+        #expect(ServiceAreaLocator.area(at: GeoPoint(latitude: 10.1, longitude: 106.209), in: [square, east]) == .dongNai)
     }
 
-    /// Dùng ranh giới mock thật: dự án mẫu trong vùng, Vũng Tàu / Hà Nội ngoài vùng.
+    /// Dùng ranh giới mock thật (5 tỉnh mới): dự án mẫu + Vũng Tàu thuộc TP.HCM, Hà Nội ngoài vùng.
     @Test func realMockBoundaries() async throws {
         let container = AppContainer.mock(defaultsSuite: MockDefaultsSuite(name: "test.\(UUID().uuidString)"), latency: .none)
         var boundaries: [AreaBoundary] = []
-        for area in [ServiceArea.hcmOld, .binhDuongOld, .dongNaiOld] {
+        for area in [ServiceArea.hcm, .dongNai, .tayNinh, .dongThap, .lamDong] {
             if let boundary = try await container.lookup.boundary(of: area) { boundaries.append(boundary) }
         }
         let fixtures = Dictionary(uniqueKeysWithValues: MockPlaceSearchService.fixtures.map { ($0.id, $0.location) })
-        #expect(ServiceAreaLocator.area(at: try #require(fixtures["mock-vgp"]), in: boundaries) == .hcmOld)
-        #expect(ServiceAreaLocator.area(at: try #require(fixtures["mock-vungtau"]), in: boundaries) == nil)
+        #expect(ServiceAreaLocator.area(at: try #require(fixtures["mock-vgp"]), in: boundaries) == .hcm)
+        #expect(ServiceAreaLocator.area(at: try #require(fixtures["mock-vungtau"]), in: boundaries) == .hcm)
         #expect(ServiceAreaLocator.area(at: try #require(fixtures["mock-hanoi"]), in: boundaries) == nil)
     }
 }
@@ -77,7 +77,7 @@ struct SavedPlaceSessionTests {
         try await session.signIn(with: .apple)
 
         let created = try await session.createPlace(draft(), source: "search")
-        #expect(created.serviceArea == .hcmOld)
+        #expect(created.serviceArea == .hcm)
         #expect(created.note == "giá 70tr/m²")
         #expect(session.savedPlaces.map(\.id) == [created.id])
 
@@ -160,7 +160,7 @@ struct SupabaseSavedPlaceRepositoryTests {
 
     static let placeJSON = #"""
     {"id": "6f1c2a4e-1111-4a2b-9c3d-2e4f5a6b7c8d", "name": "Masteri Thảo Điền", "address": "Thảo Điền",
-     "location": {"lat": 10.8027, "lng": 106.74}, "kind": "thuong_mai", "service_area": "hcm_cu", "note": null,
+     "location": {"lat": 10.8027, "lng": 106.74}, "kind": "thuong_mai", "service_area": "tp_hcm", "note": null,
      "external_ref": "abc", "created_at": "2026-11-07T04:39:49.936656+00:00", "updated_at": "2026-11-07T04:39:49.936656+00:00"}
     """#
 
@@ -179,7 +179,7 @@ struct SupabaseSavedPlaceRepositoryTests {
         #expect(params["name"] as? String == "Masteri Thảo Điền")
         #expect(params["kind"] as? String == "thuong_mai")
         #expect(params["note"] is NSNull && params["address"] is NSNull)
-        #expect(place.kind == .commercial && place.serviceArea == .hcmOld && place.note == nil)
+        #expect(place.kind == .commercial && place.serviceArea == .hcm && place.note == nil)
     }
 
     @Test func bookmarkNoteSendsExplicitNullToClear() async throws {

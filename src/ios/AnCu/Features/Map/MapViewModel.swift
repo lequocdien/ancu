@@ -65,7 +65,7 @@ final class MapViewModel {
         didSet { if searchQuery != oldValue { scheduleSearch() } }
     }
     private(set) var searchResults: [SearchResult] = []
-    /// Vùng ngoài MVP khớp từ khóa (vd "Vũng Tàu") → UI hiện "Sắp có".
+    /// Vùng chưa phục vụ khớp từ khóa (vd "Hà Nội") → UI hiện "Sắp có".
     private(set) var comingSoonAreas: [LookupItem] = []
     /// Nhóm "Địa điểm khác" (Apple Maps) — dự án ngoài hệ thống để lưu riêng (PRD 4.6).
     private(set) var placeResults: [PlaceResult] = []
@@ -82,7 +82,7 @@ final class MapViewModel {
 
     var isSearchActive: Bool { !searchQuery.trimmingCharacters(in: .whitespaces).isEmpty }
 
-    /// Vùng phục vụ trong MVP, theo `sort_order` (TP.HCM · Bình Dương · Đồng Nai).
+    /// Vùng đang phục vụ (in_mvp = true), theo `sort_order` — admin bật/tắt qua DB (migration 18).
     var mvpAreas: [ServiceArea] {
         catalog.orderedCases(ServiceArea.self).filter { catalog.isInMVP($0) }
     }
@@ -419,7 +419,9 @@ final class MapViewModel {
             self.searchResults = results
             self.placeResults = placeResults
             self.comingSoonAreas = self.catalog.items(in: .serviceArea).filter { item in
-                item.attributes["in_mvp"] != "true" && SearchNormalizer.normalize(item.label).contains(needle)
+                // "Sắp có" chỉ cho vùng chưa phục vụ — KHÔNG cho mã cũ đã gộp (vd "Vũng Tàu cũ" nay thuộc TP.HCM).
+                item.attributes["in_mvp"] != "true" && item.attributes["merged_into"] == nil
+                    && SearchNormalizer.normalize(item.label).contains(needle)
             }
             self.isSearching = false
         }

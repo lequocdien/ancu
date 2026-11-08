@@ -11,7 +11,7 @@ struct ProjectPhaseTests {
 
     private func project(window: DateInterval?, verifiedAt: Date = .now) -> Project {
         Project(
-            id: UUID(), name: "Test", address: "", wardCode: nil, serviceArea: .hcmOld,
+            id: UUID(), name: "Test", address: "", wardCode: nil, serviceArea: .hcm,
             location: GeoPoint(latitude: 10.8, longitude: 106.7), status: .acceptingApplications,
             legalStatus: .eligibleForSale, applicationWindow: window, price: nil, unitCount: nil,
             developer: nil, sourceURL: URL(string: "https://example.com")!, verifiedAt: verifiedAt
@@ -73,8 +73,8 @@ struct LookupTests {
             LookupItem(code: "trang_thai_moi", label: "Trạng thái mới", sortOrder: 4),
         ],
         .serviceArea: [
-            LookupItem(code: "hcm_cu", label: "TP.HCM", sortOrder: 1, attributes: ["in_mvp": "true"]),
-            LookupItem(code: "ba_ria_vung_tau_cu", label: "Bà Rịa – Vũng Tàu", sortOrder: 4, attributes: ["in_mvp": "false"]),
+            LookupItem(code: "tp_hcm", label: "TP.HCM", sortOrder: 1, attributes: ["in_mvp": "true"]),
+            LookupItem(code: "ha_noi", label: "Hà Nội", sortOrder: 6, attributes: ["in_mvp": "false"]),
         ],
     ])
 
@@ -93,22 +93,22 @@ struct LookupTests {
     }
 
     @Test func mvpFlag() {
-        #expect(catalog.isInMVP(.hcmOld))
-        #expect(!catalog.isInMVP(.baRiaVungTauOld))
-        #expect(!catalog.isInMVP(.dongNaiOld))  // thiếu trong catalog → coi như ngoài MVP
+        #expect(catalog.isInMVP(.hcm))
+        #expect(!catalog.isInMVP(.haNoi))
+        #expect(!catalog.isInMVP(.dongNai))  // thiếu trong catalog → coi như ngoài MVP
     }
 
     @Test func filterMatches() {
-        let filter = ProjectFilter(statuses: [.acceptingApplications], serviceAreas: [.dongNaiOld])
+        let filter = ProjectFilter(statuses: [.acceptingApplications], serviceAreas: [.dongNai])
         let base = Project(
-            id: UUID(), name: "", address: "", wardCode: nil, serviceArea: .dongNaiOld,
+            id: UUID(), name: "", address: "", wardCode: nil, serviceArea: .dongNai,
             location: GeoPoint(latitude: 10.9, longitude: 106.9), status: .acceptingApplications,
             legalStatus: .unknown, applicationWindow: nil, price: nil, unitCount: nil, developer: nil,
             sourceURL: URL(string: "https://example.com")!, verifiedAt: .now
         )
         #expect(filter.matches(base))
         #expect(ProjectFilter.all.matches(base))
-        #expect(!ProjectFilter(serviceAreas: [.hcmOld]).matches(base))
+        #expect(!ProjectFilter(serviceAreas: [.hcm]).matches(base))
     }
 }
 

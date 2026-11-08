@@ -105,7 +105,7 @@ xcrun simctl launch booted vn.ancu.app -SignedIn -SeedBookmarks -Tab tracking
 | `-EligibilityWizard` | Mở thẳng wizard kiểm tra điều kiện (tab Tài khoản) |
 | `-Backend local` | Đọc dữ liệu công khai từ Supabase local |
 | `-ForceUpdate` | Mock: server "yêu cầu" 99.0.0 → màn chặn cập nhật |
-| `-FocusArea hcm_cu` | Như bấm chip vùng: highlight ranh giới + camera ôm vùng |
+| `-FocusArea tp_hcm` | Như bấm chip vùng (`tp_hcm`, `dong_nai`, `tay_ninh`, `dong_thap`, `lam_dong`): highlight ranh giới + camera ôm vùng |
 | `-ResetMapPreferences` | Xóa chip bản đồ đã ghi nhớ (lớp tuyến, "Đang nhận hồ sơ", vùng) → bắt đầu từ mặc định. Dùng khi chụp màn hình |
 | `-SeedPlaces` | Tạo sẵn 3 địa điểm riêng (cần `-SignedIn`; khi danh sách trống) |
 | `-ShowSavedLayer` | Bật sẵn lớp "Đã lưu" (ghim dự án đã lưu + ô vuông địa điểm riêng) |

@@ -25,17 +25,18 @@ set local role authenticated;
 set local request.jwt.claims = '{"sub":"00000000-0000-0000-0000-0000000000d1","role":"authenticated"}';
 
 select is(public.create_saved_place('Vinhomes Grand Park', 10.8423, 106.8287, 'thuong_mai', ' Long Bình, Thủ Đức ', ' giá 45tr/m² ') ->> 'service_area',
-          'hcm_cu', 'lưu trong TP.HCM → server gán vùng hcm_cu');
+          'tp_hcm', 'lưu trong TP.HCM → server gán vùng tp_hcm');
 select is((select p ->> 'note' from public.my_saved_places() p limit 1), 'giá 45tr/m²', 'ghi chú được trim');
 select is((select p ->> 'address' from public.my_saved_places() p limit 1), 'Long Bình, Thủ Đức', 'địa chỉ được trim');
 select is((select (p -> 'location' ->> 'lat')::numeric from public.my_saved_places() p limit 1), 10.8423::numeric, 'trả vị trí dạng point_json');
 
 select throws_ok($$ select public.create_saved_place('Hà Nội', 21.03, 105.85, 'khac') $$, 'AC403', null, 'ngoài vùng MVP → AC403');
-select throws_ok($$ select public.create_saved_place('Vũng Tàu', 10.35, 107.08, 'khac') $$, 'AC403', null,
-                 'vùng ngoài MVP dù cùng tỉnh mới (BR-VT cũ) → AC403');
--- Đỉnh tây ranh giới HCM mock ở (10.92, 106.36): ~2,2 km ra ngoài vẫn nhận (dung sai 3 km), ~6,5 km thì không.
-select lives_ok($$ select public.create_saved_place('Sát biên', 10.92, 106.34, 'khac') $$, 'ngoài ranh giới ≤ 3 km → nhận');
-select throws_ok($$ select public.create_saved_place('Xa biên', 10.92, 106.30, 'khac') $$, 'AC403', null, 'ngoài ranh giới > 3 km → AC403');
+select throws_ok($$ select public.create_saved_place('Cần Thơ', 10.03, 105.78, 'khac') $$, 'AC403', null,
+                 'tỉnh ngoài 5 tỉnh phục vụ (Cần Thơ) → AC403');
+-- Đỉnh nam ranh giới Đồng Tháp mock ở (10.15, 105.55) — biên NGOÀI của vùng phục vụ: ~2,2 km ra ngoài vẫn nhận
+-- (dung sai 3 km), ~6,6 km thì không.
+select lives_ok($$ select public.create_saved_place('Sát biên', 10.13, 105.55, 'khac') $$, 'ngoài ranh giới ≤ 3 km → nhận');
+select throws_ok($$ select public.create_saved_place('Xa biên', 10.09, 105.55, 'khac') $$, 'AC403', null, 'ngoài ranh giới > 3 km → AC403');
 
 select throws_ok($$ select public.create_saved_place('X', 10.8, 106.7, 'biet_thu') $$, '22023', null, 'loại lạ → 22023');
 select throws_ok($$ select public.create_saved_place('   ', 10.8, 106.7, 'khac') $$, '22023', null, 'tên rỗng → 22023');
@@ -44,7 +45,7 @@ select throws_ok($$ select public.create_saved_place('X', 10.8, 106.7, 'khac', n
 select throws_ok($$ select public.create_saved_place('X', 95, 106.7, 'khac') $$, '22023', null, 'vĩ độ sai → 22023');
 
 select throws_ok($$ insert into public.saved_places (user_id, name, location, kind, service_area)
-                    values (auth.uid(), 'X', 'SRID=4326;POINT(106.7 10.8)', 'khac', 'hcm_cu') $$, '42501', null,
+                    values (auth.uid(), 'X', 'SRID=4326;POINT(106.7 10.8)', 'khac', 'tp_hcm') $$, '42501', null,
                  'ghi thẳng bảng bị chặn (chỉ qua RPC)');
 
 -- Giới hạn 200: đã có 2 → thêm 198 = 200, cái thứ 201 bị chặn.

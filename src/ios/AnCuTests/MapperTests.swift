@@ -12,7 +12,7 @@ struct MapperTests {
         sourceUrl: String = "https://mock.ancu.vn/x"
     ) -> ProjectDTO {
         ProjectDTO(
-            id: UUID(), name: "A", address: "B", wardCode: nil, serviceArea: "hcm_cu",
+            id: UUID(), name: "A", address: "B", wardCode: nil, serviceArea: "tp_hcm",
             location: PointDTO(lat: 10.8, lng: 106.7), status: status, legalStatus: "du_dieu_kien_ban",
             applicationStart: start, applicationEnd: end, priceMin: priceMin, priceMax: priceMax,
             priceIsEstimated: false, unitCount: 100, developer: nil, coverImageUrl: nil,

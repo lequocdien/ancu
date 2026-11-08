@@ -1,1 +1,3 @@
 out/
+# Dữ liệu thô bên ngoài (bản quyền của nguồn) — không commit, chỉ commit GeoJSON đã chuyển đổi trong geojson/
+raw/

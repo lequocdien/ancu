@@ -58,7 +58,7 @@ struct MockRepositoryTests {
         #expect(open.count == 5)
         #expect(open.allSatisfy { $0.status == .acceptingApplications })
 
-        let dongNai = try await repo.projects(in: .mvpArea, filter: ProjectFilter(serviceAreas: [.dongNaiOld]))
+        let dongNai = try await repo.projects(in: .mvpArea, filter: ProjectFilter(serviceAreas: [.dongNai]))
         #expect(dongNai.count == 5)
 
         let hanoi = MapRegion(center: GeoPoint(latitude: 21.03, longitude: 105.85), latitudeDelta: 0.3, longitudeDelta: 0.3)
@@ -108,7 +108,7 @@ struct MockRepositoryTests {
         // "Long Bình" có ở cả TP.HCM và Đồng Nai — phải trả cả hai.
         let longBinh = try await repo.search("long binh")
         let places = longBinh.compactMap { if case .place(let unit) = $0 { unit.serviceArea } else { nil } }
-        #expect(Set(places) == [.hcmOld, .dongNaiOld])
+        #expect(Set(places) == [.hcm, .dongNai])
 
         #expect(try await repo.search("a").isEmpty)
     }

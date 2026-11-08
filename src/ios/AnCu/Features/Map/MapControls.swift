@@ -204,7 +204,7 @@ struct MapSearchResults: View {
         } else {
             content
                 .accessibilityElement(children: .combine)
-                .accessibilityHint(Text("An Cư hiện hỗ trợ TP.HCM, Bình Dương cũ và Đồng Nai cũ"))
+                .accessibilityHint(Text("Địa điểm nằm ngoài các tỉnh An Cư hỗ trợ, chưa lưu được"))
         }
     }
 

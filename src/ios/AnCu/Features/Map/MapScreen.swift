@@ -2,6 +2,12 @@ import MapKit
 import SwiftUI
 
 struct MapScreen: View {
+    /// Tiện ích người mua nhà cần thấy quanh dự án (2026-11-08) — chỉ hiển thị, KHÔNG cho chọn (tránh đụng bấm tuyến /
+    /// nhấn giữ ghim địa điểm). Apple tự lọc theo zoom: nhìn cả tỉnh chỉ còn sân bay/điểm lớn. TTTM nằm trong `.store`.
+    static let amenityCategories = PointOfInterestCategories.including([
+        .school, .university, .hospital, .airport, .publicTransport, .store, .foodMarket, .park,
+    ])
+
     @State private var viewModel: MapViewModel
     @State private var camera: MapCameraPosition
     @State private var showsLegend = false
@@ -158,7 +164,7 @@ struct MapScreen: View {
             } message: {
                 switch viewModel.locationError {
                 case .permissionDenied: Text("Hãy cho phép An Cư dùng vị trí trong Cài đặt.")
-                case .outsideServiceArea: Text("An Cư hiện có dữ liệu TP.HCM (gồm Bình Dương cũ) và Đồng Nai.")
+                case .outsideServiceArea: Text("Vị trí của bạn nằm ngoài các tỉnh An Cư đang hỗ trợ.")
                 default: Text("Vui lòng thử lại sau.")
                 }
             }
@@ -286,7 +292,7 @@ struct MapScreen: View {
                 .annotationTitles(.hidden)
             }
         }
-        .mapStyle(.standard(pointsOfInterest: .excludingAll))
+        .mapStyle(.standard(pointsOfInterest: Self.amenityCategories))
         .onMapCameraChange(frequency: .onEnd) { context in
             viewModel.regionDidChange(MapRegion(context.region))
         }
@@ -349,7 +355,6 @@ struct MapScreen: View {
                 .padding(.horizontal, Spacing.l)
             } else {
                 areaPicker
-                    .padding(.horizontal, Spacing.l)
                 layerChips
                 statusBanner
                     .frame(maxWidth: .infinity)
@@ -359,20 +364,39 @@ struct MapScreen: View {
         .animation(Motion.resolve(Motion.snappy, reduceMotion: reduceMotion), value: viewModel.isSearchActive)
     }
 
-    /// Đổi nhanh vùng: TP.HCM / Bình Dương / Đồng Nai.
+    /// Đổi nhanh vùng: 5 tỉnh mới (TP.HCM, Đồng Nai, Tây Ninh, Đồng Tháp, Lâm Đồng). Cuộn ngang như hàng lớp —
+    /// 5 chip không vừa bề ngang iPhone, để HStack co lại sẽ cắt chữ ("TP....").
     private var areaPicker: some View {
-        AdaptiveGlassContainer(spacing: Spacing.s) {
-            HStack(spacing: Spacing.s) {
-                ForEach(viewModel.mvpAreas, id: \.self) { area in
-                    MapChip(
-                        title: Text(verbatim: viewModel.catalog.label(for: area)),
-                        isOn: viewModel.focusedArea == area
-                    ) {
-                        viewModel.focus(on: area)
+        ScrollViewReader { proxy in
+            ScrollView(.horizontal, showsIndicators: false) {
+                AdaptiveGlassContainer(spacing: Spacing.s) {
+                    HStack(spacing: Spacing.s) {
+                        ForEach(viewModel.mvpAreas, id: \.self) { area in
+                            MapChip(
+                                title: Text(verbatim: viewModel.catalog.label(for: area)),
+                                isOn: viewModel.focusedArea == area
+                            ) {
+                                viewModel.focus(on: area)
+                            }
+                            .adaptiveGlassID("area-\(area.rawValue)", in: glassNamespace)
+                            .id(area)
+                        }
                     }
-                    .adaptiveGlassID("area-\(area.rawValue)", in: glassNamespace)
+                    .padding(.horizontal, Spacing.l)
+                    .padding(.vertical, Spacing.xxs)
                 }
             }
+            // Chip đang chọn luôn trong tầm nhìn — kể cả khi khôi phục vùng đã lưu / deep link lúc mở app.
+            .onAppear { scrollToFocusedArea(proxy, animated: false) }
+            .onChange(of: viewModel.focusedArea) { scrollToFocusedArea(proxy, animated: true) }
+            .onChange(of: viewModel.mvpAreas) { scrollToFocusedArea(proxy, animated: false) }
+        }
+    }
+
+    private func scrollToFocusedArea(_ proxy: ScrollViewProxy, animated: Bool) {
+        guard let area = viewModel.focusedArea, viewModel.mvpAreas.contains(area) else { return }
+        withAnimation(animated ? Motion.resolve(Motion.snappy, reduceMotion: reduceMotion) : nil) {
+            proxy.scrollTo(area, anchor: .center)
         }
     }
 

@@ -80,10 +80,19 @@
 - [x] 7.2 `build_data.py --stage` (sinh `stage.sql`) + test
 - [x] 7.3 `src/crawler/` khung (fetch tôn trọng nguồn, contract, CLI, test không mạng)
 - [x] 7.4 App hiển thị `geometry_accuracy` (nhãn "Hướng tuyến minh họa")
-- [ ] 7.5 Nguồn crawl đầu tiên (Sở XD TP.HCM) — sau khi khảo sát trang
-  - **Lý do chưa xong:** Cần khảo sát trang thật (robots.txt, điều khoản, cấu trúc HTML/PDF) và URL/email liên hệ thật cho User-Agent trước khi crawl.
-- [ ] 7.6 Đẩy migration 16 lên cloud (`supabase db push --remote`)
-  - **Lý do chưa xong:** Ghi vào DB production — chờ bạn chạy.
+- [x] 7.5 Nguồn crawl đầu tiên (Sở XD TP.HCM) — *phương án A: crawler đọc danh mục (4 dự án thật), PDF bạn tự tải (`--pdf-dir`)*
+- [ ] 7.7 Kiểm tra PDF công văn là bản chữ hay scan (quyết định có cần OCR)
+  - **Lý do chưa xong:** WAF chặn tải tự động — cần bạn tải tay 1 PDF để kiểm tra.
+- [x] 7.6 Đẩy migration 16 lên cloud — *2026-11-08: 16/16, lint public + ingest sạch*
+
+## Bước 8: Vùng phục vụ theo địa giới mới — TP.HCM + Đồng Nai, Tây Ninh, Đồng Tháp, Lâm Đồng *(2026-11-08)*
+- [x] 8.1 Tài liệu: data-strategy (phạm vi), PRD, architecture mục 3
+- [x] 8.2 Dữ liệu: ranh giới mock 5 tỉnh mới, mã vùng mới, chuyển dự án/phường sang mã mới
+- [x] 8.3 Migration 17: danh mục + ranh giới mới, chuyển `service_area` dữ liệu đang có; pgTAP
+- [x] 8.4 App: mã vùng, chip, khung bản đồ + test chủ quyền, tìm kiếm tên cũ; crawler đoán vùng theo tỉnh mới
+- [x] 8.5 Test toàn bộ + chụp màn hình — còn: thay ranh giới mock bằng ranh giới thật — xong 3/5 tỉnh (8.7); còn Đồng Tháp mock lấn Vĩnh Long
+- [x] 8.6 Cờ ẩn/hiện tỉnh (tạm ngừng phục vụ) — admin `select ingest.set_service_area_active('lam_dong', false, 'lý do')` (migration 18); cờ duy nhất là `in_mvp`
+- [x] 8.7 Ranh giới THẬT TP.HCM, Đồng Nai, Tây Ninh từ sapnhap.bando.com.vn (migration 19, `import_bando_boundaries.py`); Đồng Tháp, Lâm Đồng còn mock (đã cắt theo ranh giới thật)
 
 ## Giai đoạn sau (chưa làm)
 - Trang web công khai từng dự án (OG tags cho Zalo/Facebook, deep link / Universal Links mở app).

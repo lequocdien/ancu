@@ -45,7 +45,7 @@ enum RPCFixtures {
 
     static let project = """
     {"id": "ffe14cd8-75bb-5a59-b5dd-a91c233c5cfc", "name": "NOXH Hòa Bình Xanh", "address": "Phường Thủ Đức, TP.HCM",
-     "ward_code": "hcm_thu_duc", "service_area": "hcm_cu", "location": {"lat": 10.842, "lng": 106.772},
+     "ward_code": "hcm_thu_duc", "service_area": "tp_hcm", "location": {"lat": 10.842, "lng": 106.772},
      "status": "nhan_ho_so", "legal_status": "du_dieu_kien_ban", "application_start": "2026-11-01",
      "application_end": "2026-11-18", "price_min": 22.50, "price_max": 24.00, "price_is_estimated": false,
      "unit_count": 1240, "developer": null, "cover_image_url": null,
@@ -58,7 +58,7 @@ enum RPCFixtures {
     """
 
     static let place = """
-    {"code": "hcm_thu_duc", "name": "Phường Thủ Đức", "province": "TP.HCM", "service_area": "hcm_cu",
+    {"code": "hcm_thu_duc", "name": "Phường Thủ Đức", "province": "TP.HCM", "service_area": "tp_hcm",
      "old_names": ["TP Thủ Đức"], "center": {"lat": 10.85, "lng": 106.77}}
     """
 }
@@ -76,7 +76,7 @@ struct SupabaseProjectRepositoryTests {
         #expect(Set(params.keys) == ["min_lng", "min_lat", "max_lng", "max_lat", "statuses", "service_areas"])
         #expect(params["statuses"] as? [String] == ["nhan_ho_so"])
         #expect(params["service_areas"] as? [String] == [])
-        #expect((params["min_lng"] as? Double).map { abs($0 - 106.5) < 1e-9 } == true)
+        #expect((params["min_lng"] as? Double).map { abs($0 - 106.35) < 1e-9 } == true)
 
         let project = try #require(projects.first)
         #expect(project.id == RPCFixtures.projectID)

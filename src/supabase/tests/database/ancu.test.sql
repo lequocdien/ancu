@@ -31,7 +31,8 @@ select ok((select jsonb_array_length(search_places('thu duc') -> 'places') > 0),
 select ok((public.project_detail((select id from public.projects order by name limit 1)) -> 'nearest_infra') is not null, 'project_detail có nearest_infra');
 select throws_ok($$ select public.project_detail('00000000-0000-0000-0000-000000000000') $$, 'P0002', null, 'project_detail id lạ → P0002 (404)');
 select ok(public.lookup_catalog() ? 'route_types', 'lookup_catalog nhóm theo category');
-select is(jsonb_array_length(public.service_area_boundary('hcm_cu') -> 'polygons'), 1, 'service_area_boundary: TP.HCM cũ có 1 đa giác');
+select is(jsonb_array_length(public.service_area_boundary('tp_hcm') -> 'polygons'), 7,
+          'service_area_boundary: TP.HCM mới (ranh giới thật) = đất liền + Côn Đảo + đảo ven biển = 7 đa giác');
 select is((select count(*)::int from public.projects p join public.service_area_boundaries b on b.code = p.service_area
            where not extensions.st_covers(b.geom, p.location)), 0, 'mọi dự án nằm trong ranh giới vùng của nó');
 select is(public.service_area_boundary('ba_ria_vung_tau_cu'), null, 'vùng chưa có ranh giới → null');

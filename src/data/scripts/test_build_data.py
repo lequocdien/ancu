@@ -37,7 +37,7 @@ def valid_data():
     )
     projects = fc(feature({
         "id": "ffe14cd8-75bb-5a59-b5dd-a91c233c5cfc", "name": "NOXH A", "address": "Phường Thủ Đức, TP.HCM",
-        "ward_code": "hcm_thu_duc", "service_area": "hcm_cu", "status": "nhan_ho_so",
+        "ward_code": "hcm_thu_duc", "service_area": "tp_hcm", "status": "nhan_ho_so",
         "legal_status": "du_dieu_kien_ban", "application_start": "2026-11-01", "application_end": "2026-11-18",
         "price_min": 22.5, "price_max": 24, "price_is_estimated": False, "unit_count": 1240,
         "developer": None, "cover_image_url": None, "source_url": "https://mock.ancu.vn/du-an",
@@ -137,8 +137,8 @@ class ValidateTests(unittest.TestCase):
 
     def test_ward_outside_service_area(self):
         routes, nodes, projects = valid_data()
-        projects["features"][0]["properties"]["service_area"] = "dong_nai_cu"
-        self.assertOneError(self.errors(routes, nodes, projects), "thuộc vùng 'hcm_cu'")
+        projects["features"][0]["properties"]["service_area"] = "dong_nai"
+        self.assertOneError(self.errors(routes, nodes, projects), "thuộc vùng 'tp_hcm'")
 
     def test_invalid_date(self):
         routes, nodes, projects = valid_data()
@@ -200,7 +200,7 @@ class ServiceAreaTests(unittest.TestCase):
         cls.lookups = bd.load_lookups()
 
     @staticmethod
-    def area(code="hcm_cu", ring=None):
+    def area(code="tp_hcm", ring=None):
         # Hình vuông bao Thủ Đức (dự án mẫu ở [106.772, 10.842]).
         ring = ring or [[106.7, 10.8], [106.9, 10.8], [106.9, 10.9], [106.7, 10.9], [106.7, 10.8]]
         return feature({"code": code, "is_mock": True, "source_url": "https://mock.ancu.vn/rg", "verified_at": "2026-11-07"},
@@ -216,7 +216,7 @@ class ServiceAreaTests(unittest.TestCase):
     def test_project_outside_its_area_fails(self):
         far = [[106.3, 10.4], [106.4, 10.4], [106.4, 10.5], [106.3, 10.5], [106.3, 10.4]]
         errors = self.run_validate(self.area(ring=far))
-        self.assertTrue(any("nằm ngoài ranh giới vùng 'hcm_cu'" in e for e in errors), errors)
+        self.assertTrue(any("nằm ngoài ranh giới vùng 'tp_hcm'" in e for e in errors), errors)
 
     def test_unclosed_ring_fails(self):
         ring = [[106.7, 10.8], [106.9, 10.8], [106.9, 10.9], [106.7, 10.9]]
@@ -228,9 +228,9 @@ class ServiceAreaTests(unittest.TestCase):
         self.assertTrue(any("đúng 1 vòng ngoài" in e for e in self.run_validate(bad)))
 
     def test_duplicate_code_and_unknown_code(self):
-        errors = self.run_validate(self.area(), self.area(), self.area(code="ha_noi"))
+        errors = self.run_validate(self.area(), self.area(), self.area(code="can_tho"))
         self.assertTrue(any("trùng" in e for e in errors))
-        self.assertTrue(any("'ha_noi' không có trong danh mục service_areas" in e for e in errors))
+        self.assertTrue(any("'can_tho' không có trong danh mục service_areas" in e for e in errors))
 
     def test_app_json_drops_closing_point(self):
         out = bd.to_app_service_areas(fc(self.area()))

@@ -5,7 +5,7 @@ import Testing
 struct ProjectClustererTests {
     private func project(_ name: String, lat: Double, lon: Double) -> Project {
         Project(
-            id: UUID(), name: name, address: "", wardCode: nil, serviceArea: .hcmOld,
+            id: UUID(), name: name, address: "", wardCode: nil, serviceArea: .hcm,
             location: GeoPoint(latitude: lat, longitude: lon), status: .upcoming, legalStatus: .buildingPermit,
             applicationWindow: nil, price: nil, unitCount: nil, developer: nil,
             sourceURL: URL(string: "https://example.com")!, verifiedAt: .now
@@ -152,14 +152,20 @@ struct MapViewModelTests {
         let viewModel = makeViewModel()
         await viewModel.start()
 
+        viewModel.searchQuery = "ha noi"
+        await viewModel.searchTask?.value
+        #expect(viewModel.comingSoonAreas.map(\.code) == ["ha_noi"])
+
+        // Vũng Tàu nay thuộc TP.HCM mới: mã cũ đã gộp KHÔNG hiện "Sắp có", phường Phú Mỹ chọn được.
         viewModel.searchQuery = "vung tau"
         await viewModel.searchTask?.value
-
-        #expect(viewModel.comingSoonAreas.map(\.code).contains("ba_ria_vung_tau_cu"))
-        // Phường/xã thuộc vùng ngoài MVP không được chọn để bay tới.
-        for case .place(let unit) in viewModel.searchResults where unit.serviceArea == .baRiaVungTauOld {
-            #expect(!viewModel.isAvailable(unit))
+        #expect(viewModel.comingSoonAreas.isEmpty)
+        var units = 0
+        for case .place(let unit) in viewModel.searchResults {
+            units += 1
+            #expect(unit.serviceArea == .hcm && viewModel.isAvailable(unit))
         }
+        #expect(units > 0)
     }
 
     @Test func shortQueryClearsResultsWithoutCallingRepository() async {
@@ -197,13 +203,13 @@ struct MapViewModelTests {
     @Test func focusingAreaTwiceReturnsToWholeMVP() async {
         let viewModel = makeViewModel()
         await viewModel.start()
-        #expect(viewModel.mvpAreas == [.hcmOld, .binhDuongOld, .dongNaiOld])
+        #expect(viewModel.mvpAreas == [.hcm, .dongNai, .tayNinh, .dongThap, .lamDong])
 
-        viewModel.focus(on: .dongNaiOld)
-        #expect(viewModel.focusedArea == .dongNaiOld)
-        #expect(viewModel.cameraRequest?.region.center == viewModel.catalog.item(for: ServiceArea.dongNaiOld)?.center)
+        viewModel.focus(on: .dongNai)
+        #expect(viewModel.focusedArea == .dongNai)
+        #expect(viewModel.cameraRequest?.region.center == viewModel.catalog.item(for: ServiceArea.dongNai)?.center)
 
-        viewModel.focus(on: .dongNaiOld)
+        viewModel.focus(on: .dongNai)
         #expect(viewModel.focusedArea == nil)
         #expect(viewModel.cameraRequest?.region == .mvpArea)
     }
@@ -359,29 +365,29 @@ struct MapAreaHighlightTests {
     @Test func focusingLoadsBoundaryAndFitsCamera() async throws {
         let viewModel = make()
         await viewModel.start()
-        viewModel.focus(on: .hcmOld)
+        viewModel.focus(on: .hcm)
         await viewModel.boundaryTask?.value
 
         let boundary = try #require(viewModel.focusedBoundary)
-        #expect(boundary.area == .hcmOld && boundary.isMock)
+        #expect(boundary.area == .hcm && !boundary.isMock)   // ranh giới thật (sapnhap.bando.com.vn)
         let region = try #require(boundary.region)
         #expect(viewModel.cameraRequest?.region == region)
-        // Mọi dự án TP.HCM cũ nằm trong khung camera mới.
-        #expect(viewModel.projects.filter { $0.serviceArea == .hcmOld }.allSatisfy { region.contains($0.location) })
+        // Mọi dự án TP.HCM nằm trong khung camera mới.
+        #expect(viewModel.projects.filter { $0.serviceArea == .hcm }.allSatisfy { region.contains($0.location) })
     }
 
     @Test func switchingOrClearingDropsOldBoundary() async {
         let viewModel = make()
         await viewModel.start()
-        viewModel.focus(on: .hcmOld)
-        viewModel.focus(on: .dongNaiOld)        // đổi vùng trước khi ranh giới cũ tải xong
+        viewModel.focus(on: .hcm)
+        viewModel.focus(on: .dongNai)        // đổi vùng trước khi ranh giới cũ tải xong
         await viewModel.boundaryTask?.value
-        #expect(viewModel.focusedBoundary?.area == .dongNaiOld)
+        #expect(viewModel.focusedBoundary?.area == .dongNai)
 
-        viewModel.focus(on: .dongNaiOld)        // bấm lại → bỏ chọn
+        viewModel.focus(on: .dongNai)        // bấm lại → bỏ chọn
         #expect(viewModel.focusedBoundary == nil && viewModel.focusedArea == nil)
 
-        viewModel.focus(on: .binhDuongOld)
+        viewModel.focus(on: .lamDong)
         await viewModel.boundaryTask?.value
         viewModel.showWholeArea()
         #expect(viewModel.focusedBoundary == nil)
@@ -394,13 +400,25 @@ struct MapAreaHighlightTests {
         #expect(MapRegion.bounding([]) == nil)
     }
 
+    /// TP.HCM mới có Côn Đảo: camera ôm đất liền (đa giác lớn nhất), không lùi ra biển ôm cả đảo.
+    @Test func boundaryRegionIgnoresFarIslands() throws {
+        let mainland = [GeoPoint(latitude: 10.3, longitude: 106.4), GeoPoint(latitude: 10.3, longitude: 107.5),
+                        GeoPoint(latitude: 11.5, longitude: 107.5), GeoPoint(latitude: 11.5, longitude: 106.4)]
+        let island = [GeoPoint(latitude: 8.63, longitude: 106.55), GeoPoint(latitude: 8.63, longitude: 106.70),
+                      GeoPoint(latitude: 8.76, longitude: 106.62)]
+        let boundary = AreaBoundary(area: .hcm, polygons: [island, mainland], isMock: false)
+        let region = try #require(boundary.region)
+        #expect(region == MapRegion.bounding(mainland, padding: 0.3))
+        #expect(!region.contains(island[0]))
+    }
+
     @Test func supabaseBoundaryHandlesMissingAreaAndCaches() async throws {
         let rpc = FakeRPCClient()
         rpc.respond("service_area_boundary", json: "null")
         let repository = SupabaseLookupRepository(rpc: rpc)
-        #expect(try await repository.boundary(of: .baRiaVungTauOld) == nil)
-        #expect(try await repository.boundary(of: .baRiaVungTauOld) == nil)
+        #expect(try await repository.boundary(of: .haNoi) == nil)
+        #expect(try await repository.boundary(of: .haNoi) == nil)
         #expect(rpc.callCount("service_area_boundary") == 1)
-        #expect(rpc.lastParams("service_area_boundary")?["code"] as? String == "ba_ria_vung_tau_cu")
+        #expect(rpc.lastParams("service_area_boundary")?["code"] as? String == "ha_noi")
     }
 }

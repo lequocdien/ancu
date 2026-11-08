@@ -34,7 +34,7 @@ insert into ingest.node_candidates (batch_id, id, route_id, name, type, location
   ('00000000-0000-0000-0000-00000000b001', '00000000-0000-0000-0000-00000000a002', '00000000-0000-0000-0000-00000000a001',
    'Ga thử', 'ga_metro', 'SRID=4326;POINT(106.71 10.78)', 'gan_dung');
 insert into ingest.project_candidates (batch_id, id, name, address, service_area, status, legal_status, price_min, price_max, source_url) values
-  ('00000000-0000-0000-0000-00000000b001', '00000000-0000-0000-0000-00000000a003', 'NOXH thử', 'Phường Thủ Đức', 'hcm_cu',
+  ('00000000-0000-0000-0000-00000000b001', '00000000-0000-0000-0000-00000000a003', 'NOXH thử', 'Phường Thủ Đức', 'tp_hcm',
    'sap_mo', 'chu_truong_dau_tu', 18, 20, 'https://soxaydung.hochiminhcity.gov.vn/thu');
 
 select is((select validation_errors from ingest.route_candidates where id = '00000000-0000-0000-0000-00000000a001'), '{}'::text[], 'tuyến hợp lệ');
@@ -51,7 +51,7 @@ select is(cardinality((select validation_errors from ingest.route_candidates whe
 
 insert into ingest.batches (id, source, contract_version) values ('00000000-0000-0000-0000-00000000b009', 'so_xay_dung_hcm', 1);
 insert into ingest.project_candidates (batch_id, id, name, address, service_area, status, legal_status, price_max, source_url) values
-  ('00000000-0000-0000-0000-00000000b009', '00000000-0000-0000-0000-00000000a008', 'Mới thiếu giá', 'X', 'hcm_cu', 'sap_mo', 'chu_truong_dau_tu', 20, 'https://x.vn');
+  ('00000000-0000-0000-0000-00000000b009', '00000000-0000-0000-0000-00000000a008', 'Mới thiếu giá', 'X', 'tp_hcm', 'sap_mo', 'chu_truong_dau_tu', 20, 'https://x.vn');
 select ok((select 'giá phải đủ thấp nhất và cao nhất'::text = any (validation_errors) from ingest.project_candidates where id = '00000000-0000-0000-0000-00000000a008'),
           'dự án MỚI chỉ có một nửa cặp giá → lỗi ngay khi ghi');
 

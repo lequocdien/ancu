@@ -117,7 +117,9 @@ def main() -> None:
     parts.append(rows("service_area_boundaries", ["code", "geom", "is_mock", "source_url", "verified_at"], [
         [lit(b["code"]), multipolygon(b["polygons"]), lit(b["is_mock"]), lit(b["source_url"]), lit(b["verified_at"])]
         for b in load("service_area_boundaries")
-    ]))
+    # Migration 17 đã chèn sẵn ranh giới (cloud không chạy seed) → seed ghi đè thay vì lỗi trùng khóa.
+    ], on_conflict="on conflict (code) do update set geom = excluded.geom, is_mock = excluded.is_mock, "
+                   "source_url = excluded.source_url, verified_at = excluded.verified_at"))
 
     parts.append(rows("eligibility_rules", [
         "rule_key", "value_type", "value_number", "value_text", "value_codes", "legal_reference", "effective_from", "is_mock",

@@ -11,7 +11,9 @@ struct MockProjectRepository: ProjectRepository {
 
     func projects(in region: MapRegion, filter: ProjectFilter) async throws -> [Project] {
         try await latency.wait()
-        return try await store.dataset().projects.filter { region.contains($0.location) && filter.matches($0) }
+        let data = try await store.dataset()
+        // Như RPC projects_in_bbox: tỉnh tạm ngừng (in_mvp = false) không hiện dự án.
+        return data.projects.filter { data.catalog.isInMVP($0.serviceArea) && region.contains($0.location) && filter.matches($0) }
     }
 
     func projects(ids: Set<Project.ID>) async throws -> [Project] {
@@ -42,8 +44,9 @@ struct MockProjectRepository: ProjectRepository {
         }
         let unitCodes = Set(units.map(\.code))
         let projects = data.projects.filter { project in
-            SearchNormalizer.normalize(project.name).contains(needle)
-                || project.wardCode.map(unitCodes.contains) == true
+            data.catalog.isInMVP(project.serviceArea)
+                && (SearchNormalizer.normalize(project.name).contains(needle)
+                    || project.wardCode.map(unitCodes.contains) == true)
         }
         return Array((projects.map(SearchResult.project) + units.map(SearchResult.place)).prefix(20))
     }

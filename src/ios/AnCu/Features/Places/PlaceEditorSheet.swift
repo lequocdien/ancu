@@ -131,7 +131,7 @@ struct PlaceEditorSheet: View {
             Label {
                 VStack(alignment: .leading, spacing: Spacing.xxs) {
                     Text("Ngoài khu vực hỗ trợ").font(.subheadline.weight(.semibold))
-                    Text("An Cư hiện hỗ trợ TP.HCM, Bình Dương cũ và Đồng Nai cũ. Địa điểm này chưa lưu được.")
+                    Text("Địa điểm này nằm ngoài các tỉnh An Cư đang hỗ trợ nên chưa lưu được.")
                         .font(.footnote)
                         .foregroundStyle(.secondary)
                 }
@@ -192,7 +192,7 @@ struct PlaceEditorSheet: View {
 
     static func message(for error: RepositoryError) -> LocalizedStringKey {
         switch error {
-        case .outsideServiceArea: "Ngoài khu vực hỗ trợ — An Cư hiện hỗ trợ TP.HCM, Bình Dương cũ và Đồng Nai cũ."
+        case .outsideServiceArea: "Ngoài khu vực hỗ trợ — địa điểm phải thuộc một tỉnh An Cư đang hỗ trợ."
         case .limitReached: "Bạn đã lưu tối đa \(SavedPlace.maxCount) địa điểm. Xóa bớt để lưu thêm."
         case .unauthorized: "Phiên đăng nhập đã hết. Hãy đăng nhập lại."
         case .decoding: "Kiểm tra lại tên (tối đa \(SavedPlace.maxNameLength) ký tự) và ghi chú."
