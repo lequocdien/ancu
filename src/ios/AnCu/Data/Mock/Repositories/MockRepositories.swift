@@ -137,6 +137,7 @@ struct MockEligibilityRepository: EligibilityRepository {
 enum MockStorageKeys {
     static let user = "mock.auth.user"
     static let bookmarks = "mock.bookmarks"
+    static let savedPlaces = "mock.saved_places"
 }
 
 /// `UserDefaults` không Sendable trong Swift 6 → truyền tên suite (Sendable), mỗi actor tự mở instance riêng.
@@ -207,6 +208,8 @@ actor MockAuthService: AuthService {
         try await latency.wait()
         defaults.removeObject(forKey: MockStorageKeys.user)
         defaults.removeObject(forKey: MockStorageKeys.bookmarks)
+        // Server xóa theo cascade (saved_places.user_id on delete cascade).
+        defaults.removeObject(forKey: MockStorageKeys.savedPlaces)
     }
 }
 
@@ -253,6 +256,21 @@ actor MockBookmarkRepository: BookmarkRepository {
                 bookmarks[index].notifyEnabled = enabled
             } else if enabled {
                 bookmarks.append(Bookmark(projectID: projectID, notifyEnabled: true, createdAt: createdAt, isLocalOnly: false))
+            }
+        }
+    }
+
+    /// Như RPC `set_bookmark_note`: chưa lưu + có ghi chú → tự lưu; rỗng → xóa ghi chú (giữ bookmark).
+    func setNote(_ note: String?, projectID: Project.ID) async throws {
+        guard await auth.currentUser != nil else { throw RepositoryError.unauthorized }
+        let cleaned = UserText.cleaned(note)
+        guard (cleaned?.count ?? 0) <= SavedPlace.maxNoteLength else { throw RepositoryError.decoding }
+        let createdAt = now()
+        try storage.update { bookmarks in
+            if let index = bookmarks.firstIndex(where: { $0.projectID == projectID }) {
+                bookmarks[index].note = cleaned
+            } else if let cleaned {
+                bookmarks.append(Bookmark(projectID: projectID, notifyEnabled: false, createdAt: createdAt, isLocalOnly: false, note: cleaned))
             }
         }
     }
@@ -331,6 +349,16 @@ actor MockDataReportRepository: DataReportRepository {
         try await latency.wait()
         // Bản thật: RPC `report_data` (giới hạn 10/24h).
         submitted.append((projectID, trimmed))
+    }
+
+    private(set) var suggestions: [(name: String, address: String?, location: GeoPoint)] = []
+
+    func suggestProject(name: String, address: String?, location: GeoPoint) async throws {
+        guard await auth.currentUser != nil else { throw RepositoryError.unauthorized }
+        guard let cleaned = UserText.cleaned(name), cleaned.count <= SavedPlace.maxNameLength else { throw RepositoryError.decoding }
+        try await latency.wait()
+        // Bản thật: RPC `suggest_project` (kiểm tra vùng MVP + chung giới hạn 10/24h).
+        suggestions.append((cleaned, UserText.cleaned(address), location))
     }
 }
 

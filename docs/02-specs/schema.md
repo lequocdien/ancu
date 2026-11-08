@@ -13,19 +13,30 @@ Bản v1 lưu tọa độ dạng số thực, tuyến dạng JSON — chưa tậ
 | `projects` | Dự án NOXH | Tên, địa chỉ, tỉnh/phường theo địa giới mới (+ tên cũ để tìm kiếm), vị trí, trạng thái, khung nhận hồ sơ, khoảng giá, số căn, chủ đầu tư, `source_url`, `verified_at` |
 | `infrastructure_routes` | Metro, Vành đai, Cao tốc, Quốc lộ | Tên, loại, trạng thái (quy hoạch / đang thi công / đã khai thác), năm dự kiến khai thác, hướng tuyến, màu, `source_url`, `verified_at` |
 | `infra_nodes` | Ga / nút giao — nơi thực sự lên/xuống | Thuộc tuyến nào, tên, loại (ga / nút giao), vị trí |
-| `bookmarks` | Dự án người dùng theo dõi | Người dùng, dự án, bật thông báo không, ngày lưu |
+| `bookmarks` | Dự án người dùng theo dõi | Người dùng, dự án, bật thông báo không, **ghi chú** (≤ 2.000 ký tự, 2026-11-07), ngày lưu |
+| `saved_places` *(2026-11-07)* | Dự án/địa điểm **ngoài hệ thống** người dùng tự lưu (riêng tư) | Người dùng, tên (≤ 200), địa chỉ (≤ 500), vị trí `geography(Point)`, loại (`place_kinds`: `noxh` / `thuong_mai` / `khac`), vùng phục vụ (server tính), ghi chú (≤ 2.000), `external_ref` (định danh Apple Maps nếu có), `icon` (mã `place_icons`, null = icon theo loại — 2026-11-07, migration 14), ngày tạo/sửa. ≤ 200 dòng/người; chỉ trong vùng MVP (dung sai 3 km) |
 | `comments` | Bình luận + ảnh | Dự án, người viết, nội dung (≤ 1.000 ký tự), ≤ 3 ảnh, trạng thái duyệt, điểm rủi ro, lý do kiểm duyệt |
 | `reports` | Báo cáo bình luận vi phạm | Bình luận, người báo cáo, lý do. Unique (comment, reporter) |
 | `user_blocks` | Người dùng chặn nhau | Người chặn, người bị chặn |
 | `project_updates` | Lịch sử mọi thay đổi dự án | Trường bị đổi, giá trị cũ, giá trị mới, thời điểm |
 | `push_tokens` | Nơi gửi push | Người dùng, mã thiết bị, nền tảng (iOS / Android) |
-| `data_reports` | Phản ánh dữ liệu dự án sai | Dự án, người báo, ghi chú, trạng thái xử lý |
+| `data_reports` | Phản ánh dữ liệu dự án sai **hoặc đề xuất thêm dự án** | Loại (`sai_thong_tin` / `de_xuat_du_an`), dự án (bắt buộc khi báo sai), người báo, ghi chú, tên/địa chỉ/vị trí đề xuất (khi đề xuất), trạng thái xử lý |
 | `notifications` | Hộp thông báo trong app | Người dùng, dự án, loại, tiêu đề, nội dung, thời điểm, đã đọc. Sinh bởi trigger fan-out từ `project_updates` |
 | `lookup_items` | Danh mục dùng chung | (category, code), nhãn, thứ tự, màu, icon, thuộc tính, tâm (cho vùng phục vụ) |
 | `app_config` | Cấu hình từ xa | `min_supported_version`, ngưỡng kiểm duyệt |
 | `eligibility_rules` | Cấu hình kiểm tra điều kiện | Mục luật, giá trị (vd ngưỡng thu nhập), điều khoản dẫn chiếu, ngày hiệu lực |
 | `moderation_config` *(đề xuất)* | Ngưỡng kiểm duyệt | `auto_approve_after` = 5, `auto_hide_reports` = 3, `daily_comment_limit` = 10 |
 | `project_nearest_infra` *(đề xuất, materialized)* | Khoảng cách tính sẵn | Dự án, node gần nhất theo loại, khoảng cách (m), năm khai thác |
+
+**Staging (schema `ingest`, 2026-11-08, migration 16)** — không mở qua API:
+
+| Bảng | Lưu gì |
+| --- | --- |
+| `ingest.batches` | Một đợt nhập: nguồn (`qgis_manual`, `so_xay_dung_hcm`…), mã lần chạy, `contract_version`, `silent`, ghi chú |
+| `ingest.route_candidates` / `node_candidates` / `project_candidates` | Bản nháp cùng cột như bảng chính (được thiếu vị trí với dự án) + `raw jsonb`, `evidence_url`, `crawled_at`, `review_status` (`pending` / `applied` / `rejected` / `superseded`), `validation_errors`, `reviewed_by/at`, `review_note` |
+| view `ingest.pending_review` | Bản nháp chờ duyệt: mới hay sửa, trường nào đổi, hình học dời tối đa bao nhiêu mét |
+
+`infrastructure_routes.geometry_accuracy`, `infra_nodes.geometry_accuracy`: `chinh_xac` / `gan_dung` / `minh_hoa`.
 
 **Quan hệ:** một người dùng có nhiều bookmark và bình luận. Một dự án có nhiều bình luận, bookmark, bản ghi lịch sử. Một tuyến có nhiều ga/nút giao.
 
@@ -62,6 +73,9 @@ App gọi qua RPC thay vì query bảng trực tiếp — RPC là contract ổn 
 | Edge Function | `submit-comment` | Validate, rate limit, chạy pipeline kiểm duyệt | Có + SĐT đã xác thực |
 | RPC | `report_comment(comment_id, reason)` | Báo cáo, tự ẩn khi ≥ ngưỡng | Có |
 | RPC | `report_data(project_id, note)` | Báo thông tin sai | Có |
+| RPC | `set_bookmark_note(project_id, note)` | Ghi chú dự án đã lưu (chưa lưu → tự lưu; rỗng → xóa ghi chú) | Có |
+| RPC | `my_saved_places()`, `create_saved_place(…)`, `update_saved_place(id, name, kind, note)`, `delete_saved_place(id)` | Địa điểm riêng; kiểm tra giới hạn 200 + vùng MVP ở server | Có |
+| RPC | `suggest_project(name, address, lat, lng)` | Đề xuất An Cư thêm dự án (chung giới hạn 10/24h với `report_data`) | Có |
 | RPC | `eligibility_rules_current()` | Luật hiện hành cho công cụ kiểm tra | Không |
 | Edge Function | `delete-account` | Xóa tài khoản + dữ liệu liên quan | Có |
 | Edge Function | `send-push` (internal) | Đọc `project_updates`, gửi APNs/FCM | Service |

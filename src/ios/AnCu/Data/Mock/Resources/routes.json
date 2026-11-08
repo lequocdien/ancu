@@ -66,6 +66,7 @@
         }
       ]
     ],
+    "geometry_accuracy": null,
     "source_url": "https://mock.ancu.vn/nguon/tuyen/metro1",
     "verified_at": "2026-10-28"
   },
@@ -112,6 +113,7 @@
         }
       ]
     ],
+    "geometry_accuracy": null,
     "source_url": "https://tuoitre.vn/hoan-thanh-metro-ben-thanh-tham-luong-vao-nam-2029-som-hon-ke-hoach-1-nam-100260806203434232.htm",
     "verified_at": "2026-11-07"
   },
@@ -146,6 +148,7 @@
         }
       ]
     ],
+    "geometry_accuracy": null,
     "source_url": "https://cafeland.vn/tin-tuc/tphcm-chuan-bi-thu-hoi-dat-lam-tuyen-metro-435km-chay-den-san-bay-long-thanh-153352.html",
     "verified_at": "2026-11-07"
   },
@@ -184,6 +187,7 @@
         }
       ]
     ],
+    "geometry_accuracy": null,
     "source_url": "https://24hmoney.vn/news/tp-hcm-du-kien-khoi-cong-them-ba-tuyen-metro-vao-cuoi-nam-c27a2835162.html",
     "verified_at": "2026-11-07"
   },
@@ -260,6 +264,7 @@
         }
       ]
     ],
+    "geometry_accuracy": null,
     "source_url": "https://cafef.vn/can-canh-gan-15-km-vanh-dai-3-tren-cao-truoc-ngay-thong-xe-188261104135210243.chn",
     "verified_at": "2026-11-07"
   },
@@ -314,6 +319,7 @@
         }
       ]
     ],
+    "geometry_accuracy": null,
     "source_url": "https://www.sggp.org.vn/khoi-cong-duong-vanh-dai-4-tphcm-doan-qua-dia-ban-tinh-binh-duong-post799962.html",
     "verified_at": "2026-11-07"
   },
@@ -360,6 +366,7 @@
         }
       ]
     ],
+    "geometry_accuracy": null,
     "source_url": "https://mock.ancu.vn/nguon/tuyen/ct_lt_dg",
     "verified_at": "2026-10-28"
   },
@@ -394,6 +401,7 @@
         }
       ]
     ],
+    "geometry_accuracy": null,
     "source_url": "https://tienphong.vn/thong-xe-toan-tuyen-cao-toc-bien-hoa-vung-tau-post1844264.tpo",
     "verified_at": "2026-11-07"
   },
@@ -440,6 +448,7 @@
         }
       ]
     ],
+    "geometry_accuracy": null,
     "source_url": "https://mock.ancu.vn/nguon/tuyen/ql1",
     "verified_at": "2026-10-28"
   },
@@ -474,6 +483,7 @@
         }
       ]
     ],
+    "geometry_accuracy": null,
     "source_url": "https://mock.ancu.vn/nguon/tuyen/ql13",
     "verified_at": "2026-10-28"
   },
@@ -504,6 +514,7 @@
         }
       ]
     ],
+    "geometry_accuracy": null,
     "source_url": "https://mock.ancu.vn/nguon/tuyen/ql51",
     "verified_at": "2026-10-28"
   }

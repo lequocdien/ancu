@@ -61,6 +61,30 @@
 - [ ] 5.5 TestFlight beta → phát hành — *cần Apple Developer account*
   - **Lý do chưa xong:** TestFlight bắt buộc tài khoản Apple Developer Program (99 USD/năm) để ký và tải bản build lên App Store Connect — chưa có tài khoản.
 
+## Bước 6: Địa điểm đã lưu + ghi chú *(thêm 2026-11-07, PRD 4.6)*
+- [x] 6.0 Tài liệu: PRD 4.6, schema, architecture 5.6, compliance 2.1
+- [x] 6.1 Migration: `saved_places` + `bookmarks.note` + `data_reports` (đề xuất dự án), RPC, pgTAP
+- [x] 6.2 Domain + repository (Mock, Supabase) + `PlaceSearchService` (MapKit)
+- [x] 6.3 Tìm kiếm 2 nhóm + chặn ngoài vùng + gợi ý trùng dự án trong hệ thống
+- [x] 6.4 Sheet lưu/sửa (tên, loại, ghi chú) + ghim tay (nhấn giữ) + ghi chú cho bookmark + đề xuất dự án
+- [x] 6.5 Tab Theo dõi: mục "Địa điểm của tôi"
+- [x] 6.6 Bản đồ: ghim địa điểm riêng trong lớp "Đã lưu"
+- [x] 6.7 Integration test stack local + chụp màn hình
+- [x] 6.9 Icon tự chọn cho địa điểm (migration 14, danh mục `place_icons`)
+- [x] 6.10 Đẩy migration 14 lên cloud — *2026-11-07: 14/14, lint sạch*
+- [x] 6.8 Đẩy migration 13 lên cloud (`supabase db push --remote`) — *2026-11-07: 13/13, lint sạch*
+
+## Bước 7: Staging dữ liệu + crawler *(thêm 2026-11-08, data-strategy 2b)*
+- [x] 7.0 Tài liệu: data-strategy 2b, architecture 5.6, schema
+- [x] 7.1 Migration 16: schema `ingest`, `geometry_accuracy`, hàm duyệt, đợt silent, pgTAP
+- [x] 7.2 `build_data.py --stage` (sinh `stage.sql`) + test
+- [x] 7.3 `src/crawler/` khung (fetch tôn trọng nguồn, contract, CLI, test không mạng)
+- [x] 7.4 App hiển thị `geometry_accuracy` (nhãn "Hướng tuyến minh họa")
+- [ ] 7.5 Nguồn crawl đầu tiên (Sở XD TP.HCM) — sau khi khảo sát trang
+  - **Lý do chưa xong:** Cần khảo sát trang thật (robots.txt, điều khoản, cấu trúc HTML/PDF) và URL/email liên hệ thật cho User-Agent trước khi crawl.
+- [ ] 7.6 Đẩy migration 16 lên cloud (`supabase db push --remote`)
+  - **Lý do chưa xong:** Ghi vào DB production — chờ bạn chạy.
+
 ## Giai đoạn sau (chưa làm)
 - Trang web công khai từng dự án (OG tags cho Zalo/Facebook, deep link / Universal Links mở app).
 - Bình luận + ảnh, OTP, pipeline kiểm duyệt, báo cáo/chặn, trang quản trị, red-team kiểm duyệt.
@@ -73,5 +97,5 @@
 | 2 | **APNs Auth Key `.p8`** (Certificates → Keys → Apple Push Notifications service). Gửi Key ID, KHÔNG gửi file qua chat — tự chạy `supabase secrets set` (lệnh ở `src/supabase/README.md`) | Kiểm tra gửi push thật, nhánh xóa token hết hạn |
 | 3 | ✅ *(2026-11-07, dev — còn đổi region + SMTP domain)* **Supabase cloud** (region Singapore `ap-southeast-1`). Chạy `supabase link` + `supabase db push --remote` (*2026-11-07: project `ancu` đã tạo, gói Free, 12/12 migration đã đẩy*); điền `src/ios/Config/Secrets-Debug.xcconfig` (URL + key publishable) | Chạy integration test với cloud, cấu hình SMTP + Vault push (`security-review.md` mục 7) |
 | 4 | **Google Cloud OAuth client** + **Meta app** (Facebook Login). Callback: `https://<ref>.supabase.co/auth/v1/callback` | Bật provider, đặt `ANCU_AUTH_PROVIDERS = apple,google,facebook`, thử trên máy |
-| 5 | **Luật sư** (0.5): (a) app có cần xin phép/đăng ký theo NĐ 147 khi chưa có bình luận? (b) Luật BVDLCN: lưu email + analytics ẩn danh trên server Singapore — cần đánh giá tác động chuyển dữ liệu ra nước ngoài, cách lấy đồng ý? (c) Duyệt chính sách quyền riêng tư / điều khoản / quy tắc cộng đồng (bản tóm tắt đang ở app) | Cập nhật nội dung 3 trang + Privacy Policy URL cho App Store (4.7, 5.4) |
+| 5 | **Luật sư** (0.5): (a) app có cần xin phép/đăng ký theo NĐ 147 khi chưa có bình luận? (b) Luật BVDLCN: lưu email + analytics ẩn danh trên server Singapore — cần đánh giá tác động chuyển dữ liệu ra nước ngoài, cách lấy đồng ý? (c) Duyệt chính sách quyền riêng tư / điều khoản / quy tắc cộng đồng (bản tóm tắt đang ở app) (d) *(2026-11-07)* Ghi chú tự do + địa điểm người dùng tự lưu (có thể là nhà riêng) lưu trên server nước ngoài: khai App Privacy chỉ "Other User Content" có đủ, hay cần thêm "Physical Address"? | Cập nhật nội dung 3 trang + Privacy Policy URL cho App Store (4.7, 5.4) |
 | 6 | **Xem trên iPhone thật**: Hoàng Sa/Trường Sa không lộ khi zoom/kéo tối đa (0.4); chip/màu tuyến (nợ thiết kế) | Chỉnh khung `MapRegion.allowedArea` nếu cần |

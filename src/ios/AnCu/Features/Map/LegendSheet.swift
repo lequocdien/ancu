@@ -24,6 +24,20 @@ struct LegendSheet: View {
                     }
                 }
 
+                Section {
+                    ForEach(catalog.orderedCases(RouteType.self), id: \.self) { type in
+                        HStack(spacing: Spacing.m) {
+                            RouteLineSample(color: catalog.color(for: type), style: .operational)
+                            Text(verbatim: catalog.label(for: type))
+                        }
+                        .accessibilityElement(children: .combine)
+                    }
+                } header: {
+                    Text("Màu theo loại tuyến")
+                } footer: {
+                    Text("Chạm vào một tuyến trên bản đồ để xem tên.")
+                }
+
                 Section("Kiểu nét theo trạng thái tuyến") {
                     ForEach(catalog.orderedCases(RouteStatus.self), id: \.self) { status in
                         HStack(spacing: Spacing.m) {
@@ -36,7 +50,7 @@ struct LegendSheet: View {
                 Section("Tuyến và năm dự kiến khai thác") {
                     ForEach(routes.sorted(by: Self.byYear)) { route in
                         HStack(spacing: Spacing.m) {
-                            RouteLineSample(color: route.displayColor, style: catalog.lineStyle(for: route.status))
+                            RouteLineSample(color: catalog.color(for: route.type), style: catalog.lineStyle(for: route.status))
                             VStack(alignment: .leading, spacing: Spacing.xxs) {
                                 Text(verbatim: route.name)
                                 Text(verbatim: catalog.label(for: route.status))

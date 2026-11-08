@@ -176,12 +176,12 @@ class ConvertTests(unittest.TestCase):
 
         route = bd.to_app_routes(routes)[0]
         self.assertEqual(list(route), ["id", "name", "type", "status", "expected_year", "color_hex", "segments",
-                                       "source_url", "verified_at"])
+                                       "geometry_accuracy", "source_url", "verified_at"])
         self.assertEqual(route["segments"], [[{"lat": 10.7721, "lng": 106.6983}, {"lat": 10.7766, "lng": 106.7031}]])
         self.assertEqual(len(bd.to_app_routes(multi)[0]["segments"]), 2)
 
         node = bd.to_app_nodes(nodes)[0]
-        self.assertEqual(list(node), ["id", "route_id", "name", "type", "location"])
+        self.assertEqual(list(node), ["id", "route_id", "name", "type", "location", "geometry_accuracy"])
 
         project = bd.to_app_projects(projects)[0]
         self.assertEqual(list(project)[4:6], ["service_area", "location"])

@@ -17,6 +17,8 @@ enum LookupCategory: String, CaseIterable, Sendable {
     case eligibilitySubject = "eligibility_subjects"
     case housingCondition = "housing_conditions"
     case notificationType = "notification_types"
+    case placeKind = "place_kinds"
+    case placeIcon = "place_icons"
 }
 
 protocol LookupCode: RawRepresentable<String>, CaseIterable, Hashable, Sendable {
@@ -165,6 +167,12 @@ struct LookupCatalog: Sendable {
     /// Nhãn hiển thị; thiếu trong catalog thì trả về code để UI không bao giờ trống.
     func label<C: LookupCode>(for code: C) -> String {
         item(for: code)?.label ?? code.rawValue
+    }
+
+    /// SF Symbol của một icon địa điểm (mã `place_icons`). Mã lạ / `nil` → `nil` (caller dùng icon theo loại).
+    func placeIconSymbol(_ code: String?) -> String? {
+        guard let code else { return nil }
+        return storage[.placeIcon]?[code]?.symbolName
     }
 
     func items(in category: LookupCategory) -> [LookupItem] {

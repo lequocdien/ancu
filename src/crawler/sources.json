@@ -1,0 +1,23 @@
+{
+  "_ghi_chu": "Đăng ký nguồn (data-strategy.md mục 1, 2b). Chỉ nguồn chính thống. Khảo sát robots.txt + điều khoản trước khi viết parser.",
+  "sources": [
+    {
+      "name": "so_xay_dung_hcm",
+      "entity": "projects",
+      "url": "https://soxaydung.hochiminhcity.gov.vn",
+      "noi_dung": "Thông báo dự án NOXH đủ điều kiện bán / nhận hồ sơ, giá phê duyệt",
+      "tan_suat": "hằng tuần",
+      "trang_thai": "chưa khảo sát",
+      "ghi_chu_phap_ly": "Thông tin công khai của cơ quan nhà nước; ghi nguồn, lưu bằng chứng"
+    },
+    {
+      "name": "maur_hcm",
+      "entity": "routes",
+      "url": "https://maur.hochiminhcity.gov.vn",
+      "noi_dung": "Tiến độ tuyến metro (trạng thái, năm dự kiến) — hình học vẽ tay bằng QGIS, không crawl",
+      "tan_suat": "hằng tháng",
+      "trang_thai": "chưa khảo sát",
+      "ghi_chu_phap_ly": "Thông tin công khai"
+    }
+  ]
+}

@@ -227,3 +227,59 @@ Tài liệu này ghi lại tóm tắt sau mỗi phiên làm việc cùng Claude 
 - **Thiết kế**: lưu lớp tuyến **đã tắt** (loại mới thêm sau tự bật, "tắt hết" vẫn nhớ được); lưu mã, mã lạ bỏ qua; thiếu khóa → mặc định; vùng ngoài MVP → bỏ và ghi lại.
 - **Sửa kèm**: ranh giới tải xong không còn giật camera về khung vùng nếu đã có yêu cầu camera mới hơn (chọn dự án/tìm kiếm/deep link trong lúc đang tải) — lỗi tiềm ẩn có từ trước. Cờ `-FocusArea` không còn bỏ chọn khi vùng đã được khôi phục (focus là toggle). Cờ mới `-ResetMapPreferences`.
 - **Xác minh**: 10 test mới (`MapPreferencesTests`), toàn bộ 230 test case pass. Simulator (backend cloud): mở với `-FocusArea dong_nai_cu` → tắt → mở lại không cờ → Đồng Nai được chọn lại, highlight + camera ôm vùng.
+
+## [Địa điểm đã lưu + ghi chú (PRD 4.6)] - 2026-11-07
+- **Quyết định của bạn**: riêng tư; `saved_places` cho dự án ngoài hệ thống, `bookmarks` (+ `note`) cho dự án có sẵn; bắt buộc đăng nhập; không lưu ngoài vùng MVP (có thông báo); chống trùng 300 m; loại NOXH · Thương mại · Khác; ghim tay; ghim trên bản đồ trong lớp "Đã lưu". App Privacy: dùng "Other User Content" đã khai, Physical Address chờ luật sư (0.5 câu d).
+- **DB (migration 13)**: `saved_places` (RLS chỉ đọc của mình, ghi qua RPC SECURITY DEFINER, ≤ 200 với advisory lock, vùng MVP `ST_DWithin` 3 km), `bookmarks.note` + `set_bookmark_note`, `data_reports.kind` + `suggest_project` (chung giới hạn 10/24h, không gửi ghi chú), `place_kinds` chèn trong migration (cloud không chạy seed) + seed `on conflict do update`. pgTAP +33 → 100/100, lint sạch.
+- **App**: `SavedPlace`/`PlaceKind`/`ServiceAreaLocator` (cùng quy tắc server), `SavedPlaceRepository` (Mock/Supabase), `PlaceSearchService` → `MKLocalSearch` (framework hệ thống). Tìm kiếm 2 nhóm (An Cư trên, Apple Maps dưới; ngoài vùng mờ + nhãn). `PlaceEditorSheet` (tên/loại/ghi chú, gợi ý dự án trùng, đề xuất NOXH). Nhấn giữ bản đồ → ghim tay (ngoài vùng → alert). Ghi chú trong sheet dự án. Tab Theo dõi: "Địa điểm của tôi". Ghim ô vuông theo loại trong lớp "Đã lưu". Lỗi mới `outsideServiceArea`/`limitReached` (AC403/AC409).
+- **Xác minh**: iOS 266 test case pass (gồm integration với stack local: tạo/sửa/xóa, ngoài vùng, ghi chú bookmark, đề xuất, xóa tài khoản xóa theo). Chụp: tìm "vinhomes" ra kết quả Apple Maps thật; tab Theo dõi; lớp "Đã lưu" trên bản đồ. Sửa sau khi chụp: icon ghim bị chồng → ô vuông viền trắng.
+- **Phát hiện**: Apple Maps trả lẫn khách sạn/căn hộ dịch vụ ("Vinhomes … by Bevista") — đúng dự đoán, ghim tay là đường lui. Chưa xác minh điều khoản MapKit về lưu tọa độ (chỉ lưu dữ liệu người dùng xác nhận).
+- **Còn lại**: đẩy migration 13 lên cloud (chờ bạn). Để sau: so sánh khoảng cách ga cho địa điểm riêng; phát hiện trùng khi dự án được thêm vào hệ thống.
+
+## [Xem trên bản đồ trước khi lưu + chỉnh vị trí bằng kéo bản đồ] - 2026-11-07
+- **Yêu cầu của bạn**: bấm kết quả tìm kiếm / nhấn giữ → hiện trên map trước, không mở form lưu ngay; chỉnh vị trí bằng cách di chuyển map. Kèm: viền vùng mảnh nét đứt 1,5pt (bỏ halo trắng).
+- **Thiết kế**: ghim cố định giữa màn hình (mẫu Grab/Uber), tâm bản đồ = điểm chọn (`onMapCameraChange(.continuous)`), kiểm tra vùng khi camera dừng. Thẻ dưới đáy: trạng thái vùng + Hủy / Lưu tại đây; ẩn thanh tìm kiếm/chip khi đang chọn. Hủy trong form → quay lại chế độ chọn; lưu xong → thoát. Ngoài vùng không còn alert — nút Lưu tắt, kéo lại vào vùng là lưu được. Dời > 100 m khỏi kết quả Apple Maps → bỏ địa chỉ + mã Apple Maps.
+- **Code**: `PlacePick` + `startPick` / `pickCenterDidChange` / `pickCenterDidSettle` / `cancelPick` trong `MapViewModel`; `PlacePickViews.swift` (ghim tâm, gợi ý, thẻ). Cờ `-PickAt lat,lng`.
+- **Xác minh**: 4 test mới, 261 test case pass. Chụp: chọn ở Thảo Điền (trong TP.HCM, nút Lưu bật) và biển Vũng Tàu (ngoài vùng, nút tắt). Sửa sau khi chụp: thân ghim lệch màu đầu ghim.
+
+## [Địa chỉ cập nhật theo vị trí ghim + nút X tìm kiếm] - 2026-11-07
+- **Nút X ô tìm kiếm không phản hồi**: vùng chạm chỉ là icon ~17pt → mở rộng 44×44 (HIG), bù padding để thanh không đổi kích thước. Chưa tái hiện được bằng chạm thật (simctl không tap) — chờ bạn thử lại.
+- **Địa chỉ theo ghim** (yêu cầu của bạn): `ReverseGeocoder` (Domain) → `MapKitReverseGeocoder` (`MKReverseGeocodingRequest` iOS 26+, `CLGeocoder` cũ hơn; framework hệ thống) + `MockReverseGeocoder`. Tra khi camera dừng (debounce 0,5 s, hủy lần cũ, bỏ kết quả lỗi thời). Kết quả Apple Maps chưa dời > 100 m → giữ địa chỉ gốc. Địa chỉ lưu = địa chỉ đang hiện.
+- **Phát hiện khi chụp**: Simulator tiếng Anh → Apple trả "42 Thong Nhat, Thu Duc" (mất dấu) → ép `preferredLocale = vi_VN` → "42 Thống Nhất, P. Thủ Đức" (tên phường mới sau sáp nhập).
+- **Xác minh**: 3 test mới (địa chỉ theo ghim, dời xa tra lại, kết quả cũ không ghi đè), 263 test case pass.
+
+## [Icon tự chọn cho địa điểm đã lưu] - 2026-11-07
+- **Quyết định của bạn**: bộ ~16 icon có sẵn (không màu tự chọn, không emoji).
+- **Thiết kế**: lưu MÃ danh mục `place_icons` (vd `cho_lam`), không lưu tên SF Symbol → Android map được, server thêm icon (kèm `sf_symbol`) không cần phát hành app. `nil` = icon theo loại; màu ghim vẫn theo loại.
+- **DB (migration 14)**: `place_icons` chèn trong migration, `saved_places.icon` + FK, `saved_place_json` trả `icon`, `create_saved_place` / `update_saved_place` thêm `icon` — **drop chữ ký cũ** (PostgREST không chọn được giữa 2 hàm trùng tên). pgTAP +8 → 108/108, lint sạch.
+- **App**: `LookupCategory.placeIcon`, `catalog.placeIconSymbol`, `SavedPlace.icon`, repository `update(…icon…)`, `PlaceIconPicker` (lưới, ô đầu "Theo loại"), ghim + thẻ vẽ theo icon. Cờ `-EditFirstPlace`.
+- **Xác minh**: 222 test (47 suite) pass tuần tự gồm integration local; 1 test cũ fail đúng dự đoán (tập tham số gửi đi có thêm `icon`) → cập nhật. Lần chạy song song đầu kéo dài > 10 phút (nợ kỹ thuật treo test song song) nhưng vẫn hoàn tất. Chụp lưới icon.
+- **Còn lại**: đẩy migration 14 lên cloud (chờ bạn) — trước khi đẩy, app trỏ cloud sẽ lỗi khi lưu/sửa địa điểm.
+
+## [Ghim cố định trên bản đồ, kéo ghim để chỉnh] - 2026-11-07
+- **Góp ý của bạn**: ghim giữa màn hình (kéo map = đổi điểm) không cho zoom in/out khi đang ghim → đổi: ghim cố định theo tọa độ, chỉ kéo ghim mới đổi vị trí.
+- **Code**: ghim là `Annotation` (anchor `.bottom` = mũi ghim) + `DragGesture(.global)`; lúc bắt đầu kéo lưu vị trí màn hình của mũi ghim (`MapProxy.convert`) rồi cộng quãng kéo → không nhảy theo chỗ ngón tay chạm đầu ghim. Ghim phóng 1,2× + rung nhẹ khi nhấc. Thả → kiểm tra vùng + tra địa chỉ. Bỏ theo dõi camera liên tục. Nút "Đưa ghim vào giữa" (ghim trôi khỏi màn hình; cách chỉnh cho VoiceOver). `MapViewModel`: `movePick(to:)` / `finishMovingPick()`.
+- **Xác minh**: 2 test mới (kéo/zoom map không đổi điểm chọn; đưa ghim vào giữa), 224 test pass. Chụp giao diện. **Chưa kiểm được thao tác kéo thật** (simctl không kéo được) — cần thử trên máy.
+
+## [Màu tuyến theo loại + chạm tuyến xem tên] - 2026-11-07
+- **Ý tưởng của bạn**: Metro/Vành đai/Cao tốc/Quốc lộ phân biệt bằng màu, nhiều metro vẫn một màu. Đồng ý + 2 điều chỉnh: đổi bảng màu (Metro đỏ → xanh dương vì đỏ cạnh cam khó phân biệt với mù màu đỏ–lục; Cao tốc tím → hồng đậm vì trùng ghim "Đang xây"); chạm tuyến để biết tên (cùng màu thì mất phân biệt từng tuyến).
+- **Code**: `LookupCatalog.color(for: RouteType)` từ `route_types.color_hex` (fallback token `routeMetro/Ring/Expressway/National`), bỏ `InfraRoute.displayColor`. `RouteHitTester` (khoảng cách điểm–đoạn, mét) + `MapViewModel.selectRoute(near:toleranceMeters:)`; MapScreen quy 22pt ra mét theo zoom qua `MapProxy`. Tuyến chọn: halo trắng + đậm hơn, tuyến khác mờ 30%; `RouteInfoCard` (loại · tên · trạng thái · năm). Ẩn loại tuyến đang chọn / bắt đầu chọn vị trí / mở dự án → bỏ chọn tuyến. Chú giải: mục "Màu theo loại tuyến". Migration 15 (màu `route_types`). Cờ `-SelectRouteAt`.
+- **Xác minh**: 8 test mới (hit test, màu 4 loại khác nhau từ catalog, chọn/bỏ chọn, loại ẩn không chọn được, chọn vị trí chặn chọn tuyến); 230 test pass gồm integration; pgTAP 108/108. Chụp: tổng quan TP.HCM và chọn Metro số 2.
+
+## [Cùng độ rộng line, trạng thái bằng kiểu nét] - 2026-11-07
+- **Góp ý của bạn** (ảnh iPhone): line không đều. Nguyên nhân: không phải lỗi vẽ — độ dày đang mã hóa trạng thái (đã khai thác 5pt, đang thi công 3pt); khi các tuyến cùng loại cùng màu, khác biệt độ dày bị đọc thành lỗi. Ảnh iPhone vẫn metro đỏ vì cloud chưa có migration 15.
+- **Đổi (bạn chọn)**: mọi tuyến 4pt; đã khai thác = liền, đang thi công = gạch dài 12–4, quy hoạch = gạch ngắn 4–6 mờ 60%. **Bẫy đã tránh**: đầu nét `.round` lấn lineWidth/2 mỗi bên vào khe → khe 4pt bị lấp kín, nét đứt nhìn như liền → nét đứt dùng `.butt`.
+- **Xác minh**: 3 test mới (cùng độ rộng, 3 kiểu nét khác nhau, nét đứt đầu vuông) → 233 test pass. Chụp phóng to trung tâm TP.HCM: Metro 2 / Vành đai 3 gạch dài, Cao tốc / Quốc lộ liền, cùng độ rộng.
+- **Đổi tiếp (góp ý)**: đang thi công = **gạch chấm** `[10, 4, 3, 4]` (chấm 3pt để thấy rõ ở nét 4pt đầu vuông). Test giữ mẫu gạch–chấm; 233 test pass; chụp: Metro 2 / Vành đai 3 gạch chấm.
+- **"Nét đứt vẫn to hơn" (ảnh iPhone)**: đo pixel trên ảnh của bạn — liền 13,1px ≈ 4,4pt, gạch chấm 13,4px ≈ 4,5pt → bằng nhau; Simulator cũng vậy. Là ảo giác (đầu vuông khối đặc, nhịp đặc–rỗng, nét liền gần dọc mép khử răng cưa). Bạn chọn **bù thị giác**: liền 4,5pt, đứt/gạch chấm 3,5pt. Test chốt chênh đúng 1pt; 233 test pass; chụp so sánh cùng vị trí.
+- **Quay lại (theo bạn)**: mọi tuyến 4pt; liền / gạch dài 12–4 / gạch ngắn 4–6 mờ 60%. Bỏ gạch chấm và bù thị giác.
+
+## [Staging dữ liệu (schema ingest) + crawler tách biệt + geometry_accuracy] - 2026-11-08
+- **Quyết định của bạn**: dữ liệu thu thập vào schema riêng, admin duyệt mới vào bảng chính; crawler ở folder riêng; chốt theo đề xuất: `src/crawler/` (httpx, beautifulsoup4, pdfplumber — ghim phiên bản), staging gồm tuyến + ga + dự án, thêm `geometry_accuracy`; duyệt bằng DBeaver (user postgres).
+- **DB (migration 16)**: schema `ingest` (không mở API, thu hồi quyền anon/authenticated, RLS): `batches`, `route/node/project_candidates` (+ `raw`, `evidence_url`, `review_status`, `validation_errors` do trigger tính), mỗi id 1 bản pending (bản mới → `superseded`), view `pending_review` (trường đổi, dời mét qua UTM 48N). `approve_route/node/project` (dự án: admin truyền lat/lng nếu thiếu), `approve_batch` all-or-nothing, `reject` (bắt buộc lý do). `verified_at` = ngày duyệt; đợt `silent` → cờ phiên `ancu.silent_ingest` (đặt lại mỗi lần duyệt, không lây) → fan-out bỏ qua, `project_updates` vẫn ghi. `geometry_accuracy` cho tuyến/ga + trong `routes()` / node JSON.
+- **Lỗi bắt được bằng pgTAP**: (1) `text[] || 'chuỗi'` bị hiểu là mảng → `array_append`; (2) **Postgres kiểm CHECK trên dòng định chèn TRƯỚC khi xét ON CONFLICT** → bản nháp chỉ có `price_max` (trống = giữ cũ) vi phạm "giá đủ cặp" → dự án đã có dùng UPDATE, dự án mới bắt buộc đủ cặp ngay khi ghi.
+- **`src/data`**: `staging.py` + `build_data.py --stage FILE | --stage-manual` → `data/out/stage.sql` (thư viện chuẩn; `python3 -I` cần tự thêm sys.path). Contract v1 (khối `ancu`). Kiểm 2 tầng: Python cấu trúc, DB nghiệp vụ. Thử local: 45 bản nháp mock → `approve_batch` → 11 tuyến + 34 ga.
+- **`src/crawler`**: venv riêng, KHÔNG có thông tin DB. `fetch.py` (robots.txt — không đọc được = chặn, ≥ 3 s/host, User-Agent, retry + Retry-After, lưu bằng chứng), `contract.py` (UUID v5 ổn định, Run → features.geojson + report.json), CLI, `sources.json` (2 nguồn chưa khảo sát). Test không mạng (MockTransport) + **test contract phía tiêu thụ** bằng chính `staging.py`.
+- **App**: `GeometryAccuracy` (thiếu → minh họa), thẻ tuyến cảnh báo "Hướng tuyến minh họa…", chi tiết dự án ghi "vị trí ga minh họa/gần đúng".
+- **Xác minh**: pgTAP 140/140; data 37/37; crawler 9/9; iOS 237 test gồm integration. Chụp thẻ tuyến có cảnh báo.
+- **Còn lại**: đẩy migration 16 lên cloud (chờ bạn); nguồn crawl đầu tiên sau khảo sát.

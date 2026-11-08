@@ -93,7 +93,7 @@ final class EmailSignInViewModel {
     private static func failure(for error: RepositoryError, invalid: Failure) -> Failure {
         switch error {
         case .rateLimited: .tooManyRequests
-        case .unauthorized, .decoding, .notFound: invalid
+        case .unauthorized, .decoding, .notFound, .outsideServiceArea, .limitReached: invalid
         case .network: .network
         }
     }

@@ -15,6 +15,10 @@ struct AnalyticsEvent: Equatable, Sendable {
     static let eligibilityCompleted = "eligibility_completed"
     static let reportSubmitted = "report_submitted"
     static let compareOpened = "compare_opened"
+    /// Props chỉ có `kind` / `source` — KHÔNG bao giờ tên, địa chỉ, ghi chú (PRD 4.6).
+    static let placeSaved = "place_saved"
+    static let noteEdited = "note_edited"
+    static let projectSuggested = "project_suggested"
     static let diagnostic = "diagnostic"
 }
 

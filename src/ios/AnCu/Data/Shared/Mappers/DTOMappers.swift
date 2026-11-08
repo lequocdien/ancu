@@ -131,7 +131,8 @@ enum DTOMapper {
             colorHex: dto.colorHex,
             segments: segments,
             sourceURL: try url(dto.sourceUrl),
-            verifiedAt: shift.apply(try DTODateParser.day(dto.verifiedAt))
+            verifiedAt: shift.apply(try DTODateParser.day(dto.verifiedAt)),
+            geometryAccuracy: GeometryAccuracy(code: dto.geometryAccuracy)
         )
     }
 
@@ -141,7 +142,8 @@ enum DTOMapper {
             routeID: dto.routeId,
             name: dto.name,
             type: NodeType(code: dto.type),
-            location: try point(dto.location)
+            location: try point(dto.location),
+            geometryAccuracy: GeometryAccuracy(code: dto.geometryAccuracy)
         )
     }
 
@@ -175,7 +177,25 @@ enum DTOMapper {
             projectID: dto.projectId,
             notifyEnabled: dto.notifyEnabled,
             createdAt: try DTODateParser.timestamp(dto.createdAt),
-            isLocalOnly: false
+            isLocalOnly: false,
+            note: dto.note
+        )
+    }
+
+    static func savedPlace(_ dto: SavedPlaceDTO) throws -> SavedPlace {
+        guard !dto.name.isEmpty else { throw RepositoryError.decoding }
+        return SavedPlace(
+            id: dto.id,
+            name: dto.name,
+            address: dto.address,
+            location: try point(dto.location),
+            kind: PlaceKind(code: dto.kind),
+            icon: dto.icon,
+            serviceArea: ServiceArea(code: dto.serviceArea),
+            note: dto.note,
+            externalRef: dto.externalRef,
+            createdAt: try DTODateParser.timestamp(dto.createdAt),
+            updatedAt: try DTODateParser.timestamp(dto.updatedAt)
         )
     }
 

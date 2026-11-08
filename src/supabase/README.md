@@ -18,6 +18,9 @@ Quyết định 2026-11-07: ở lại Supabase lâu dài; logic nghiệp vụ ư
 | `migrations/…08_analytics.sql` | `analytics_events` (chỉ ghi qua `track_events`), view retention tuần + phễu 28 ngày |
 | `migrations/…09_notification_prefs.sql` | `profiles.notification_prefs`, RPC đọc/ghi, fan-out bỏ loại người dùng đã tắt |
 | `migrations/…12_service_area_boundaries.sql` | Bảng `service_area_boundaries` (MultiPolygon), RPC `service_area_boundary(code, tolerance_degrees)` |
+| `migrations/…13_saved_places.sql` | Địa điểm riêng `saved_places` (chỉ vùng MVP ± 3 km, ≤ 200/người, ghi chỉ qua RPC), `bookmarks.note`, `data_reports.kind` (đề xuất thêm dự án), danh mục `place_kinds` (chèn ngay trong migration — cloud không chạy seed). Mã lỗi `AC403` ngoài vùng, `AC409` vượt số lượng |
+| `migrations/…14_saved_place_icons.sql` | Danh mục `place_icons` (16 icon, mã + `sf_symbol`, chèn trong migration), cột `saved_places.icon` (FK danh mục, null = icon theo loại). `create_saved_place` / `update_saved_place` thêm tham số `icon` (bỏ chữ ký cũ để PostgREST không mơ hồ) |
+| `migrations/…15_route_type_colors.sql` | Màu tuyến theo loại trong `route_types`: Metro `#2563EB`, Cao tốc `#DB2777` (Vành đai, Quốc lộ giữ nguyên). App vẽ mọi tuyến cùng loại một màu |
 | `migrations/…11_security_hardening.sql` | Chặn ghi thẳng `data_reports` (né rate limit); trần 2.000 sự kiện analytics/24h/install |
 | `templates/otp.html` | Email mã đăng nhập 6 số (`{{ .Token }}`) |
 | `seed.sql` | **Sinh tự động** — tuyến/nút/dự án gốc từ `src/data/geojson/` (xem bên dưới) |
@@ -45,10 +48,11 @@ RPC trả JSON **đúng shape mock JSON** (`location: {lat, lng}`, ngày `YYYY-M
 | `ProjectRepository.search(_:)` | `search_places(q)` → `{projects, places}` |
 | `InfrastructureRepository.routes(types:)` / `nodes(routeID:)` | `routes(types, tolerance_degrees)` / `route_nodes(route)` |
 | `LookupRepository.catalog()` / `administrativeUnits()` / `boundary(of:)` | `lookup_catalog()` / `administrative_units_all()` / `service_area_boundary(code, tolerance_degrees)` |
-| `BookmarkRepository` | `my_bookmarks()`, `toggle_bookmark(project_id)`, `set_bookmark_notify(project_id, enabled)`, `merge_guest_bookmarks(project_ids)` — khách lưu trên máy |
+| `BookmarkRepository` | `my_bookmarks()` (kèm `note`), `toggle_bookmark(project_id)`, `set_bookmark_notify(project_id, enabled)`, `set_bookmark_note(project_id, note)`, `merge_guest_bookmarks(project_ids)` — khách lưu trên máy |
+| `SavedPlaceRepository` | `my_saved_places()`, `create_saved_place(name, lat, lng, kind, address, note, external_ref, icon)` → `AC403`/`AC409`, `update_saved_place(id, name, kind, note, icon)`, `delete_saved_place(id)` — bắt buộc đăng nhập |
 | `NotificationRepository` | `inbox()`, `mark_notification_read(notification_id)`, `my_notification_prefs()`, `set_notification_prefs(prefs)` |
 | `EligibilityRepository.currentRules()` | `eligibility_rules_current()` |
-| `DataReportRepository` | `report_data(project_id, note)` |
+| `DataReportRepository` | `report_data(project_id, note)`, `suggest_project(name, lat, lng, address)` — chung giới hạn 10/24h |
 | `AuthService` | Supabase Auth (email OTP, Apple id token, Google/Facebook OAuth) + `current_profile()` / `delete_my_account()` |
 | `ConfigRepository` | `client_config(platform)` |
 | `PushTokenRepository` | `register_push_token(token, environment)`, `unregister_push_token(token)` |

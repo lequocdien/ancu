@@ -40,6 +40,9 @@ protocol BookmarkRepository: Sendable {
     @discardableResult
     func toggle(projectID: Project.ID) async throws -> Bool
     func setNotify(_ enabled: Bool, projectID: Project.ID) async throws
+    /// Ghi chú cho dự án (RPC `set_bookmark_note`). Chưa lưu + có ghi chú → tự lưu; `nil`/rỗng → xóa ghi chú.
+    /// Chỉ khi đăng nhập (khách không có ghi chú — PRD 4.1).
+    func setNote(_ note: String?, projectID: Project.ID) async throws
     /// Gộp bookmark lưu tạm của khách vào tài khoản sau khi đăng nhập (RPC `merge_guest_bookmarks`).
     func mergeGuestBookmarks() async throws
 }
@@ -60,6 +63,32 @@ protocol EligibilityRepository: Sendable {
 protocol DataReportRepository: Sendable {
     /// Nút "Báo thông tin sai" (RPC `report_data`).
     func reportIncorrectData(projectID: Project.ID, note: String) async throws
+    /// "Đề xuất An Cư thêm dự án này" (RPC `suggest_project`) — chỉ tên/địa chỉ/vị trí, KHÔNG gửi ghi chú riêng.
+    /// Chung giới hạn 10/24h với báo sai.
+    func suggestProject(name: String, address: String?, location: GeoPoint) async throws
+}
+
+/// Địa điểm ngoài hệ thống người dùng tự lưu (PRD 4.6). Mọi hàm cần đăng nhập → khách nhận `.unauthorized`.
+protocol SavedPlaceRepository: Sendable {
+    /// Mới sửa lên trên (RPC `my_saved_places`).
+    func all() async throws -> [SavedPlace]
+    /// Ngoài vùng MVP → `.outsideServiceArea`; quá 200 → `.limitReached`.
+    func create(_ draft: SavedPlaceDraft) async throws -> SavedPlace
+    /// Sửa tên/loại/icon/ghi chú; vị trí không đổi. `icon == nil` → về icon theo loại. Không phải của mình → `.notFound`.
+    func update(id: SavedPlace.ID, name: String, kind: PlaceKind, icon: String?, note: String?) async throws -> SavedPlace
+    func delete(id: SavedPlace.ID) async throws
+}
+
+/// Địa chỉ của một điểm người dùng tự chọn (ghim) — Apple reverse geocoding. Không có địa chỉ → `nil`.
+/// Apple giới hạn tần suất: chỉ gọi khi người dùng dừng kéo bản đồ.
+protocol ReverseGeocoder: Sendable {
+    func address(at point: GeoPoint) async throws -> String?
+}
+
+/// Tìm địa điểm ngoài hệ thống (Apple Maps). Từ khóa do Apple xử lý, không lưu ở server An Cư.
+protocol PlaceSearchService: Sendable {
+    /// Ưu tiên kết quả trong `region`. Không có kết quả → mảng rỗng (không ném lỗi).
+    func search(_ query: String, near region: MapRegion) async throws -> [PlaceCandidate]
 }
 
 protocol AuthService: Sendable {

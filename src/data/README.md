@@ -99,3 +99,29 @@ Geometry: `Polygon` hoặc `MultiPolygon`; mỗi đa giác **đúng 1 vòng ngo�
 | `verified_at` | ✓ | chuỗi | `YYYY-MM-DD` |
 
 Kiểm tra chéo: **mọi dự án phải nằm trong ranh giới vùng của nó** (`service_area`) — bắt sai tọa độ hoặc gán nhầm vùng. Vùng nằm ngoài MVP được phép không có ranh giới.
+
+## Staging → duyệt → bảng chính (2026-11-08)
+
+Dữ liệu thật **không** đi qua `seed.sql` (chỉ dùng cho local/test). Luồng: GeoJSON → `stage.sql` → schema `ingest` → admin duyệt trong DBeaver → bảng chính (data-strategy.md 2b).
+
+```bash
+# Dữ liệu vẽ tay (QGIS) trong data/geojson — tuyến/ga phải khai báo geometry_accuracy (hoặc --default-accuracy)
+python3 -I src/data/scripts/build_data.py --stage-manual --entities routes,nodes [--silent] [--note "…"]
+# File của crawler (contract v1, có khối "ancu")
+python3 -I src/data/scripts/build_data.py --stage src/crawler/runs/<run>/features.geojson
+# Nạp vào staging (cloud: connection string Session pooler)
+psql "<connection string>" -v ON_ERROR_STOP=1 -f src/data/out/stage.sql
+```
+
+Duyệt (DBeaver, user `postgres`):
+
+```sql
+select * from ingest.pending_review order by batch_id, entity, name;       -- mới/sửa, trường đổi, dời bao nhiêu mét, lỗi
+select ingest.reject('project', <candidate_id>, 'lý do');                  -- bản sai: từ chối trước
+select * from ingest.approve_batch('<batch_id>');                          -- cả đợt (all-or-nothing)
+select ingest.approve_project(<candidate_id>, <lat>, <lng>, 'ghi chú');    -- dự án thiếu vị trí: admin đặt ghim
+```
+
+- **Kiểm 2 tầng**: `staging.py` kiểm cấu trúc (kiểu, UUID, hình học, thuộc tính lạ, contract); trigger DB kiểm nghiệp vụ (danh mục, vùng MVP, đủ cặp giá/ngày) → cột `validation_errors`.
+- **Trường tùy chọn trống** trong bản nháp dự án = giữ giá trị hiện có. **`verified_at`** = ngày duyệt. Đợt `--silent`: không bắn thông báo (vẫn ghi `project_updates`).
+- **Contract file crawler v1**: gốc `{"type":"FeatureCollection","ancu":{"contract_version":1,"entity":"projects|routes|nodes","source":"<mã>","run_ref":"…"},"features":[…]}`; thuộc tính như bảng trên (bỏ `verified_at`) + `geometry_accuracy` (tuyến/ga) + metadata `_crawled_at`, `_evidence`, `_raw`. Dự án được `geometry: null`.

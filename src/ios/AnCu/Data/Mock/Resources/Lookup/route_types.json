@@ -3,7 +3,7 @@
     "code": "metro",
     "label_vi": "Metro",
     "sort_order": 1,
-    "color_hex": "#EF4444",
+    "color_hex": "#2563EB",
     "sf_symbol": "tram.fill"
   },
   {
@@ -17,7 +17,7 @@
     "code": "cao_toc",
     "label_vi": "Cao tốc",
     "sort_order": 3,
-    "color_hex": "#A855F7",
+    "color_hex": "#DB2777",
     "sf_symbol": "road.lanes"
   },
   {

@@ -107,6 +107,12 @@ xcrun simctl launch booted vn.ancu.app -SignedIn -SeedBookmarks -Tab tracking
 | `-ForceUpdate` | Mock: server "yêu cầu" 99.0.0 → màn chặn cập nhật |
 | `-FocusArea hcm_cu` | Như bấm chip vùng: highlight ranh giới + camera ôm vùng |
 | `-ResetMapPreferences` | Xóa chip bản đồ đã ghi nhớ (lớp tuyến, "Đang nhận hồ sơ", vùng) → bắt đầu từ mặc định. Dùng khi chụp màn hình |
+| `-SeedPlaces` | Tạo sẵn 3 địa điểm riêng (cần `-SignedIn`; khi danh sách trống) |
+| `-ShowSavedLayer` | Bật sẵn lớp "Đã lưu" (ghim dự án đã lưu + ô vuông địa điểm riêng) |
+| `-SearchQuery vinhomes` | Điền sẵn ô tìm kiếm (kết quả 2 nhóm: An Cư + Apple Maps) |
+| `-EditFirstPlace` | Mở sẵn sheet sửa địa điểm riêng đầu tiên (kèm `-SignedIn -SeedPlaces`) — xem lưới icon |
+| `-SelectRouteAt 10.7766,106.7031` | Như chạm vào tuyến tại điểm đó: tuyến nổi bật + thẻ tên |
+| `-PickAt 10.80,106.74` | Như nhấn giữ tại điểm đó: chế độ chọn vị trí (ghim giữa màn hình, thẻ Lưu tại đây) |
 | `-LocateOnLaunch` | Như bấm "Gần tôi" (đặt vị trí: `xcrun simctl location booted set 10.85,106.77`) |
 
 ## Dữ liệu mock — cần đối chiếu trước khi dùng thật

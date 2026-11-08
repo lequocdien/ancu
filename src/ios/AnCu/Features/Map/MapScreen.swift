@@ -9,6 +9,10 @@ struct MapScreen: View {
     @Namespace private var glassNamespace
 
     @State private var signInReason: SignInReason?
+    /// Sheet lưu/sửa địa điểm riêng (PRD 4.6).
+    @State private var placeEditor: PlaceEditorRequest?
+    /// Điểm (toạ độ màn hình) của mũi ghim lúc bắt đầu kéo; `nil` = không kéo.
+    @State private var pinDragStart: CGPoint?
     @State private var detailDetent: PresentationDetent = DebugLaunchOptions.opensDetailLarge ? .large : .height(200)
 
     @Environment(\.accessibilityReduceMotion) private var reduceMotion
@@ -26,8 +30,36 @@ struct MapScreen: View {
 
     var body: some View {
         map
-            .overlay(alignment: .top) { topControls }
-            .overlay(alignment: .bottomTrailing) { sideButtons }
+            .overlay(alignment: .top) {
+                if viewModel.placePick == nil { topControls } else { PlacePickHint().padding(.top, Spacing.s) }
+            }
+            .overlay(alignment: .bottomTrailing) {
+                if viewModel.placePick == nil && viewModel.selectedRoute == nil { sideButtons }
+            }
+            .overlay(alignment: .bottom) {
+                if let pick = viewModel.placePick {
+                    PlacePickCard(
+                        pick: pick,
+                        catalog: viewModel.catalog,
+                        onCancel: { viewModel.cancelPick() },
+                        onRecenter: {
+                            viewModel.movePick(to: viewModel.visibleRegion.center)
+                            viewModel.finishMovingPick()
+                        },
+                        onSave: { openPlaceEditor(.create(pick.editorOrigin)) }
+                    )
+                    .padding(.horizontal, Spacing.l)
+                    .padding(.bottom, Spacing.s)
+                    .transition(.move(edge: .bottom).combined(with: .opacity))
+                } else if let route = viewModel.selectedRoute {
+                    RouteInfoCard(route: route, catalog: viewModel.catalog) { viewModel.clearRouteSelection() }
+                        .padding(.horizontal, Spacing.l)
+                        .padding(.bottom, Spacing.s)
+                        .transition(.move(edge: .bottom).combined(with: .opacity))
+                }
+            }
+            .animation(Motion.resolve(Motion.snappy, reduceMotion: reduceMotion), value: viewModel.selectedRoute?.id)
+            .animation(Motion.resolve(Motion.snappy, reduceMotion: reduceMotion), value: viewModel.placePick == nil)
             .task {
                 await viewModel.start()
                 if DebugLaunchOptions.selectsFirstProject {
@@ -39,9 +71,18 @@ struct MapScreen: View {
                     viewModel.focus(on: ServiceArea(code: code))
                 }
                 if let id = router.consume() { await viewModel.open(projectID: id) }
+                if DebugLaunchOptions.showsSavedLayer { viewModel.showsSavedOnly = true }
+                if let query = DebugLaunchOptions.searchQuery { viewModel.searchQuery = query }
+                if let point = DebugLaunchOptions.pickAt { viewModel.startPick(at: point) }
+                if let point = DebugLaunchOptions.selectRouteAt { viewModel.selectRoute(near: point, toleranceMeters: 300) }
+                if DebugLaunchOptions.editsFirstPlace {
+                    try? await Task.sleep(for: .seconds(1))   // chờ -SeedPlaces tạo xong
+                    if let place = session.savedPlaces.first { openPlaceEditor(.edit(place)) }
+                }
             }
             .onChange(of: viewModel.selectedProject?.id) { _, id in
                 guard id != nil, let project = viewModel.selectedProject else { return }
+                viewModel.clearRouteSelection()   // chạm ghim gần tuyến: ưu tiên dự án
                 analytics.track(AnalyticsEvent(name: AnalyticsEvent.projectViewed, props: [
                     "status": project.status.rawValue, "service_area": project.serviceArea.rawValue,
                 ]))
@@ -74,6 +115,25 @@ struct MapScreen: View {
                 }
             }
             .signInPrompt($signInReason)
+            // Hủy trong sheet lưu → quay lại chế độ chọn vị trí (ghim vẫn ở đó); lưu xong → thoát chọn.
+            .sheet(item: $placeEditor) { request in
+                PlaceEditorSheet(
+                    viewModel: PlaceEditorViewModel(
+                        mode: request.mode, session: session, projects: container.projects, dataReports: container.dataReports,
+                        resolveArea: { [viewModel] point in await viewModel.serviceArea(at: point) }
+                    ),
+                    catalog: viewModel.catalog,
+                    onOpenProject: { project in
+                        viewModel.cancelPick()
+                        // Đợi sheet lưu đóng hẳn rồi mới mở sheet dự án (SwiftUI bỏ qua sheet trình bày lúc đang đóng).
+                        Task {
+                            try? await Task.sleep(for: .milliseconds(400))
+                            viewModel.selectSearchResult(.project(project))
+                        }
+                    },
+                    onSaved: { viewModel.cancelPick() }
+                )
+            }
             .onChange(of: session.savedProjectIDs, initial: true) { _, ids in
                 viewModel.savedProjectIDs = ids
             }
@@ -107,6 +167,7 @@ struct MapScreen: View {
     // MARK: Map
 
     private var map: some View {
+        MapReader { proxy in
         Map(position: $camera, bounds: MapCameraBounds(
             // MKMapRect thay vì MKCoordinateRegion: bản region làm MapKit (iOS 27) log liên tục
             // "GEOTilePointForCoordinate received invalid coordinate" (đảo lat/lng nội bộ).
@@ -118,20 +179,37 @@ struct MapScreen: View {
             if let boundary = viewModel.focusedBoundary {
                 ForEach(Array(boundary.polygons.enumerated()), id: \.offset) { _, ring in
                     let coordinates = ring.map(\.coordinate)
-                    // Viền trắng dày bên dưới làm "halo" → tách ranh giới khỏi nền bản đồ và các tuyến cùng tông màu.
+                    // Viền mảnh nét đứt (1,5pt) + tô nhạt: đủ nhận ra vùng mà không lấn tuyến Metro/Vành đai.
                     MapPolygon(coordinates: coordinates)
                         .foregroundStyle(Color.brandPrimary.opacity(0.16))
-                        .stroke(Color.white.opacity(0.9), style: StrokeStyle(lineWidth: 7, lineJoin: .round))
-                    MapPolygon(coordinates: coordinates)
-                        .foregroundStyle(.clear)
-                        .stroke(Color.brandPrimary, style: StrokeStyle(lineWidth: 3, lineJoin: .round, dash: [10, 5]))
+                        .stroke(Color.brandPrimary, style: StrokeStyle(lineWidth: 1.5, lineCap: .round, lineJoin: .round, dash: [6, 4]))
                 }
             }
+            // Màu = loại tuyến, kiểu nét = trạng thái. Có tuyến đang chọn → các tuyến khác mờ đi.
             ForEach(viewModel.visibleRoutes) { route in
+                let style = viewModel.catalog.lineStyle(for: route.status)
+                let dimmed = viewModel.selectedRoute.map { $0.id != route.id } ?? false
+                ForEach(Array(route.segments.enumerated()), id: \.offset) { _, segment in
+                    MapPolyline(coordinates: segment.map(\.coordinate))
+                        .stroke(
+                            viewModel.catalog.color(for: route.type).opacity(style.opacity * (dimmed ? 0.3 : 1)),
+                            style: style.strokeStyle
+                        )
+                }
+            }
+            if let route = viewModel.selectedRoute {
                 let style = viewModel.catalog.lineStyle(for: route.status)
                 ForEach(Array(route.segments.enumerated()), id: \.offset) { _, segment in
                     MapPolyline(coordinates: segment.map(\.coordinate))
-                        .stroke(route.displayColor.opacity(style.opacity), style: style.strokeStyle)
+                        .stroke(.white, style: StrokeStyle(lineWidth: style.lineWidth + 5, lineCap: .round, lineJoin: .round))
+                    MapPolyline(coordinates: segment.map(\.coordinate))
+                        .stroke(
+                            viewModel.catalog.color(for: route.type),
+                            style: StrokeStyle(
+                                lineWidth: style.lineWidth + 1.5, lineCap: style.dash.isEmpty ? .round : .butt,
+                                lineJoin: .round, dash: style.dash
+                            )
+                        )
                 }
             }
 
@@ -144,7 +222,7 @@ struct MapScreen: View {
                             catalog: viewModel.catalog,
                             isSelected: viewModel.selectedProjectID == project.id
                         )
-                        .onTapGesture { viewModel.selectedProject = project }
+                        .onTapGesture { if viewModel.placePick == nil { viewModel.selectedProject = project } }
                     }
                     .annotationTitles(.hidden)
                 case .cluster(let cluster):
@@ -154,6 +232,47 @@ struct MapScreen: View {
                     }
                     .annotationTitles(.hidden)
                 }
+            }
+
+            // Lớp "Đã lưu": địa điểm riêng ngoài hệ thống, ghim kiểu khác ghim dự án (PRD 4.6).
+            if viewModel.showsSavedOnly {
+                ForEach(session.savedPlaces) { place in
+                    Annotation(place.name, coordinate: place.location.coordinate, anchor: .bottom) {
+                        SavedPlacePinView(kind: place.kind, icon: place.icon, catalog: viewModel.catalog)
+                            .onTapGesture { if viewModel.placePick == nil { openPlaceEditor(.edit(place)) } }
+                            .accessibilityLabel(Text(verbatim: place.name))
+                            .accessibilityHint(Text("Địa điểm bạn lưu. Chạm để xem ghi chú"))
+                    }
+                }
+            }
+
+            // Ghim đang chọn: cố định theo tọa độ (kéo/zoom map không đổi); kéo chính ghim để chỉnh.
+            if let pick = viewModel.placePick {
+                Annotation("Vị trí đã chọn", coordinate: pick.location.coordinate, anchor: .bottom) {
+                    PlacePickPin(catalog: viewModel.catalog, isLifted: pinDragStart != nil)
+                        .gesture(
+                            DragGesture(minimumDistance: 1, coordinateSpace: .global)
+                                .onChanged { value in
+                                    // Bám theo MŨI ghim (không phải chỗ ngón tay chạm đầu ghim) → không giật khi bắt đầu kéo.
+                                    if pinDragStart == nil {
+                                        pinDragStart = proxy.convert(pick.location.coordinate, to: .global)
+                                    }
+                                    guard let start = pinDragStart,
+                                          let coordinate = proxy.convert(
+                                              CGPoint(x: start.x + value.translation.width, y: start.y + value.translation.height),
+                                              from: .global
+                                          )
+                                    else { return }
+                                    viewModel.movePick(to: GeoPoint(latitude: coordinate.latitude, longitude: coordinate.longitude))
+                                }
+                                .onEnded { _ in
+                                    pinDragStart = nil
+                                    viewModel.finishMovingPick()
+                                }
+                        )
+                        .sensoryFeedback(.impact(weight: .light), trigger: pinDragStart != nil)
+                }
+                .annotationTitles(.hidden)
             }
 
             if let location = viewModel.userLocation {
@@ -171,7 +290,38 @@ struct MapScreen: View {
         .onMapCameraChange(frequency: .onEnd) { context in
             viewModel.regionDidChange(MapRegion(context.region))
         }
-        .onTapGesture { searchFocused = false }
+        .onTapGesture(coordinateSpace: .local) { location in
+            searchFocused = false
+            // Bán kính chạm 22pt quy ra mét theo mức zoom hiện tại.
+            guard let tapped = proxy.convert(location, from: .local),
+                  let edge = proxy.convert(CGPoint(x: location.x + MapViewModel.routeTapTolerancePoints, y: location.y), from: .local)
+            else { return }
+            let point = GeoPoint(latitude: tapped.latitude, longitude: tapped.longitude)
+            let tolerance = point.distance(to: GeoPoint(latitude: edge.latitude, longitude: edge.longitude))
+            viewModel.selectRoute(near: point, toleranceMeters: tolerance)
+        }
+        // Nhấn giữ → ghim tay (Apple Maps ở VN thiếu nhiều dự án mới). simultaneous: không chặn kéo/zoom bản đồ.
+        .simultaneousGesture(
+            LongPressGesture(minimumDuration: 0.5)
+                .sequenced(before: DragGesture(minimumDistance: 0, coordinateSpace: .local))
+                .onEnded { value in
+                    guard viewModel.placePick == nil, case .second(true, let drag?) = value,
+                          let coordinate = proxy.convert(drag.location, from: .local)
+                    else { return }
+                    viewModel.startPick(at: GeoPoint(latitude: coordinate.latitude, longitude: coordinate.longitude))
+                }
+        )
+        }
+    }
+
+    // MARK: Địa điểm riêng
+
+    private func openPlaceEditor(_ mode: PlaceEditorViewModel.Mode) {
+        guard session.isSignedIn else {
+            signInReason = .savePlace
+            return
+        }
+        placeEditor = PlaceEditorRequest(mode: mode)
     }
 
     // MARK: Lớp kính nổi
@@ -185,11 +335,16 @@ struct MapScreen: View {
                 MapSearchResults(
                     results: viewModel.searchResults,
                     comingSoonAreas: viewModel.comingSoonAreas,
+                    places: viewModel.placeResults,
                     isSearching: viewModel.isSearching,
                     failed: viewModel.searchFailed,
                     catalog: viewModel.catalog,
                     isAvailable: viewModel.isAvailable,
-                    onSelect: viewModel.selectSearchResult
+                    onSelect: viewModel.selectSearchResult,
+                    onSelectPlace: { candidate in
+                        searchFocused = false
+                        viewModel.startPick(from: candidate)
+                    }
                 )
                 .padding(.horizontal, Spacing.l)
             } else {
@@ -360,6 +515,11 @@ extension MapRegion {
             longitudeDelta: region.span.longitudeDelta
         )
     }
+}
+
+struct PlaceEditorRequest: Identifiable {
+    let id = UUID()
+    let mode: PlaceEditorViewModel.Mode
 }
 
 extension MKMapRect {

@@ -19,7 +19,7 @@ OUT = ROOT / "seed.sql"
 
 LOOKUP_CATEGORIES = [
     "project_statuses", "legal_statuses", "route_types", "route_statuses", "node_types",
-    "service_areas", "eligibility_subjects", "housing_conditions", "notification_types",
+    "service_areas", "eligibility_subjects", "housing_conditions", "notification_types", "place_kinds", "place_icons",
 ]
 
 
@@ -59,9 +59,10 @@ def multipolygon(polygons) -> str:
     return f"'SRID=4326;MULTIPOLYGON({', '.join(ring(p) for p in polygons)})'::extensions.geography"
 
 
-def rows(table: str, columns: list[str], values: list[list[str]]) -> str:
+def rows(table: str, columns: list[str], values: list[list[str]], on_conflict: str = "") -> str:
     body = ",\n".join("  (" + ", ".join(v) + ")" for v in values)
-    return f"insert into public.{table} ({', '.join(columns)}) values\n{body};\n"
+    suffix = f"\n{on_conflict}" if on_conflict else ""
+    return f"insert into public.{table} ({', '.join(columns)}) values\n{body}{suffix};\n"
 
 
 def main() -> None:
@@ -78,7 +79,11 @@ def main() -> None:
                 point(item["center"]) if item.get("center") else "null",
             ])
     parts.append(rows("lookup_items",
-                      ["category", "code", "label_vi", "sort_order", "color_hex", "sf_symbol", "attributes", "center"], lookup))
+                      ["category", "code", "label_vi", "sort_order", "color_hex", "sf_symbol", "attributes", "center"], lookup,
+                      # Migration có thể đã chèn sẵn danh mục (vd place_kinds, migration 13) → seed ghi đè nhãn thay vì lỗi trùng.
+                      on_conflict="on conflict (category, code) do update set label_vi = excluded.label_vi, "
+                                  "sort_order = excluded.sort_order, color_hex = excluded.color_hex, "
+                                  "sf_symbol = excluded.sf_symbol, attributes = excluded.attributes, center = excluded.center"))
 
     parts.append(rows("administrative_units", ["code", "name", "province", "service_area", "old_names", "center"], [
         [lit(u["code"]), lit(u["name"]), lit(u["province"]), lit(u["service_area"]), text_array(u["old_names"]), point(u["center"])]

@@ -9,6 +9,10 @@ enum RepositoryError: Error, Equatable, Sendable {
     case rateLimited
     /// Mất mạng, timeout, server 5xx.
     case network
-    /// Dữ liệu trả về không đúng contract.
+    /// Dữ liệu trả về không đúng contract (hoặc dữ liệu gửi đi không hợp lệ).
     case decoding
+    /// Vị trí ngoài vùng app hỗ trợ (server `AC403`).
+    case outsideServiceArea
+    /// Vượt giới hạn số lượng, vd 200 địa điểm/tài khoản (server `AC409`).
+    case limitReached
 }

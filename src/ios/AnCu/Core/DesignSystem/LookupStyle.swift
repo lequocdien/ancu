@@ -51,30 +51,37 @@ extension LookupCatalog {
     }
 }
 
-/// Quy hoạch = nét đứt opacity 0.5 · Đang thi công = nét liền 3pt · Đã khai thác = nét liền 5pt.
+/// Mọi tuyến CÙNG độ rộng 4pt (màu = loại tuyến); trạng thái phân biệt bằng KIỂU NÉT (2026-11-07, chốt sau khi thử
+/// gạch chấm + bù thị giác 4,5/3,5pt rồi quay lại theo lựa chọn của bạn):
+/// đã khai thác = liền · đang thi công = gạch dài 12–4 · quy hoạch = gạch ngắn thưa 4–6, mờ 60%.
 struct RouteLineStyle: Equatable, Sendable {
     let lineWidth: CGFloat
     let dash: [CGFloat]
     let opacity: Double
 
-    static let operational = RouteLineStyle(lineWidth: 5, dash: [], opacity: 1)
-    static let underConstruction = RouteLineStyle(lineWidth: 3, dash: [], opacity: 1)
-    static let planned = RouteLineStyle(lineWidth: 3, dash: [8, 6], opacity: 0.5)
+    static let width: CGFloat = 4
+    static let operational = RouteLineStyle(lineWidth: width, dash: [], opacity: 1)
+    static let underConstruction = RouteLineStyle(lineWidth: width, dash: [12, 4], opacity: 1)
+    static let planned = RouteLineStyle(lineWidth: width, dash: [4, 6], opacity: 0.6)
 
+    /// Nét đứt dùng đầu vuông: đầu tròn lấn mỗi bên lineWidth/2 vào khoảng hở → khe 4pt bị lấp kín, nhìn như nét liền.
     var strokeStyle: StrokeStyle {
-        StrokeStyle(lineWidth: lineWidth, lineCap: .round, lineJoin: .round, dash: dash)
+        StrokeStyle(lineWidth: lineWidth, lineCap: dash.isEmpty ? .round : .butt, lineJoin: .round, dash: dash)
+    }
+}
+
+extension LookupCatalog {
+    /// Màu tuyến theo LOẠI (mọi tuyến Metro cùng một màu). `color_hex` của danh mục `route_types` → đổi màu từ server
+    /// không cần phát hành app. `color_hex` riêng từng tuyến vẫn lưu ở DB nhưng không dùng để vẽ.
+    func color(for type: RouteType) -> Color {
+        color(for: type, default: InfraRoute.fallbackColor(for: type))
     }
 }
 
 extension InfraRoute {
-    /// Màu từ dữ liệu tuyến; hex sai thì dùng màu mặc định theo loại tuyến.
-    var displayColor: Color {
-        Color(hex: colorHex) ?? Self.fallbackColor(for: type)
-    }
-
     static func fallbackColor(for type: RouteType) -> Color {
         switch type {
-        case .metro: .routeMetro1
+        case .metro: .routeMetro
         case .ringRoad: .routeRing
         case .expressway: .routeExpressway
         case .nationalHighway, .unknown: .routeNational

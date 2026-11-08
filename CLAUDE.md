@@ -39,6 +39,7 @@ supabase test db                    # pgTAP (src/supabase/tests/database)
 supabase db lint --schema public
 python3 -I supabase/scripts/generate_seed.py   # sinh lại seed.sql từ mock JSON của app
 python3 -I data/scripts/build_data.py          # validate data/geojson → mock JSON app → seed.sql (xem src/data/README.md)
+python3 -I data/scripts/build_data.py --stage <features.geojson>   # → data/out/stage.sql nạp schema ingest; duyệt bằng ingest.approve_* (DBeaver)
 
 # Cloud (project ancu) — CLI 3.x mặc định nhắm LOCAL, phải có --remote. Không dùng --include-seed.
 supabase db push --remote --dry-run && supabase db push --remote

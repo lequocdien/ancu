@@ -34,12 +34,12 @@ Phần bình luận khiến app có thể bị coi là dịch vụ mạng xã h�
 | --- | --- | --- | --- | --- |
 | Contact Info → Email Address | Đăng nhập email OTP / Apple / Google / Facebook | Có | Không | App Functionality |
 | Identifiers → User ID | Có tài khoản (bookmark, thông báo) | Có | Không | App Functionality |
-| User Content → Other User Content | Gửi "Báo thông tin sai" | Có | Không | App Functionality |
+| User Content → Other User Content | Gửi "Báo thông tin sai" / "Đề xuất thêm dự án"; **ghi chú + địa điểm đã lưu** (tên, địa chỉ, vị trí người dùng tự chọn — 2026-11-07) | Có | Không | App Functionality |
 | Usage Data → Product Interaction | Analytics tự làm (tắt được trong Tài khoản) | **Không** (mã cài đặt ngẫu nhiên) | Không | Analytics |
 | Identifiers → Device ID | Mã cài đặt ngẫu nhiên của analytics | Không | Không | Analytics |
 | Diagnostics → Crash Data | MetricKit (số lần crash/treo) | Không | Không | App Functionality |
 
-**Không** khai báo: vị trí (chỉ dùng trên máy cho "Gần tôi", không gửi đi), câu trả lời kiểm tra điều kiện (không rời máy), danh bạ, ảnh (Phase 1 chưa có ảnh). Push token là dữ liệu kỹ thuật để gửi thông báo, không phải loại Apple yêu cầu khai báo.
+**Không** khai báo: vị trí thiết bị (chỉ dùng trên máy cho "Gần tôi", không gửi đi — địa điểm đã lưu là điểm người dùng **tự chọn** trên bản đồ/kết quả tìm kiếm, khai trong User Content; **không có** tính năng lưu vị trí GPS hiện tại để giữ đúng điều này). Physical Address: chưa khai, chờ luật sư (0.5 câu d), câu trả lời kiểm tra điều kiện (không rời máy), danh bạ, ảnh (Phase 1 chưa có ảnh). Push token là dữ liệu kỹ thuật để gửi thông báo, không phải loại Apple yêu cầu khai báo.
 
 Thay đổi dữ liệu thu thập → sửa đồng thời bảng này, `PrivacyInfo.xcprivacy`, chính sách quyền riêng tư trong app, và câu trả lời trên App Store Connect.
 

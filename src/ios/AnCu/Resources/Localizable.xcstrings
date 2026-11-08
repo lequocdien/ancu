@@ -1,600 +1,280 @@
 {
-  "sourceLanguage" : "vi",
-  "strings" : {
-    "%lld dự án" : {
-
-    },
-    "%lld/%lld ký tự. Đội dữ liệu xử lý trong 72 giờ." : {
-
-    },
-    "4 câu hỏi · khoảng 1 phút · không lưu câu trả lời" : {
-
-    },
-    "123456" : {
-
-    },
-    "An Cư hiện có dữ liệu TP.HCM (gồm Bình Dương cũ) và Đồng Nai." : {
-
-    },
-    "An Cư không nhận quảng cáo từ môi giới; nội dung trả phí (nếu có) được gắn nhãn." : {
-
-    },
-    "Ảnh được xóa vị trí GPS trước khi tải lên." : {
-
-    },
-    "Bấm Lưu ở chi tiết dự án trên bản đồ để theo dõi hạn nộp hồ sơ." : {
-
-    },
-    "Bạn có thể xóa tài khoản và toàn bộ dữ liệu trong mục Tài khoản." : {
-
-    },
-    "Bạn đang dùng chế độ khách" : {
-
-    },
-    "Bạn đang ở ngoài vùng hỗ trợ" : {
-
-    },
-    "Bản đồ" : {
-
-    },
-    "Bạn thao tác quá nhiều lần. Vui lòng thử lại sau ít phút." : {
-
-    },
-    "Bạn thuộc nhóm đối tượng nào?" : {
-
-    },
-    "Bản tóm tắt dùng cho bản thử nghiệm, chưa phải văn bản pháp lý chính thức." : {
-
-    },
-    "Bằng việc tiếp tục, bạn đồng ý với Điều khoản sử dụng và Chính sách quyền riêng tư." : {
-
-    },
-    "Báo ngay khi dự án mở nhận hồ sơ, đổi giá hoặc đổi trạng thái" : {
-
-    },
-    "Báo thông tin sai" : {
-
-    },
-    "Bật thông báo" : {
-
-    },
-    "Bật thông báo ở dự án đã lưu để nhận tin khi mở nhận hồ sơ, đổi giá hoặc đổi trạng thái." : {
-
-    },
-    "Bỏ lưu" : {
-
-    },
-    "Bước %lld/%lld" : {
-
-    },
-    "Cài đặt" : {
-
-    },
-    "Cài đặt thông báo" : {
-
-    },
-    "Cần cập nhật An Cư" : {
-
-    },
-    "Căn cứ: %@" : {
-
-    },
-    "Cần kiểm tra thêm" : {
-
-    },
-    "Cập nhật trên App Store" : {
-
-    },
-    "Cập nhật: %@" : {
-
-    },
-    "Câu trả lời không được lưu lên máy chủ." : {
-
-    },
-    "Câu trả lời kiểm tra điều kiện mua không được gửi lên máy chủ." : {
-
-    },
-    "Chỉ áp dụng cho dự án bạn đã bật thông báo, trên mọi thiết bị đăng nhập. Tối đa 1 thông báo/ngày cho mỗi dự án, không gửi quảng cáo." : {
-
-    },
-    "Chỉ dùng vị trí khi bạn bấm \"Gần tôi\", không theo dõi nền." : {
-
-    },
-    "Chia sẻ dữ liệu sử dụng ẩn danh" : {
-
-    },
-    "Chia sẻ trải nghiệm thật về dự án. Phân biệt rõ trải nghiệm của bạn với cáo buộc chưa kiểm chứng." : {
-
-    },
-    "Chính sách quyền riêng tư" : {
-
-    },
-    "Chọn 2–3 dự án để so sánh" : {
-
-    },
-    "Chú giải" : {
-
-    },
-    "Chưa có ga hoặc nút giao trong dữ liệu." : {
-
-    },
-    "Chưa có thông báo" : {
-
-    },
-    "Chưa công bố" : {
-
-    },
-    "Chưa đọc" : {
-
-    },
-    "Chưa đủ điều kiện" : {
-
-    },
-    "Chưa lưu dự án nào" : {
-
-    },
-    "Chưa lưu được thay đổi. Vui lòng thử lại." : {
-
-    },
-    "Chưa xác thực số điện thoại" : {
-
-    },
-    "Chúng tôi chỉ gửi thông báo về dự án bạn theo dõi, tối đa 1 lần/ngày mỗi dự án. Không quảng cáo." : {
-
-    },
-    "Có thể đủ điều kiện" : {
-
-    },
-    "Còn %lld ngày" : {
-
-    },
-    "Đã gửi. Cảm ơn bạn!" : {
-
-    },
-    "Đã kết hôn" : {
-
-    },
-    "Đã kết thúc" : {
-
-    },
-    "Đã lưu" : {
-
-    },
-    "Đã lưu tạm trên máy này" : {
-
-    },
-    "Đã xác thực SĐT %@" : {
-
-    },
-    "Đã xóa tài khoản" : {
-
-    },
-    "Đang bật thông báo" : {
-
-    },
-    "Đang ngoại tuyến — dữ liệu có thể chưa mới" : {
-
-    },
-    "Đang nhận hồ sơ" : {
-
-    },
-    "Đăng nhập" : {
-
-    },
-    "Đăng nhập để báo thông tin sai" : {
-
-    },
-    "Đăng nhập để bật thông báo" : {
-
-    },
-    "Đăng nhập để giữ danh sách khi đổi máy và nhận thông báo khi dự án mở nhận hồ sơ." : {
-
-    },
-    "Đăng nhập để nhận thông báo." : {
-
-    },
-    "Đăng nhập để xem dự án đã lưu" : {
-
-    },
-    "Đăng nhập giúp đội dữ liệu liên hệ xác minh khi cần." : {
-
-    },
-    "Đang theo dõi" : {
-
-    },
-    "Đang xóa…" : {
-
-    },
-    "Đăng xuất" : {
-
-    },
-    "Danh sách dự án đã lưu, cài đặt thông báo và thông tin đăng nhập sẽ bị xóa khỏi máy chủ." : {
-
-    },
-    "Điều khoản sử dụng" : {
-
-    },
-    "Độc thân" : {
-
-    },
-    "Độc thân, đang nuôi con dưới 18 tuổi" : {
-
-    },
-    "Đổi email" : {
-
-    },
-    "Đối tượng" : {
-
-    },
-    "Đóng" : {
-
-    },
-    "Dự án mở nhận hồ sơ" : {
-
-    },
-    "Dự kiến %@" : {
-
-    },
-    "Dùng nút Báo cáo và Chặn khi gặp nội dung lừa đảo." : {
-
-    },
-    "Email chưa đúng định dạng." : {
-
-    },
-    "email@vidu.vn" : {
-
-    },
-    "Ga Metro gần nhất" : {
-
-    },
-    "Gần tôi" : {
-
-    },
-    "Giá dự kiến" : {
-
-    },
-    "Giá tham khảo" : {
-
-    },
-    "Giữ danh sách dự án đã lưu khi đổi máy" : {
-
-    },
-    "Giúp cải thiện app: chỉ gồm thao tác chung (mở app, xem, lưu dự án) và thống kê lỗi, gắn với mã cài đặt ngẫu nhiên — không gồm tên, email, vị trí hay câu trả lời kiểm tra điều kiện." : {
-
-    },
-    "Gửi" : {
-
-    },
-    "Gửi không thành công. Thử lại." : {
-
-    },
-    "Gửi lại mã" : {
-
-    },
-    "Gửi lại sau %lld giây" : {
-
-    },
-    "Gửi mã" : {
-
-    },
-    "Hạn cuối hôm nay" : {
-
-    },
-    "Hãy cho phép An Cư dùng vị trí trong Cài đặt." : {
-
-    },
-    "Hoặc nhận mã đăng nhập qua email" : {
-
-    },
-    "Hướng tuyến hạ tầng mang tính minh họa, không dùng để xác định ranh giới đất." : {
-
-    },
-    "Hướng tuyến mang tính minh họa theo quy hoạch được công bố, không dùng để xác định ranh giới đất." : {
-
-    },
-    "Hủy" : {
-
-    },
-    "Kết nối giao thông" : {
-
-    },
-    "Kết quả" : {
-
-    },
-    "Kết quả kiểm tra điều kiện chỉ để tham khảo; cơ quan có thẩm quyền xét duyệt mới là căn cứ cuối cùng." : {
-
-    },
-    "Khai thác từ %@" : {
-
-    },
-    "Khoảng cách đường chim bay" : {
-
-    },
-    "Khoảng cách đường chim bay. Giá trị tốt nhất có dấu ✓." : {
-
-    },
-    "Khoảng cách tới ga/nút giao tính theo đường chim bay." : {
-
-    },
-    "Không có dự án phù hợp bộ lọc ở đây. Xem toàn vùng" : {
-
-    },
-    "Không có dự án trong khu vực này. Xem toàn vùng" : {
-
-    },
-    "Không đăng nhập được" : {
-
-    },
-    "Không đăng số điện thoại, Zalo, đường link hay lời mời mua \"suất ngoại giao\", \"tiền chênh\"." : {
-
-    },
-    "Không kết nối được. Vui lòng thử lại." : {
-
-    },
-    "Không lấy được vị trí" : {
-
-    },
-    "Không tải được bộ câu hỏi" : {
-
-    },
-    "Không tải được cài đặt." : {
-
-    },
-    "Không tải được danh sách" : {
-
-    },
-    "Không tải được dữ liệu so sánh" : {
-
-    },
-    "Không tải được dữ liệu. Thử lại" : {
-
-    },
-    "Không tải được thông báo" : {
-
-    },
-    "Không tải được. Thử lại" : {
-
-    },
-    "Không thực hiện được" : {
-
-    },
-    "Không tìm được lúc này. Kiểm tra kết nối và thử lại." : {
-
-    },
-    "Không tìm thấy kết quả" : {
-
-    },
-    "Kiểm tra điều kiện" : {
-
-    },
-    "Kiểm tra điều kiện mua NOXH" : {
-
-    },
-    "Kiểm tra kết nối và thử lại." : {
-
-    },
-    "Kiểu nét theo trạng thái tuyến" : {
-
-    },
-    "Làm lại" : {
-
-    },
-    "Liên hệ: hotro@ancu.vn" : {
-
-    },
-    "Lưu" : {
-
-    },
-    "Lưu dự án quan tâm, theo dõi hạn nộp hồ sơ và nhận thông báo khi có thay đổi." : {
-
-    },
-    "Mã không đúng hoặc đã hết hạn." : {
-
-    },
-    "Mở Cài đặt" : {
-
-    },
-    "Mở hôm nay" : {
-
-    },
-    "Mở sau %lld ngày" : {
-
-    },
-    "Mục" : {
-
-    },
-    "Người dùng An Cư" : {
-
-    },
-    "Nguồn:" : {
-
-    },
-    "Ngưỡng tổng hợp từ báo chí, chưa đối chiếu nguyên văn văn bản pháp luật." : {
-
-    },
-    "Nhà ở" : {
-
-    },
-    "Nhận hồ sơ" : {
-
-    },
-    "Nhận mã đăng nhập qua email" : {
-
-    },
-    "Nhập mã 6 số đã gửi tới %@" : {
-
-    },
-    "Nhập số triệu đồng, ví dụ 12 hoặc 12,5." : {
-
-    },
-    "Nhóm đối tượng của bạn không xét theo trần thu nhập thông thường. Bạn có thể bỏ qua bước này." : {
-
-    },
-    "Nội dung vi phạm bị ẩn; tài khoản vi phạm nhiều lần bị khóa." : {
-
-    },
-    "NOXH không có suất ngoại giao — cẩn trọng lời mời mua suất." : {
-
-    },
-    "Pháp lý" : {
-
-    },
-    "Phiên bản này không còn được hỗ trợ. Vui lòng cập nhật lên phiên bản %@ trở lên để tiếp tục xem dữ liệu dự án mới nhất." : {
-
-    },
-    "Phóng to để xem từng dự án" : {
-
-    },
-    "Quay lại" : {
-
-    },
-    "Quy tắc cộng đồng" : {
-
-    },
-    "Sắp có" : {
-
-    },
-    "Số căn" : {
-
-    },
-    "So sánh" : {
-
-    },
-    "So sánh %lld/%lld dự án" : {
-
-    },
-    "So sánh 2–3 dự án cạnh nhau" : {
-
-    },
-    "Tài khoản" : {
-
-    },
-    "Tất cả NOXH" : {
-
-    },
-    "Thao tác này không thể hoàn tác." : {
-
-    },
-    "Thay đổi giá" : {
-
-    },
-    "Thay đổi trạng thái pháp lý" : {
-
-    },
-    "Theo dõi" : {
-
-    },
-    "Theo dõi dự án NOXH" : {
-
-    },
-    "Thời gian nhận hồ sơ đã qua" : {
-
-    },
-    "Thông báo" : {
-
-    },
-    "Thông báo (%lld)" : {
-
-    },
-    "Thông tin" : {
-
-    },
-    "Thông tin có thể đã cũ" : {
-
-    },
-    "Thông tin dự án được tổng hợp từ nguồn công khai, có ghi nguồn và ngày cập nhật." : {
-
-    },
-    "Thử lại" : {
-
-    },
-    "Thu nhập" : {
-
-    },
-    "Thu nhập bình quân 12 tháng gần nhất, theo xác nhận của cơ quan, đơn vị (không có hợp đồng lao động: Công an xã/phường xác nhận). Tỉnh/thành có thể áp hệ số điều chỉnh." : {
-
-    },
-    "Thu nhập bình quân hằng tháng của bạn?" : {
-
-    },
-    "Tiếp" : {
-
-    },
-    "Tiếp tục" : {
-
-    },
-    "Tiếp tục với Apple" : {
-
-    },
-    "Tiếp tục với Facebook" : {
-
-    },
-    "Tiếp tục với Google" : {
-
-    },
-    "Tìm dự án, phường/xã, tên cũ…" : {
-
-    },
-    "Tình trạng hôn nhân?" : {
-
-    },
-    "Tình trạng nhà ở của vợ chồng bạn tại tỉnh/thành có dự án?" : {
-
-    },
-    "Tổng thu nhập bình quân hằng tháng của hai vợ chồng?" : {
-
-    },
-    "Trạng thái" : {
-
-    },
-    "Trạng thái dự án" : {
-
-    },
-    "triệu đồng/tháng" : {
-
-    },
-    "Tuyến và năm dự kiến khai thác" : {
-
-    },
-    "Ví dụ: 12,5" : {
-
-    },
-    "Ví dụ: dự án đã đổi khung nhận hồ sơ sang 01/12" : {
-
-    },
-    "Vui lòng thử lại sau." : {
-
-    },
-    "Vui lòng thử lại." : {
-
-    },
-    "Xác nhận" : {
-
-    },
-    "Xem kết quả" : {
-
-    },
-    "Xóa tài khoản" : {
-
-    },
-    "Xóa tài khoản sẽ xóa vĩnh viễn danh sách đã lưu và cài đặt thông báo." : {
-
-    },
-    "Xóa tài khoản?" : {
-
-    },
-    "Xóa từ khóa" : {
-
-    },
-    "Xóa vĩnh viễn" : {
-
-    },
-    "Xóa vĩnh viễn?" : {
-
-    },
-    "Xong" : {
-
-    }
+  "sourceLanguage": "vi",
+  "strings": {
+    "%@ ở gần đây. Theo dõi dự án để nhận thông báo khi mở nhận hồ sơ.": {},
+    "%lld dự án": {},
+    "%lld/%lld": {},
+    "%lld/%lld ký tự · chỉ bạn thấy ghi chú này.": {},
+    "%lld/%lld ký tự. Đội dữ liệu xử lý trong 72 giờ.": {},
+    "123456": {},
+    "4 câu hỏi · khoảng 1 phút · không lưu câu trả lời": {},
+    "An Cư hiện có dữ liệu TP.HCM (gồm Bình Dương cũ) và Đồng Nai.": {},
+    "An Cư hiện hỗ trợ TP.HCM, Bình Dương cũ và Đồng Nai cũ": {},
+    "An Cư hiện hỗ trợ TP.HCM, Bình Dương cũ và Đồng Nai cũ. Địa điểm này chưa lưu được.": {},
+    "An Cư không nhận quảng cáo từ môi giới; nội dung trả phí (nếu có) được gắn nhãn.": {},
+    "Báo ngay khi dự án mở nhận hồ sơ, đổi giá hoặc đổi trạng thái": {},
+    "Báo thông tin sai": {},
+    "Bước %lld/%lld": {},
+    "Bạn có thể xóa tài khoản và toàn bộ dữ liệu trong mục Tài khoản.": {},
+    "Bạn thao tác quá nhiều lần. Vui lòng thử lại sau ít phút.": {},
+    "Bạn thuộc nhóm đối tượng nào?": {},
+    "Bạn đang dùng chế độ khách": {},
+    "Bạn đang ở ngoài vùng hỗ trợ": {},
+    "Bạn đã lưu tối đa %lld địa điểm. Xóa bớt để lưu thêm.": {},
+    "Bản tóm tắt dùng cho bản thử nghiệm, chưa phải văn bản pháp lý chính thức.": {},
+    "Bản đồ": {},
+    "Bấm Lưu ở chi tiết dự án trên bản đồ để theo dõi hạn nộp hồ sơ. Dự án chưa có trong An Cư: tìm trên Bản đồ hoặc nhấn giữ để ghim.": {},
+    "Bật thông báo": {},
+    "Bật thông báo ở dự án đã lưu để nhận tin khi mở nhận hồ sơ, đổi giá hoặc đổi trạng thái.": {},
+    "Bằng việc tiếp tục, bạn đồng ý với Điều khoản sử dụng và Chính sách quyền riêng tư.": {},
+    "Bỏ lưu": {},
+    "Card kính": {},
+    "Chia sẻ dữ liệu sử dụng ẩn danh": {},
+    "Chia sẻ trải nghiệm thật về dự án. Phân biệt rõ trải nghiệm của bạn với cáo buộc chưa kiểm chứng.": {},
+    "Chip lớp (kính, morph)": {},
+    "Chính sách quyền riêng tư": {},
+    "Chú giải": {},
+    "Chúng tôi chỉ gửi thông báo về dự án bạn theo dõi, tối đa 1 lần/ngày mỗi dự án. Không quảng cáo.": {},
+    "Chưa có ga hoặc nút giao trong dữ liệu.": {},
+    "Chưa có thông báo": {},
+    "Chưa công bố": {},
+    "Chưa gửi được đề xuất. Bạn có thể thử lại sau.": {},
+    "Chưa gửi được đề xuất: bạn đã gửi tối đa 10 lần trong 24 giờ.": {},
+    "Chưa lưu dự án nào": {},
+    "Chưa lưu được thay đổi. Vui lòng thử lại.": {},
+    "Chưa xác thực số điện thoại": {},
+    "Chưa xác định được địa chỉ — vẫn lưu được.": {},
+    "Chưa đọc": {},
+    "Chưa đủ điều kiện": {},
+    "Chạm vào một tuyến trên bản đồ để xem tên.": {},
+    "Chạm để sửa tên, loại hoặc ghi chú": {},
+    "Chỉ bạn thấy — giá đã hỏi, ấn tượng khi xem nhà mẫu…": {},
+    "Chỉ dùng vị trí khi bạn bấm \"Gần tôi\", không theo dõi nền.": {},
+    "Chỉ áp dụng cho dự án bạn đã bật thông báo, trên mọi thiết bị đăng nhập. Tối đa 1 thông báo/ngày cho mỗi dự án, không gửi quảng cáo.": {},
+    "Chọn 2–3 dự án để so sánh": {},
+    "Cài đặt": {},
+    "Cài đặt thông báo": {},
+    "Câu trả lời không được lưu lên máy chủ.": {},
+    "Câu trả lời kiểm tra điều kiện mua không được gửi lên máy chủ.": {},
+    "Còn %lld ngày": {},
+    "Có thể đủ điều kiện": {},
+    "Căn cứ: %@": {},
+    "Cần cập nhật An Cư": {},
+    "Cần kiểm tra thêm": {},
+    "Cập nhật trên App Store": {},
+    "Cập nhật: %@": {},
+    "Danh sách dự án đã lưu, cài đặt thông báo và thông tin đăng nhập sẽ bị xóa khỏi máy chủ.": {},
+    "Dùng nút Báo cáo và Chặn khi gặp nội dung lừa đảo.": {},
+    "Dự kiến %@": {},
+    "Dự án mở nhận hồ sơ": {},
+    "Dự án này đã có trong An Cư?": {},
+    "Email chưa đúng định dạng.": {},
+    "Ga Metro gần nhất": {},
+    "Ghi chú": {},
+    "Ghi chú của bạn": {},
+    "Ghi chú và địa điểm bạn lưu nằm trong tài khoản — chỉ bạn thấy, không mất khi đổi máy.": {},
+    "Ghi chú đi kèm cũng bị xóa.": {},
+    "Ghi chú: %@": {},
+    "Ghim vị trí đã chọn": {},
+    "Giá dự kiến": {},
+    "Giá tham khảo": {},
+    "Giúp cải thiện app: chỉ gồm thao tác chung (mở app, xem, lưu dự án) và thống kê lỗi, gắn với mã cài đặt ngẫu nhiên — không gồm tên, email, vị trí hay câu trả lời kiểm tra điều kiện.": {},
+    "Giữ danh sách dự án đã lưu khi đổi máy": {},
+    "Gần tôi": {},
+    "Gửi": {},
+    "Gửi không thành công. Thử lại.": {},
+    "Gửi lại mã": {},
+    "Gửi lại sau %lld giây": {},
+    "Gửi mã": {},
+    "Gửi tên, địa chỉ và vị trí để đội dữ liệu xác minh. Ghi chú của bạn không được gửi.": {},
+    "Hoặc nhận mã đăng nhập qua email": {},
+    "Hãy cho phép An Cư dùng vị trí trong Cài đặt.": {},
+    "Hướng tuyến gần đúng theo hồ sơ dự án": {},
+    "Hướng tuyến hạ tầng mang tính minh họa, không dùng để xác định ranh giới đất.": {},
+    "Hướng tuyến mang tính minh họa theo quy hoạch được công bố, không dùng để xác định ranh giới đất.": {},
+    "Hướng tuyến minh họa theo quy hoạch — không dùng xác định ranh giới đất": {},
+    "Hạn cuối hôm nay": {},
+    "Hủy": {},
+    "Icon": {},
+    "Khai thác từ %@": {},
+    "Khoảng cách tới ga/nút giao tính theo đường chim bay.": {},
+    "Khoảng cách đường chim bay": {},
+    "Khoảng cách đường chim bay. Giá trị tốt nhất có dấu ✓.": {},
+    "Không có dự án phù hợp bộ lọc ở đây. Xem toàn vùng": {},
+    "Không có dự án trong khu vực này. Xem toàn vùng": {},
+    "Không kết nối được. Vui lòng thử lại.": {},
+    "Không lưu được. Kiểm tra kết nối và thử lại — nội dung bạn nhập vẫn còn.": {},
+    "Không lấy được vị trí": {},
+    "Không thấy? Nhấn giữ trên bản đồ để tự ghim": {},
+    "Không thực hiện được": {},
+    "Không tìm thấy kết quả": {},
+    "Không tìm được lúc này. Kiểm tra kết nối và thử lại.": {},
+    "Không tải được bộ câu hỏi": {},
+    "Không tải được cài đặt.": {},
+    "Không tải được danh sách": {},
+    "Không tải được dữ liệu so sánh": {},
+    "Không tải được dữ liệu. Thử lại": {},
+    "Không tải được thông báo": {},
+    "Không tải được. Thử lại": {},
+    "Không đăng nhập được": {},
+    "Không đăng số điện thoại, Zalo, đường link hay lời mời mua \"suất ngoại giao\", \"tiền chênh\".": {},
+    "Kiểm tra kết nối và thử lại.": {},
+    "Kiểm tra lại tên (tối đa %lld ký tự) và ghi chú.": {},
+    "Kiểm tra điều kiện": {},
+    "Kiểm tra điều kiện mua NOXH": {},
+    "Kiểu nét theo trạng thái tuyến": {},
+    "Kiểu nét tuyến": {},
+    "Kéo ghim để chỉnh vị trí": {},
+    "Kéo để đổi vị trí, hoặc dùng nút Đưa ghim vào giữa": {},
+    "Kết nối giao thông": {},
+    "Kết quả": {},
+    "Kết quả kiểm tra điều kiện chỉ để tham khảo; cơ quan có thẩm quyền xét duyệt mới là căn cứ cuối cùng.": {},
+    "Liên hệ: hotro@ancu.vn": {},
+    "Loại": {},
+    "Làm lại": {},
+    "Lưu": {},
+    "Lưu dự án quan tâm, theo dõi hạn nộp hồ sơ và nhận thông báo khi có thay đổi.": {},
+    "Lưu tại đây": {},
+    "Lưu địa điểm": {},
+    "Lưu địa điểm này kèm ghi chú": {},
+    "Map": {},
+    "Mesh": {},
+    "Màu": {},
+    "Màu theo loại tuyến": {},
+    "Mã không đúng hoặc đã hết hạn.": {},
+    "Mở Cài đặt": {},
+    "Mở hôm nay": {},
+    "Mở sau %lld ngày": {},
+    "Mục": {},
+    "NOXH không có suất ngoại giao — cẩn trọng lời mời mua suất.": {},
+    "Ngoài khu vực hỗ trợ": {},
+    "Ngoài khu vực hỗ trợ — An Cư hiện hỗ trợ TP.HCM, Bình Dương cũ và Đồng Nai cũ.": {},
+    "Ngoài khu vực hỗ trợ — kéo ghim vào TP.HCM, Bình Dương cũ hoặc Đồng Nai cũ.": {},
+    "Nguồn:": {},
+    "Người dùng An Cư": {},
+    "Ngưỡng tổng hợp từ báo chí, chưa đối chiếu nguyên văn văn bản pháp luật.": {},
+    "Nhà ở": {},
+    "Nhóm đối tượng của bạn không xét theo trần thu nhập thông thường. Bạn có thể bỏ qua bước này.": {},
+    "Nhận hồ sơ": {},
+    "Nhận mã đăng nhập qua email": {},
+    "Nhập mã 6 số đã gửi tới %@": {},
+    "Nhập số triệu đồng, ví dụ 12 hoặc 12,5.": {},
+    "Nút": {},
+    "Nền": {},
+    "Nội dung vi phạm bị ẩn; tài khoản vi phạm nhiều lần bị khóa.": {},
+    "Phiên bản này không còn được hỗ trợ. Vui lòng cập nhật lên phiên bản %@ trở lên để tiếp tục xem dữ liệu dự án mới nhất.": {},
+    "Phiên đăng nhập đã hết. Hãy đăng nhập lại.": {},
+    "Pháp lý": {},
+    "Phóng to để xem từng dự án": {},
+    "Quay lại": {},
+    "Quy tắc cộng đồng": {},
+    "So sánh": {},
+    "So sánh %lld/%lld dự án": {},
+    "So sánh 2–3 dự án cạnh nhau": {},
+    "Sắp có": {},
+    "Số căn": {},
+    "Sửa địa điểm": {},
+    "Thao tác này không thể hoàn tác.": {},
+    "Thay đổi giá": {},
+    "Thay đổi trạng thái pháp lý": {},
+    "Theo dõi": {},
+    "Theo dõi dự án NOXH": {},
+    "Theo loại": {},
+    "Thu nhập": {},
+    "Thu nhập bình quân 12 tháng gần nhất, theo xác nhận của cơ quan, đơn vị (không có hợp đồng lao động: Công an xã/phường xác nhận). Tỉnh/thành có thể áp hệ số điều chỉnh.": {},
+    "Thu nhập bình quân hằng tháng của bạn?": {},
+    "Thêm ghi chú": {},
+    "Thông báo": {},
+    "Thông báo (%lld)": {},
+    "Thông tin": {},
+    "Thông tin có thể đã cũ": {},
+    "Thông tin dự án được tổng hợp từ nguồn công khai, có ghi nguồn và ngày cập nhật.": {},
+    "Thời gian nhận hồ sơ đã qua": {},
+    "Thử lại": {},
+    "Tiếp": {},
+    "Tiếp tục": {},
+    "Tiếp tục với Apple": {},
+    "Tiếp tục với Facebook": {},
+    "Tiếp tục với Google": {},
+    "Trong An Cư": {},
+    "Trong khu vực %@": {},
+    "Trong sheet (nền đặc)": {},
+    "Trạng thái": {},
+    "Trạng thái dự án": {},
+    "Tuyến và năm dự kiến khai thác": {},
+    "Tài khoản": {},
+    "Tên dự án hoặc địa điểm": {},
+    "Tìm dự án, phường/xã, tên cũ…": {},
+    "Tình trạng hôn nhân?": {},
+    "Tình trạng nhà ở của vợ chồng bạn tại tỉnh/thành có dự án?": {},
+    "Tất cả NOXH": {},
+    "Tổng thu nhập bình quân hằng tháng của hai vợ chồng?": {},
+    "Vui lòng thử lại sau.": {},
+    "Vui lòng thử lại.": {},
+    "Ví dụ: 12,5": {},
+    "Ví dụ: dự án đã đổi khung nhận hồ sơ sang 01/12": {},
+    "Ví dụ: giá 45 tr/m², đã xem nhà mẫu, cách chỗ làm 8 km": {},
+    "Ví dụ: hỏi lại chủ đầu tư về tiến độ, cách chỗ làm 5 km": {},
+    "Vẫn muốn lưu riêng? Điền thông tin bên dưới.": {},
+    "Vị trí đã chọn": {},
+    "Xem dự án %@": {},
+    "Xem kết quả": {},
+    "Xong": {},
+    "Xác nhận": {},
+    "Xóa": {},
+    "Xóa tài khoản": {},
+    "Xóa tài khoản sẽ xóa vĩnh viễn danh sách đã lưu và cài đặt thông báo.": {},
+    "Xóa tài khoản?": {},
+    "Xóa từ khóa": {},
+    "Xóa vĩnh viễn": {},
+    "Xóa vĩnh viễn?": {},
+    "Xóa địa điểm": {},
+    "Xóa địa điểm này?": {},
+    "email@vidu.vn": {},
+    "triệu đồng/tháng": {},
+    "vị trí ga gần đúng": {},
+    "vị trí ga minh họa": {},
+    "Đang bật thông báo": {},
+    "Đang gửi": {},
+    "Đang kiểm tra khu vực…": {},
+    "Đang ngoại tuyến — dữ liệu có thể chưa mới": {},
+    "Đang nhận hồ sơ": {},
+    "Đang theo dõi": {},
+    "Đang tìm địa chỉ…": {},
+    "Đang xóa…": {},
+    "Điều khoản sử dụng": {},
+    "Đã gửi. Cảm ơn bạn!": {},
+    "Đã kết hôn": {},
+    "Đã kết thúc": {},
+    "Đã lưu": {},
+    "Đã lưu %lld trên %lld địa điểm": {},
+    "Đã lưu tạm trên máy này": {},
+    "Đã lưu địa điểm": {},
+    "Đã xác thực SĐT %@": {},
+    "Đã xóa tài khoản": {},
+    "Đóng": {},
+    "Đăng nhập": {},
+    "Đăng nhập giúp đội dữ liệu liên hệ xác minh khi cần.": {},
+    "Đăng nhập để báo thông tin sai": {},
+    "Đăng nhập để bật thông báo": {},
+    "Đăng nhập để giữ danh sách khi đổi máy và nhận thông báo khi dự án mở nhận hồ sơ.": {},
+    "Đăng nhập để lưu địa điểm và ghi chú": {},
+    "Đăng nhập để nhận thông báo.": {},
+    "Đăng nhập để xem dự án đã lưu": {},
+    "Đăng xuất": {},
+    "Đưa ghim vào giữa màn hình": {},
+    "Đề xuất An Cư thêm dự án này": {},
+    "Địa chỉ": {},
+    "Địa chỉ: %@": {},
+    "Địa điểm bạn lưu. Chạm để xem ghi chú": {},
+    "Địa điểm của tôi": {},
+    "Địa điểm khác · lưu riêng cho bạn": {},
+    "Địa điểm này không còn tồn tại.": {},
+    "Đối tượng": {},
+    "Đổi email": {},
+    "Độc thân": {},
+    "Độc thân, đang nuôi con dưới 18 tuổi": {},
+    "Ảnh được xóa vị trí GPS trước khi tải lên.": {}
   },
-  "version" : "1.0"
+  "version": "1.0"
 }

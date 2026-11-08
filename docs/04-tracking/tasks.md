@@ -3,6 +3,9 @@
 > File này dùng để đồng bộ tiến độ tức thời với Claude Code.
 
 ## 🚀 Đang thực hiện (In Progress)
+- [ ] Staging dữ liệu + crawler (plan Bước 7) — 7.0–7.4 xong; còn nguồn crawl đầu tiên + đẩy migration 16
+  - **Lý do chưa xong:** Nguồn thật cần khảo sát + liên hệ cho User-Agent; migration 16 lên cloud chờ bạn chạy.
+- [x] Địa điểm đã lưu + ghi chú (PRD 4.6, plan Bước 6) — code, test, cloud (migration 13) xong 2026-11-07
 - [ ] Review lại tài liệu đã phân bổ từ Đặc tả v2 (`01-ideas/`, `02-specs/`, `03-plans/`)
   - **Lý do chưa xong:** Việc review cần bạn đọc và xác nhận nội dung theo góc nhìn sản phẩm; Claude đã phân bổ xong, chờ phản hồi của bạn.
 

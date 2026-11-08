@@ -66,6 +66,7 @@ struct SignInPromptView: View {
         case .savedLayer: "Đăng nhập để xem dự án đã lưu"
         case .tracking: "Theo dõi dự án NOXH"
         case .report: "Đăng nhập để báo thông tin sai"
+        case .savePlace: "Đăng nhập để lưu địa điểm và ghi chú"
         }
     }
 
@@ -75,6 +76,7 @@ struct SignInPromptView: View {
         case .notifications: "Chúng tôi chỉ gửi thông báo về dự án bạn theo dõi, tối đa 1 lần/ngày mỗi dự án. Không quảng cáo."
         case .savedLayer, .tracking: "Lưu dự án quan tâm, theo dõi hạn nộp hồ sơ và nhận thông báo khi có thay đổi."
         case .report: "Đăng nhập giúp đội dữ liệu liên hệ xác minh khi cần."
+        case .savePlace: "Ghi chú và địa điểm bạn lưu nằm trong tài khoản — chỉ bạn thấy, không mất khi đổi máy."
         }
     }
 

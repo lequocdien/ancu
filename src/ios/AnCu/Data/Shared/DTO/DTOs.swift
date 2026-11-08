@@ -60,6 +60,8 @@ struct RouteDTO: Decodable, Sendable {
     let segments: [[PointDTO]]
     let sourceUrl: String
     let verifiedAt: String
+    /// Thêm ở migration 16; thiếu → minh họa.
+    let geometryAccuracy: String?
 }
 
 struct NodeDTO: Decodable, Sendable {
@@ -68,6 +70,7 @@ struct NodeDTO: Decodable, Sendable {
     let name: String
     let type: String
     let location: PointDTO
+    let geometryAccuracy: String?
 }
 
 struct NotificationDTO: Decodable, Sendable {
@@ -136,8 +139,27 @@ struct SearchResponseDTO: Decodable, Sendable {
 struct BookmarkDTO: Decodable, Sendable {
     let projectId: UUID
     let notifyEnabled: Bool
+    /// Thêm ở migration 13; server cũ không trả → `nil`.
+    let note: String?
     /// ISO 8601 có giờ.
     let createdAt: String
+}
+
+/// RPC `my_saved_places`, `create_saved_place`, `update_saved_place`.
+struct SavedPlaceDTO: Decodable, Sendable {
+    let id: UUID
+    let name: String
+    let address: String?
+    let location: PointDTO
+    let kind: String
+    /// Thêm ở migration 14; server cũ không trả → `nil`.
+    let icon: String?
+    let serviceArea: String
+    let note: String?
+    let externalRef: String?
+    /// ISO 8601 có giờ.
+    let createdAt: String
+    let updatedAt: String
 }
 
 /// RPC `current_profile`.

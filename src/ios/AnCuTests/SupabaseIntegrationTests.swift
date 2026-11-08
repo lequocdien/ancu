@@ -54,6 +54,14 @@ struct SupabaseIntegrationTests {
         #expect(results.contains { if case .place = $0 { true } else { false } })
     }
 
+    /// Migration 16: routes() và node JSON trả geometry_accuracy (mock seed = minh họa).
+    @Test func routesCarryGeometryAccuracy() async throws {
+        let routes = try await container.infrastructure.routes(types: [.metro])
+        #expect(!routes.isEmpty && routes.allSatisfy { $0.geometryAccuracy == .illustrative })
+        let nodes = try await container.infrastructure.nodes(routeID: try #require(routes.first).id)
+        #expect(nodes.allSatisfy { $0.geometryAccuracy == .illustrative })
+    }
+
     @Test func routesAndNodes() async throws {
         let routes = try await container.infrastructure.routes(types: [])
         #expect(routes.count == (try await mock.infrastructure.routes(types: [])).count)
@@ -117,6 +125,48 @@ struct SupabaseIntegrationTests {
 
         try await auth.deleteAccount()
         #expect(await auth.currentUser == nil)
+    }
+
+    /// Địa điểm riêng + ghi chú + đề xuất (migration 13) với server thật: vùng MVP, quyền, xóa tài khoản xóa theo.
+    @Test func savedPlacesAndNotesLifecycle() async throws {
+        let email = "it-places-\(UUID().uuidString.prefix(8).lowercased())@ancu.test"
+        let auth = container.auth
+        let draft = SavedPlaceDraft(
+            name: "Masteri Thảo Điền", address: "Thảo Điền", location: GeoPoint(latitude: 10.8027, longitude: 106.74),
+            kind: .commercial, note: " giá 70 tr/m² ", externalRef: "it-ref"
+        )
+        await #expect(throws: RepositoryError.unauthorized) { _ = try await container.savedPlaces.create(draft) }
+
+        try await auth.sendEmailCode(to: email)
+        _ = try await auth.verifyEmailCode(try await Mailpit.latestCode(for: email), email: email)
+
+        let created = try await container.savedPlaces.create(draft)
+        #expect(created.serviceArea == .hcmOld && created.note == "giá 70 tr/m²" && created.kind == .commercial)
+        await #expect(throws: RepositoryError.outsideServiceArea) {
+            var hanoi = draft
+            hanoi.location = GeoPoint(latitude: 21.004, longitude: 105.747)
+            _ = try await container.savedPlaces.create(hanoi)
+        }
+
+        let updated = try await container.savedPlaces.update(id: created.id, name: "Masteri (đã xem)", kind: .commercial, icon: "cho_lam", note: nil)
+        #expect(updated.name == "Masteri (đã xem)" && updated.note == nil && updated.updatedAt >= created.updatedAt)
+        #expect(updated.icon == "cho_lam" && created.icon == nil)
+        #expect(try await container.savedPlaces.all().map(\.id) == [created.id])
+
+        let projectID = try #require(try await mock.projects.projects(in: .mvpArea, filter: .all).first?.id)
+        try await container.bookmarks.setNote("gần chỗ làm", projectID: projectID)
+        #expect(try await container.bookmarks.all().first { $0.projectID == projectID }?.note == "gần chỗ làm")
+        try await container.bookmarks.setNote(nil, projectID: projectID)
+        #expect(try await container.bookmarks.all().first { $0.projectID == projectID }?.note == nil)
+
+        try await container.dataReports.suggestProject(name: "NOXH mới (integration test)", address: nil,
+                                                      location: GeoPoint(latitude: 10.85, longitude: 106.77))
+
+        try await container.savedPlaces.delete(id: created.id)
+        #expect(try await container.savedPlaces.all().isEmpty)
+        _ = try await container.savedPlaces.create(draft)
+        try await auth.deleteAccount()
+        await #expect(throws: RepositoryError.unauthorized) { _ = try await container.savedPlaces.all() }
     }
 
     @Test func analyticsBatchAcceptedByServer() async throws {

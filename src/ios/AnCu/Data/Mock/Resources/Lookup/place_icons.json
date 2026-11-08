@@ -1,0 +1,98 @@
+[
+  {
+    "code": "nha",
+    "label_vi": "Nhà",
+    "sort_order": 1,
+    "sf_symbol": "house.fill"
+  },
+  {
+    "code": "chung_cu",
+    "label_vi": "Chung cư",
+    "sort_order": 2,
+    "sf_symbol": "building.2.fill"
+  },
+  {
+    "code": "cho_lam",
+    "label_vi": "Chỗ làm",
+    "sort_order": 3,
+    "sf_symbol": "briefcase.fill"
+  },
+  {
+    "code": "nha_bo_me",
+    "label_vi": "Nhà bố mẹ",
+    "sort_order": 4,
+    "sf_symbol": "heart.fill"
+  },
+  {
+    "code": "truong_hoc",
+    "label_vi": "Trường học",
+    "sort_order": 5,
+    "sf_symbol": "graduationcap.fill"
+  },
+  {
+    "code": "benh_vien",
+    "label_vi": "Bệnh viện",
+    "sort_order": 6,
+    "sf_symbol": "cross.case.fill"
+  },
+  {
+    "code": "cho",
+    "label_vi": "Chợ, siêu thị",
+    "sort_order": 7,
+    "sf_symbol": "cart.fill"
+  },
+  {
+    "code": "an_uong",
+    "label_vi": "Ăn uống",
+    "sort_order": 8,
+    "sf_symbol": "fork.knife"
+  },
+  {
+    "code": "cong_vien",
+    "label_vi": "Công viên",
+    "sort_order": 9,
+    "sf_symbol": "tree.fill"
+  },
+  {
+    "code": "the_thao",
+    "label_vi": "Thể thao",
+    "sort_order": 10,
+    "sf_symbol": "figure.run"
+  },
+  {
+    "code": "ga_ben_xe",
+    "label_vi": "Ga, bến xe",
+    "sort_order": 11,
+    "sf_symbol": "tram.fill"
+  },
+  {
+    "code": "san_bay",
+    "label_vi": "Sân bay",
+    "sort_order": 12,
+    "sf_symbol": "airplane"
+  },
+  {
+    "code": "ngan_hang",
+    "label_vi": "Ngân hàng",
+    "sort_order": 13,
+    "sf_symbol": "banknote.fill"
+  },
+  {
+    "code": "ton_giao",
+    "label_vi": "Chùa, nhà thờ",
+    "sort_order": 14,
+    "sf_symbol": "building.columns.fill"
+  },
+  {
+    "code": "yeu_thich",
+    "label_vi": "Yêu thích",
+    "sort_order": 15,
+    "sf_symbol": "star.fill"
+  },
+  {
+    "code": "ghim",
+    "label_vi": "Ghim",
+    "sort_order": 16,
+    "sf_symbol": "mappin"
+  }
+]

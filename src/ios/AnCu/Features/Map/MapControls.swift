@@ -19,10 +19,16 @@ struct MapSearchBar: View {
                 Button {
                     query = ""
                 } label: {
+                    // Vùng chạm 44×44 (HIG) — chỉ có icon ~17pt thì gần như bấm không trúng.
                     Image(systemName: "xmark.circle.fill")
                         .foregroundStyle(.secondary)
+                        .frame(width: 44, height: 44)
+                        .contentShape(Rectangle())
                 }
                 .buttonStyle(.plain)
+                // Bù lại để thanh tìm kiếm không cao/rộng thêm vì vùng chạm lớn.
+                .padding(.vertical, -Spacing.m)
+                .padding(.trailing, -Spacing.m)
                 .accessibilityLabel(Text("Xóa từ khóa"))
             }
         }
@@ -67,28 +73,45 @@ struct MapChip: View {
 struct MapSearchResults: View {
     let results: [SearchResult]
     let comingSoonAreas: [LookupItem]
+    /// Nhóm "Địa điểm khác" (Apple Maps, PRD 4.6). Rỗng → không hiện nhóm.
+    var places: [PlaceResult] = []
     let isSearching: Bool
     let failed: Bool
     let catalog: LookupCatalog
     let isAvailable: (AdministrativeUnit) -> Bool
     let onSelect: (SearchResult) -> Void
+    var onSelectPlace: (PlaceCandidate) -> Void = { _ in }
 
     var body: some View {
         GlassCard(padding: Spacing.s) {
-            if isSearching && results.isEmpty {
+            if isSearching && results.isEmpty && places.isEmpty {
                 ProgressView().frame(maxWidth: .infinity).padding(Spacing.m)
-            } else if failed {
+            } else if failed && places.isEmpty {
                 message("Không tìm được lúc này. Kiểm tra kết nối và thử lại.", systemImage: "wifi.exclamationmark")
-            } else if results.isEmpty && comingSoonAreas.isEmpty {
-                message("Không tìm thấy kết quả", systemImage: "magnifyingglass")
+            } else if results.isEmpty && comingSoonAreas.isEmpty && places.isEmpty {
+                VStack(spacing: Spacing.xs) {
+                    message("Không tìm thấy kết quả", systemImage: "magnifyingglass")
+                    pinHint
+                }
             } else {
                 ScrollView {
                     LazyVStack(alignment: .leading, spacing: 0) {
+                        // Dự án trong An Cư luôn đứng trên: lưu chúng mới nhận được thông báo.
+                        if !places.isEmpty && !(results.isEmpty && comingSoonAreas.isEmpty) {
+                            sectionHeader("Trong An Cư")
+                        }
                         ForEach(results) { result in
                             row(for: result)
                         }
                         ForEach(comingSoonAreas, id: \.code) { area in
                             comingSoonRow(title: area.label, subtitle: nil)
+                        }
+                        if !places.isEmpty {
+                            sectionHeader("Địa điểm khác · lưu riêng cho bạn")
+                            ForEach(places) { place in
+                                placeRow(place)
+                            }
+                            pinHint
                         }
                     }
                 }
@@ -137,6 +160,59 @@ struct MapSearchResults: View {
                 comingSoonRow(title: unit.name, subtitle: unit.oldNames.first.map { "Trước đây: \($0)" })
             }
         }
+    }
+
+    private func sectionHeader(_ title: LocalizedStringKey) -> some View {
+        Text(title)
+            .font(.caption.weight(.semibold))
+            .foregroundStyle(.secondary)
+            .textCase(.uppercase)
+            .padding(.horizontal, Spacing.s)
+            .padding(.top, Spacing.s)
+            .padding(.bottom, Spacing.xxs)
+            .accessibilityAddTraits(.isHeader)
+    }
+
+    /// Ngoài vùng MVP: hiện mờ + nhãn, không bấm được (PRD 4.6) — người dùng hiểu vì sao, không tưởng lỗi.
+    @ViewBuilder
+    private func placeRow(_ place: PlaceResult) -> some View {
+        let candidate = place.candidate
+        let content = HStack(spacing: Spacing.m) {
+            Image(systemName: place.isAvailable ? "plus.circle" : "nosign")
+                .foregroundStyle(place.isAvailable ? Color.brandPrimary : .secondary)
+                .frame(width: 24)
+            VStack(alignment: .leading, spacing: Spacing.xxs) {
+                Text(verbatim: candidate.name).font(.body.weight(.medium))
+                    .foregroundStyle(place.isAvailable ? .primary : .secondary)
+                if place.isAvailable {
+                    if let address = candidate.address {
+                        Text(verbatim: address).font(.caption).foregroundStyle(.secondary).lineLimit(1)
+                    }
+                } else {
+                    Text("Ngoài khu vực hỗ trợ").font(.caption.weight(.medium)).foregroundStyle(.secondary)
+                }
+            }
+            Spacer(minLength: 0)
+        }
+        .padding(Spacing.s)
+        .contentShape(Rectangle())
+
+        if place.isAvailable {
+            Button { onSelectPlace(candidate) } label: { content }
+                .buttonStyle(.plain)
+                .accessibilityHint(Text("Lưu địa điểm này kèm ghi chú"))
+        } else {
+            content
+                .accessibilityElement(children: .combine)
+                .accessibilityHint(Text("An Cư hiện hỗ trợ TP.HCM, Bình Dương cũ và Đồng Nai cũ"))
+        }
+    }
+
+    private var pinHint: some View {
+        Label("Không thấy? Nhấn giữ trên bản đồ để tự ghim", systemImage: "hand.tap")
+            .font(.caption)
+            .foregroundStyle(.secondary)
+            .padding(Spacing.s)
     }
 
     private func placeText(_ unit: AdministrativeUnit) -> some View {

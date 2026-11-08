@@ -17,6 +17,7 @@ User stories:
 - Là người mua, tôi muốn được báo khi dự án tôi quan tâm mở nhận hồ sơ, đổi giá hoặc đổi trạng thái pháp lý để không lỡ đợt.
 - Là người mua, tôi muốn tự kiểm tra mình có đủ điều kiện mua NOXH để biết có nên chuẩn bị hồ sơ không.
 - Là người mua, tôi muốn so sánh 2–3 dự án cạnh nhau (giá, khoảng cách tới ga, trạng thái).
+- Là người mua, tôi muốn lưu cả dự án **chưa có trong An Cư** (NOXH khác, chung cư thương mại, chỗ làm…) kèm **ghi chú riêng** để cân nhắc trên cùng một bản đồ hạ tầng. *(thêm 2026-11-07)*
 - Là người mua, tôi muốn đọc trải nghiệm thật và xem ảnh công trường từ người khác, không lẫn môi giới.
 - Là kiểm duyệt viên, tôi muốn xử lý hàng chờ `pending` và báo cáo trong 24 giờ.
 
@@ -24,6 +25,8 @@ User stories:
 
 ### Tab 1: Bản đồ
 - Thanh tìm kiếm theo tên dự án, quận/huyện, phường/xã. Nút "Gần tôi".
+  - Kết quả 2 nhóm: **Dự án trong An Cư** (luôn trên) và **Địa điểm khác** (Apple Maps). Địa điểm ngoài vùng MVP hiện mờ, nhãn "Ngoài khu vực hỗ trợ", không lưu được.
+- **Nhấn giữ trên bản đồ** → ghim tay một địa điểm (đặt tên, loại, ghi chú) khi tìm không ra.
 - Thanh lớp: Metro, Vành đai, Cao tốc, Quốc lộ, Tất cả NOXH, Đã lưu. Bộ lọc nhanh "Đang nhận hồ sơ".
 - Chú giải màu theo trạng thái tuyến (đã khai thác / đang thi công / quy hoạch) và năm dự kiến.
 - Ghim NOXH tự gom cụm khi thu nhỏ. Màu ghim thể hiện trạng thái dự án.
@@ -36,6 +39,8 @@ User stories:
 
 ### Tab 2: Theo dõi
 - Danh sách thẻ dự án đã lưu, sắp xếp theo hạn nộp hồ sơ gần nhất.
+- **Địa điểm của tôi**: dự án ngoài hệ thống người dùng tự lưu (mới sửa lên trên). Sửa tên/loại/ghi chú, xóa.
+- **Ghi chú** cho mọi thứ đã lưu (dự án trong An Cư và địa điểm riêng), tối đa 2.000 ký tự, chỉ người dùng thấy.
 - Chế độ so sánh 2–3 dự án: giá, khoảng cách tới ga, trạng thái.
 - Hộp thông báo: mở nhận hồ sơ, đổi giá, đổi trạng thái, có phản hồi bình luận.
 - Chưa đăng nhập: màn hình giới thiệu lợi ích + nút đăng nhập.
@@ -54,6 +59,18 @@ User stories:
 - Yêu cầu đăng nhập khi: lưu dự án / bật lớp Đã lưu, bật thông báo, gửi bình luận, báo cáo nội dung, mở tab Theo dõi.
 - Gửi bình luận cần thêm **xác thực số điện thoại (OTP)**.
 - Khách có thể lưu dự án tạm trên máy; khi đăng nhập, danh sách được gộp vào tài khoản.
+- **Địa điểm riêng + ghi chú: bắt buộc đăng nhập** (không lưu tạm cho khách — ghi chú là dữ liệu đáng giữ, có thể chứa thông tin cá nhân).
+
+### 4.6. Địa điểm đã lưu (dự án ngoài hệ thống) *(thêm 2026-11-07)*
+- **Riêng tư**: chỉ chủ tài khoản thấy; không hiển thị cho người khác, không kiểm duyệt, không dùng cho analytics (chỉ đếm sự kiện theo loại).
+- Nguồn: tìm kiếm Apple Maps (`MKLocalSearch`) hoặc ghim tay. Loại: NOXH · Thương mại · Khác.
+- **Icon tự chọn** *(2026-11-07)*: bộ ~16 icon có sẵn (nhà, chung cư, chỗ làm, trường học, bệnh viện, chợ, nhà bố mẹ…); không chọn = icon theo loại. Màu ghim vẫn theo loại.
+- **Xem trên bản đồ trước khi lưu** *(2026-11-07)*: bấm kết quả tìm kiếm hoặc nhấn giữ → camera tới điểm, ghim **cố định theo tọa độ** (kéo/zoom bản đồ thoải mái, ghim không đổi), **kéo chính cái ghim để chỉnh vị trí**, nút "Đưa ghim vào giữa" khi ghim trôi khỏi màn hình (cũng là cách chỉnh cho VoiceOver) *(đổi 2026-11-07 theo góp ý: cần zoom trong lúc ghim)*; thẻ dưới đáy báo vùng (ngoài vùng → nút Lưu tắt) + "Hủy" / "Lưu tại đây" → mới mở form tên/loại/ghi chú. **Địa chỉ cập nhật theo vị trí ghim** (Apple reverse geocoding, tiếng Việt, tra khi dừng kéo 0,5 s). Dời ghim > 100 m khỏi kết quả Apple Maps → giữ tên, địa chỉ tra lại theo vị trí mới, bỏ mã Apple Maps. Khách xem trước được, đăng nhập khi bấm Lưu.
+- **Chỉ trong vùng MVP** (TP.HCM, Bình Dương cũ, Đồng Nai cũ — dung sai 3 km quanh ranh giới vì ranh giới đang là mock). Ngoài vùng → thông báo, không lưu.
+- **Chống trùng**: trong 300 m có dự án trong An Cư → gợi ý "Dự án này đã có trong An Cư — theo dõi để nhận thông báo?" (vẫn cho lưu riêng nếu người dùng muốn).
+- Loại NOXH có nút **"Đề xuất An Cư thêm dự án này"** (người dùng chủ động; gửi tên, địa chỉ, vị trí — không gửi ghi chú; chung giới hạn 10/24h với "Báo thông tin sai").
+- Giới hạn: 200 địa điểm/tài khoản. Không có thông báo cho địa điểm riêng (không có dữ liệu theo dõi). Không lưu vị trí GPS của máy (không có nút "lưu vị trí hiện tại").
+- Hiển thị: tab Theo dõi + ghim kiểu riêng trên bản đồ trong lớp "Đã lưu". Để sau: so sánh khoảng cách ga/nút giao cho địa điểm riêng; phát hiện trùng khi dự án được thêm vào hệ thống sau này.
 
 ### 4.2. Bình luận & ảnh thực tế
 - Tối đa 1.000 ký tự, 3 ảnh/bình luận. Tối đa 10 bình luận/tài khoản/ngày (thực thi phía server).
@@ -85,6 +102,7 @@ Kiểm duyệt chạy hoàn toàn phía server, có cơ chế độ tin cậy th
 - [ ] Bản đồ NOXH + lớp hạ tầng + bottom sheet chi tiết (vùng TP.HCM + Bình Dương cũ + Đồng Nai)
 - [ ] Đăng nhập Apple / Google / Facebook, chế độ khách
 - [ ] Lưu dự án, tab Theo dõi, so sánh dự án
+- [ ] Địa điểm đã lưu (ngoài hệ thống) + ghi chú (mục 4.6)
 - [ ] Thông báo đẩy khi dự án thay đổi
 - [ ] Kiểm tra điều kiện mua NOXH
 - [ ] Nút "Báo thông tin sai"

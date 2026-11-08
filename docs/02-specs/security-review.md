@@ -22,7 +22,8 @@
 | bookmarks | — | toàn quyền dòng của mình | |
 | notifications | — | đọc của mình, sửa **chỉ `read_at`** | Tạo bởi trigger fan-out (SECURITY DEFINER) |
 | push_tokens | — | toàn quyền dòng của mình | Đổi chủ token qua RPC `register_push_token` |
-| data_reports | — | đọc của mình; **ghi chỉ qua RPC** `report_data` | Đã sửa (mục 3) |
+| data_reports | — | đọc của mình; **ghi chỉ qua RPC** `report_data` / `suggest_project` | Đã sửa (mục 3) |
+| saved_places *(2026-11-07)* | — (thu hồi quyền bảng) | **chỉ đọc** dòng của mình; ghi chỉ qua RPC (thu hồi INSERT/UPDATE/DELETE) | Giới hạn 200 + vùng MVP ở server (khóa advisory theo user chống lưu song song vượt ngưỡng). pgTAP: ghi thẳng 42501, user khác không đọc/sửa/xóa được, xóa tài khoản xóa theo |
 | analytics_events | — (thu hồi cả quyền bảng) | — | Ghi qua RPC `track_events`; đọc: service role / Studio |
 
 ## 3. Lỗ phát hiện & đã sửa
@@ -43,7 +44,7 @@
 
 ## 5. SECURITY DEFINER
 
-Mọi hàm SECURITY DEFINER đặt `search_path = ''` (lint không cảnh báo) và tự kiểm tra `auth.uid()` khi thao tác dữ liệu người dùng. Danh sách: `current_profile`, `delete_my_account`, `handle_new_user`, `fan_out_project_update`, `refresh_*` (trigger), `register_push_token`, `set_notification_prefs`, `report_data`, `track_events`, `notify_send_push`. Hàm trigger/nội bộ đã thu hồi quyền EXECUTE khỏi `public, anon, authenticated`.
+Mọi hàm SECURITY DEFINER đặt `search_path = ''` (lint không cảnh báo) và tự kiểm tra `auth.uid()` khi thao tác dữ liệu người dùng. Danh sách: `current_profile`, `delete_my_account`, `handle_new_user`, `fan_out_project_update`, `refresh_*` (trigger), `register_push_token`, `set_notification_prefs`, `report_data`, `track_events`, `notify_send_push`, `create_saved_place`, `update_saved_place`, `delete_saved_place`, `suggest_project`, `mvp_service_area_at` (nội bộ, đã thu hồi EXECUTE). Hàm trigger/nội bộ đã thu hồi quyền EXECUTE khỏi `public, anon, authenticated`.
 
 ## 6. App iOS
 

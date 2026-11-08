@@ -1,0 +1,23 @@
+[
+  {
+    "code": "noxh",
+    "label_vi": "Nhà ở xã hội",
+    "sort_order": 1,
+    "color_hex": "#10B981",
+    "sf_symbol": "house.fill"
+  },
+  {
+    "code": "thuong_mai",
+    "label_vi": "Thương mại",
+    "sort_order": 2,
+    "color_hex": "#0EA5E9",
+    "sf_symbol": "building.2.fill"
+  },
+  {
+    "code": "khac",
+    "label_vi": "Khác",
+    "sort_order": 3,
+    "color_hex": "#8B5CF6",
+    "sf_symbol": "mappin"
+  }
+]

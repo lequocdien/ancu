@@ -8,6 +8,8 @@ enum SignInReason: String, Identifiable, Sendable {
     case savedLayer
     case tracking
     case report
+    /// Lưu địa điểm ngoài hệ thống / ghi chú (PRD 4.6 — bắt buộc đăng nhập).
+    case savePlace
 
     var id: String { rawValue }
 }
@@ -31,12 +33,15 @@ final class SessionStore {
     private(set) var bookmarks: [Bookmark] = []
     /// Dự án đang chờ phản hồi Lưu/Thông báo — UI khóa nút để tránh bấm đúp.
     private(set) var pendingProjectIDs: Set<Project.ID> = []
+    /// Địa điểm ngoài hệ thống (PRD 4.6). Rỗng khi chưa đăng nhập. Mới sửa lên trên.
+    private(set) var savedPlaces: [SavedPlace] = []
 
     var isSignedIn: Bool { user != nil }
     var savedProjectIDs: Set<Project.ID> { Set(bookmarks.map(\.projectID)) }
 
     private let auth: any AuthService
     private let bookmarkRepository: any BookmarkRepository
+    private let savedPlaceRepository: any SavedPlaceRepository
     private let push: any PushRegistering
     private let analytics: any AnalyticsTracker
     private var hasPromptedAfterGuestSave = false
@@ -44,22 +49,28 @@ final class SessionStore {
     init(
         auth: any AuthService,
         bookmarks: any BookmarkRepository,
+        savedPlaces: any SavedPlaceRepository = UnavailableSavedPlaceRepository(),
         push: any PushRegistering = NoopPushRegistrar(),
         analytics: any AnalyticsTracker = NoopAnalytics()
     ) {
         self.auth = auth
         self.bookmarkRepository = bookmarks
+        self.savedPlaceRepository = savedPlaces
         self.push = push
         self.analytics = analytics
     }
 
     convenience init(container: AppContainer, push: any PushRegistering = NoopPushRegistrar()) {
-        self.init(auth: container.auth, bookmarks: container.bookmarks, push: push, analytics: container.analytics)
+        self.init(
+            auth: container.auth, bookmarks: container.bookmarks, savedPlaces: container.savedPlaces,
+            push: push, analytics: container.analytics
+        )
     }
 
     func load() async {
         user = await auth.currentUser
         await refreshBookmarks()
+        await refreshSavedPlaces()
         if isSignedIn { await push.registerIfAuthorized() }
     }
 
@@ -111,6 +122,75 @@ final class SessionStore {
         return true
     }
 
+    // MARK: Ghi chú + địa điểm riêng (PRD 4.6) — bắt buộc đăng nhập
+
+    func note(for id: Project.ID) -> String? {
+        bookmarks.first { $0.projectID == id }?.note
+    }
+
+    /// Ghi chú dự án trong hệ thống. Chưa lưu → tự lưu. Trả `false` khi chưa đăng nhập (caller hiện prompt `.savePlace`).
+    func setNote(_ note: String?, for id: Project.ID) async throws(RepositoryError) -> Bool {
+        guard isSignedIn else { return false }
+        pendingProjectIDs.insert(id)
+        defer { pendingProjectIDs.remove(id) }
+        do {
+            try await bookmarkRepository.setNote(note, projectID: id)
+        } catch {
+            throw Self.map(error)
+        }
+        await refreshBookmarks()
+        analytics.track(AnalyticsEvent(name: AnalyticsEvent.noteEdited, props: ["target": "bookmark"]))
+        return true
+    }
+
+    func createPlace(_ draft: SavedPlaceDraft, source: String) async throws(RepositoryError) -> SavedPlace {
+        guard isSignedIn else { throw .unauthorized }
+        let created: SavedPlace
+        do {
+            created = try await savedPlaceRepository.create(draft)
+        } catch {
+            throw Self.map(error)
+        }
+        savedPlaces.removeAll { $0.id == created.id }
+        savedPlaces.insert(created, at: 0)
+        analytics.track(AnalyticsEvent(name: AnalyticsEvent.placeSaved, props: ["kind": created.kind.rawValue, "source": source]))
+        return created
+    }
+
+    func updatePlace(_ id: SavedPlace.ID, name: String, kind: PlaceKind, icon: String?, note: String?) async throws(RepositoryError) {
+        guard isSignedIn else { throw .unauthorized }
+        let updated: SavedPlace
+        do {
+            updated = try await savedPlaceRepository.update(id: id, name: name, kind: kind, icon: icon, note: note)
+        } catch {
+            throw Self.map(error)
+        }
+        savedPlaces.removeAll { $0.id == id }
+        savedPlaces.insert(updated, at: 0)
+        analytics.track(AnalyticsEvent(name: AnalyticsEvent.noteEdited, props: ["target": "place", "kind": kind.rawValue]))
+    }
+
+    func deletePlace(_ id: SavedPlace.ID) async throws(RepositoryError) {
+        guard isSignedIn else { throw .unauthorized }
+        do {
+            try await savedPlaceRepository.delete(id: id)
+        } catch {
+            throw Self.map(error)
+        }
+        savedPlaces.removeAll { $0.id == id }
+    }
+
+    func refreshSavedPlaces() async {
+        guard isSignedIn else {
+            savedPlaces = []
+            return
+        }
+        // Lỗi đọc không chặn UI; giữ danh sách cũ.
+        if let latest = try? await savedPlaceRepository.all() {
+            savedPlaces = latest
+        }
+    }
+
     var socialProviders: [AuthProvider] { auth.socialProviders }
 
     /// Đăng nhập rồi gộp danh sách khách đã lưu tạm vào tài khoản.
@@ -155,6 +235,7 @@ final class SessionStore {
         // Gộp thất bại không làm hỏng đăng nhập: bookmark vẫn nằm trên máy, lần sau gộp lại.
         try? await bookmarkRepository.mergeGuestBookmarks()
         await refreshBookmarks()
+        await refreshSavedPlaces()
     }
 
     func signOut() async throws(RepositoryError) {
@@ -166,6 +247,7 @@ final class SessionStore {
         }
         user = nil
         await refreshBookmarks()
+        await refreshSavedPlaces()
     }
 
     func deleteAccount() async throws(RepositoryError) {
@@ -178,6 +260,7 @@ final class SessionStore {
         user = nil
         hasPromptedAfterGuestSave = false
         await refreshBookmarks()
+        await refreshSavedPlaces()
     }
 
     private func refreshBookmarks() async {

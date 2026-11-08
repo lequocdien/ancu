@@ -10,6 +10,7 @@ struct ProjectDetailSheet: View {
     @Environment(\.dynamicTypeSize) private var dynamicTypeSize
     @State private var signInReason: SignInReason?
     @State private var showsReportForm = false
+    @State private var showsNoteEditor = false
     @State private var actionError: RepositoryError?
 
     init(viewModel: ProjectDetailViewModel, catalog: LookupCatalog) {
@@ -24,6 +25,9 @@ struct ProjectDetailSheet: View {
             VStack(alignment: .leading, spacing: Spacing.l) {
                 header
                 actions
+                BookmarkNoteRow(note: session.note(for: project.id)) {
+                    if session.isSignedIn { showsNoteEditor = true } else { signInReason = .savePlace }
+                }
                 metrics
                 connectivity
                 sourceInfo
@@ -37,6 +41,9 @@ struct ProjectDetailSheet: View {
         .signInPrompt($signInReason)
         .sheet(isPresented: $showsReportForm) {
             ReportDataSheet(viewModel: viewModel)
+        }
+        .sheet(isPresented: $showsNoteEditor) {
+            BookmarkNoteSheet(project: project, initialNote: session.note(for: project.id))
         }
         .alert("Không thực hiện được", isPresented: Binding(get: { actionError != nil }, set: { if !$0 { actionError = nil } })) {
             Button("Đóng", role: .cancel) {}
@@ -253,6 +260,12 @@ struct ProjectDetailSheet: View {
     private func infraDetail(_ infra: NearestInfra) -> String {
         var parts: [String] = []
         if let routeName = infra.routeName { parts.append(routeName) }
+        // Ga chưa có vị trí chính xác → khoảng cách chỉ là ước tính.
+        switch infra.node.geometryAccuracy {
+        case .exact: break
+        case .approximate: parts.append(String(localized: "vị trí ga gần đúng"))
+        case .illustrative: parts.append(String(localized: "vị trí ga minh họa"))
+        }
         if let status = infra.routeStatus { parts.append(catalog.label(for: status)) }
         if let year = infra.expectedYear {
             // Tuyến đã chạy thì năm là mốc đã qua, không phải "dự kiến".

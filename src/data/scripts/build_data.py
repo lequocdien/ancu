@@ -52,6 +52,7 @@ ROUTE_FIELDS = [
     ("status", STR, True, False, "route_statuses"),
     ("expected_year", INT, False, True, "year"),
     ("color_hex", STR, True, False, "color"),
+    ("geometry_accuracy", STR, False, True, "accuracy"),
     ("source_url", STR, True, False, "url"),
     ("verified_at", STR, True, False, "date"),
 ]
@@ -60,6 +61,7 @@ NODE_FIELDS = [
     ("route_id", STR, False, True, "uuid"),
     ("name", STR, True, False, None),
     ("type", STR, True, False, "node_types"),
+    ("geometry_accuracy", STR, False, True, "accuracy"),
 ]
 PROJECT_FIELDS = [
     ("id", STR, True, False, "uuid"),
@@ -246,6 +248,9 @@ def _check_value(name: str, value, rule: str | None, lookups, where: str, errors
         # Cột numeric(6, 2), đơn vị triệu đồng/m².
         if not 0 < value < 10000:
             errors.append(f"{where}: '{name}' phải > 0 và < 10000 (triệu đồng/m²), nhận {value}")
+    elif rule == "accuracy":
+        if value not in ("chinh_xac", "gan_dung", "minh_hoa"):
+            errors.append(f"{where}: '{name}' phải là chinh_xac / gan_dung / minh_hoa, nhận '{value}'")
     elif rule == "positive":
         if value <= 0:
             errors.append(f"{where}: '{name}' phải > 0, nhận {value}")
@@ -422,11 +427,76 @@ def run_seed() -> None:
     module.main()
 
 
+STAGE_OUT = SRC / "data" / "out" / "stage.sql"
+
+
+def run_stage(args) -> int:
+    """GeoJSON → stage.sql cho schema `ingest` (staging → admin duyệt). Xem staging.py."""
+    # `python3 -I` không tự thêm thư mục script vào sys.path.
+    sys.path.insert(0, str(pathlib.Path(__file__).resolve().parent))
+    import staging
+
+    try:
+        if args.stage:
+            path = pathlib.Path(args.stage)
+            fc = json.loads(path.read_text(encoding="utf-8"))
+            header, features = staging.read_crawler_file(fc)
+            batches = [(header["entity"], features)]
+            source, run_ref = header["source"], header.get("run_ref") or path.parent.name
+        else:
+            entities = [e.strip() for e in args.entities.split(",") if e.strip()]
+            unknown = [e for e in entities if e not in staging.ENTITIES]
+            if unknown:
+                raise staging.StagingError([f"--entities lạ: {', '.join(unknown)}"])
+            problems: list[str] = []
+            batches = []
+            for entity in entities:
+                fc = json.loads((GEOJSON_DIR / f"{entity}.geojson").read_text(encoding="utf-8"))
+                for i, feat in enumerate(fc.get("features", [])):
+                    staging.check_feature(entity, feat, f"{entity}.geojson features[{i}]", problems, manual=True)
+                    props = (feat.get("properties") or {}) if isinstance(feat, dict) else {}
+                    if entity in ("routes", "nodes") and props.get("geometry_accuracy") is None and not args.default_accuracy:
+                        problems.append(f"{entity}.geojson features[{i}]: thiếu 'geometry_accuracy' "
+                                        "(hoặc truyền --default-accuracy)")
+                batches.append((entity, fc.get("features", [])))
+            if problems:
+                raise staging.StagingError(problems)
+            source, run_ref = "qgis_manual", None
+    except staging.StagingError as e:
+        print(f"LỖI: không nạp được vào staging — {len(e.problems)} vấn đề:", file=sys.stderr)
+        for problem in e.problems:
+            print(f"  - {problem}", file=sys.stderr)
+        return 1
+
+    sql = staging.stage_sql(batches, source=source, run_ref=run_ref, silent=args.silent, note=args.note,
+                            default_accuracy=args.default_accuracy)
+    out = pathlib.Path(args.out) if args.out else STAGE_OUT
+    out.parent.mkdir(parents=True, exist_ok=True)
+    out.write_text(sql, encoding="utf-8")
+    counts = ", ".join(f"{len(f)} {e}" for e, f in batches)
+    print(f"Đã ghi {out} — đợt '{source}'{' (silent)' if args.silent else ''}: {counts}")
+    print(f'Chạy: psql "<connection string>" -v ON_ERROR_STOP=1 -f {out}')
+    return 0
+
+
 def main(argv: list[str] | None = None) -> int:
-    parser = argparse.ArgumentParser(description="Validate GeoJSON → sinh mock JSON của app + seed.sql")
+    parser = argparse.ArgumentParser(description="Validate GeoJSON → sinh mock JSON của app + seed.sql; hoặc nạp staging")
     parser.add_argument("--check", action="store_true", help="chỉ kiểm tra, không ghi; lỗi nếu JSON app lệch GeoJSON")
     parser.add_argument("--no-seed", action="store_true", help="không chạy generate_seed.py")
+    stage = parser.add_argument_group("staging (schema ingest → admin duyệt)")
+    stage.add_argument("--stage", metavar="FILE", help="file features.geojson của crawler (contract v1, có khối 'ancu')")
+    stage.add_argument("--stage-manual", action="store_true", help="nạp dữ liệu vẽ tay trong data/geojson (nguồn qgis_manual)")
+    stage.add_argument("--entities", default="routes,nodes", help="với --stage-manual: routes,nodes,projects")
+    stage.add_argument("--silent", action="store_true", help="đợt nhập lặng: duyệt không bắn thông báo")
+    stage.add_argument("--note", help="ghi chú cho đợt")
+    stage.add_argument("--default-accuracy", choices=["chinh_xac", "gan_dung", "minh_hoa"],
+                       help="geometry_accuracy cho tuyến/ga chưa khai báo")
+    stage.add_argument("--out", help=f"file SQL (mặc định {STAGE_OUT.relative_to(SRC)})")
     args = parser.parse_args(argv)
+    if args.stage and args.stage_manual:
+        parser.error("chọn --stage hoặc --stage-manual, không cả hai")
+    if args.stage or args.stage_manual:
+        return run_stage(args)
 
     errors: list[str] = []
     fcs = {name: load_geojson(GEOJSON_DIR / f"{name}.geojson", errors)

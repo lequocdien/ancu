@@ -31,6 +31,27 @@ Dữ liệu mới là sản phẩm thật, app chỉ là lớp hiển thị. MVP
 - Cần ít nhất **một người phụ trách dữ liệu** (có thể bán thời gian) — chi phí vận hành cố định, tính vào kế hoạch từ đầu.
 - Địa giới: dùng tên đơn vị hành chính mới sau 2025, giữ alias tên cũ (vd Bình Dương → TP.HCM) cho tìm kiếm.
 
+## 2b. Thu thập → staging → duyệt (2026-11-08)
+
+Dữ liệu thật **không ghi thẳng vào bảng chính**. Mọi nguồn (crawler, vẽ tay QGIS) đi qua staging, admin duyệt rồi mới xuất bản:
+
+```
+src/crawler (tách biệt, không có quyền DB) ─► runs/<ngày>_<nguồn>/{raw/, features.geojson, report.json}
+src/data/geojson (vẽ tay, Git)             ─┤
+                                            ▼  build_data.py --stage  →  stage.sql  →  psql
+                         schema ingest: batches + route/node/project_candidates (+ raw, evidence_url, crawled_at)
+                                            ▼  admin duyệt (DBeaver): ingest.approve_*(…) / approve_batch(…)
+                         bảng chính → trigger: project_updates, thông báo (trừ đợt silent), khoảng cách ga
+```
+
+- **Crawler không chạm DB**, đầu ra duy nhất là file. Contract (`contract_version`) do `src/data` sở hữu và kiểm tra ở biên.
+- **id ổn định** (UUID v5 từ khóa tự nhiên) → lần crawl sau trùng id: bản nháp cũ `superseded`, duyệt = upsert giữ bookmark.
+- **`verified_at` do người duyệt đặt** (ngày duyệt), crawler không điền. Dự án crawl về **được thiếu vị trí** — admin đặt khi duyệt.
+- **Đợt `silent`** (nhập lần đầu, sửa hàng loạt): vẫn ghi `project_updates` nhưng **không** bắn thông báo.
+- **`geometry_accuracy`** cho tuyến/ga: `chinh_xac` (đã xây, đối chiếu được) · `gan_dung` (theo hồ sơ dự án) · `minh_hoa` (chỉ quy hoạch). App hiện nhãn "Hướng tuyến minh họa".
+- Bằng chứng (`raw/`) lưu lâu dài ở Supabase Storage bucket private `ingest-evidence` (sau); DB chỉ giữ đường dẫn.
+- Tôn trọng nguồn: `robots.txt`, ≤ 1 request / vài giây, User-Agent nêu tên An Cư; chỉ nguồn chính thống (mục 1).
+
 ## 3. Câu hỏi còn mở
 - Hợp tác chủ đầu tư tự cập nhật (tài khoản xác minh, gắn nhãn) mà không mất khách quan?
 - ~~Mở rộng TP.HCM (và Bình Dương cũ) ngay sau MVP hay chờ ngưỡng người dùng?~~ → Đã gộp vào MVP (2026-11-06).

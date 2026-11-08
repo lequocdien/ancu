@@ -62,6 +62,8 @@ struct Bookmark: Identifiable, Hashable, Sendable {
     let createdAt: Date
     /// `true` khi khách lưu tạm trên máy, chưa gộp vào tài khoản (prd.md mục 4.1).
     var isLocalOnly: Bool
+    /// Ghi chú riêng (≤ `SavedPlace.maxNoteLength`), chỉ khi đăng nhập.
+    var note: String? = nil
 }
 
 struct AppNotification: Identifiable, Hashable, Sendable {

@@ -5,6 +5,7 @@ struct TrackingScreen: View {
     @State private var detailProject: Project?
     @State private var showsComparison = false
     @State private var compareLimitHit = false
+    @State private var placeEditor: PlaceEditorRequest?
 
     @Environment(SessionStore.self) private var session
     @Environment(\.container) private var container
@@ -49,6 +50,22 @@ struct TrackingScreen: View {
                 .presentationDetents([.medium, .large])
                 .presentationDragIndicator(.visible)
         }
+        .sheet(item: $placeEditor) { request in
+            PlaceEditorSheet(
+                viewModel: PlaceEditorViewModel(
+                    mode: request.mode, session: session, projects: container.projects, dataReports: container.dataReports,
+                    resolveArea: { _ in nil }   // chỉ sửa ở đây — vùng đã có trong bản ghi
+                ),
+                catalog: viewModel.catalog,
+                onOpenProject: { project in
+                    Task {
+                        try? await Task.sleep(for: .milliseconds(400))
+                        detailProject = project
+                    }
+                }
+            )
+        }
+        .task(id: session.isSignedIn) { await session.refreshSavedPlaces() }
         .sensoryFeedback(.warning, trigger: compareLimitHit) { _, hit in hit }
     }
 
@@ -103,15 +120,50 @@ struct TrackingScreen: View {
                 Button("Thử lại") { Task { await viewModel.loadSaved(ids: session.savedProjectIDs) } }
             }
         case .failed, .loaded:
-            if viewModel.savedProjects.isEmpty {
+            if viewModel.savedProjects.isEmpty && session.savedPlaces.isEmpty {
                 ContentUnavailableView(
                     "Chưa lưu dự án nào",
                     systemImage: "bookmark",
-                    description: Text("Bấm Lưu ở chi tiết dự án trên bản đồ để theo dõi hạn nộp hồ sơ.")
+                    description: Text("Bấm Lưu ở chi tiết dự án trên bản đồ để theo dõi hạn nộp hồ sơ. Dự án chưa có trong An Cư: tìm trên Bản đồ hoặc nhấn giữ để ghim.")
                 )
             } else {
                 savedCards
             }
+        }
+    }
+
+    /// "Địa điểm của tôi" — dự án ngoài hệ thống người dùng tự lưu (PRD 4.6). Không tham gia so sánh (để đợt sau).
+    @ViewBuilder
+    private var placesSection: some View {
+        if !session.savedPlaces.isEmpty && !viewModel.isComparing {
+            VStack(alignment: .leading, spacing: Spacing.m) {
+                HStack(alignment: .firstTextBaseline) {
+                    Text("Địa điểm của tôi").font(.sectionTitle)
+                    Spacer()
+                    Text("\(session.savedPlaces.count)/\(SavedPlace.maxCount)")
+                        .font(.caption.monospacedDigit())
+                        .foregroundStyle(.secondary)
+                        .accessibilityLabel(Text("Đã lưu \(session.savedPlaces.count) trên \(SavedPlace.maxCount) địa điểm"))
+                }
+                LazyVStack(spacing: Spacing.m) {
+                    ForEach(session.savedPlaces) { place in
+                        Button {
+                            placeEditor = PlaceEditorRequest(mode: .edit(place))
+                        } label: {
+                            GlassCard { SavedPlaceCard(place: place, catalog: viewModel.catalog) }
+                        }
+                        .buttonStyle(.plain)
+                        .contextMenu {
+                            Button(role: .destructive) {
+                                Task { try? await session.deletePlace(place.id) }
+                            } label: {
+                                Label("Xóa địa điểm", systemImage: "trash")
+                            }
+                        }
+                    }
+                }
+            }
+            .padding(.top, viewModel.savedProjects.isEmpty ? 0 : Spacing.s)
         }
     }
 
@@ -127,6 +179,7 @@ struct TrackingScreen: View {
                 savedCard(project)
             }
         }
+        placesSection
     }
 
     private func savedCard(_ project: Project) -> some View {
@@ -150,7 +203,8 @@ struct TrackingScreen: View {
                         catalog: viewModel.catalog,
                         phase: viewModel.phase(of: project),
                         elapsedFraction: viewModel.elapsedFraction(of: project),
-                        isNotifying: session.isNotifying(project.id)
+                        isNotifying: session.isNotifying(project.id),
+                        note: session.note(for: project.id)
                     )
                 }
             }
@@ -184,6 +238,7 @@ struct SavedProjectCard: View {
     let phase: ApplicationPhase
     let elapsedFraction: Double?
     let isNotifying: Bool
+    var note: String?
 
     var body: some View {
         VStack(alignment: .leading, spacing: Spacing.s) {
@@ -219,6 +274,10 @@ struct SavedProjectCard: View {
                     .tint(Color.statusOpen)
                     .accessibilityLabel(Text("Thời gian nhận hồ sơ đã qua"))
             }
+
+            if let note {
+                NoteSnippet(note: note)
+            }
         }
         .frame(maxWidth: .infinity, alignment: .leading)
     }
@@ -231,6 +290,52 @@ struct SavedProjectCard: View {
             Text(verbatim: "Còn 12 ngày").font(.subheadline)
         }
         .frame(maxWidth: .infinity, alignment: .leading)
+    }
+}
+
+/// Thẻ địa điểm riêng trong tab Theo dõi.
+struct SavedPlaceCard: View {
+    let place: SavedPlace
+    let catalog: LookupCatalog
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: Spacing.s) {
+            HStack(alignment: .top, spacing: Spacing.m) {
+                SavedPlacePinView(kind: place.kind, icon: place.icon, catalog: catalog)
+                VStack(alignment: .leading, spacing: Spacing.xxs) {
+                    Text(verbatim: place.name).font(.headline)
+                    Text(verbatim: "\(catalog.label(for: place.kind)) · \(catalog.label(for: place.serviceArea))")
+                        .font(.subheadline)
+                        .foregroundStyle(.secondary)
+                    if let address = place.address {
+                        Text(verbatim: address).font(.footnote).foregroundStyle(.secondary).lineLimit(1)
+                    }
+                }
+                Spacer(minLength: 0)
+            }
+            if let note = place.note {
+                NoteSnippet(note: note)
+            }
+        }
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .accessibilityElement(children: .combine)
+        .accessibilityHint(Text("Chạm để sửa tên, loại hoặc ghi chú"))
+    }
+}
+
+/// Trích ghi chú (≤ 2 dòng) trên thẻ.
+struct NoteSnippet: View {
+    let note: String
+
+    var body: some View {
+        Label {
+            Text(verbatim: note).lineLimit(2)
+        } icon: {
+            Image(systemName: "note.text")
+        }
+        .font(.footnote)
+        .foregroundStyle(.secondary)
+        .accessibilityLabel(Text("Ghi chú: \(note)"))
     }
 }
 

@@ -40,6 +40,8 @@ enum SupabaseErrorMapper {
         switch code {
         case "P0002", "PGRST116": .notFound
         case "AC429": .rateLimited   // giới hạn tự đặt trong RPC (vd report_data 10 lần/24h)
+        case "AC403": .outsideServiceArea   // vị trí ngoài vùng MVP (create_saved_place, suggest_project)
+        case "AC409": .limitReached         // vượt số lượng cho phép (200 địa điểm/tài khoản)
         case "28000": .unauthorized   // RPC tự kiểm tra auth.uid()
         case "42501", "PGRST301", "PGRST302", "PGRST303": .unauthorized
         // Lớp 22 (data exception) / 23 (vi phạm ràng buộc): dữ liệu gửi lên sai — thử lại vô ích.

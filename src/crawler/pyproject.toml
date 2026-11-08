@@ -1,0 +1,14 @@
+[project]
+name = "ancu-crawler"
+version = "0.1.0"
+description = "Thu thập dữ liệu NOXH / hạ tầng từ nguồn chính thống → features.geojson (contract v1). KHÔNG có quyền DB."
+requires-python = ">=3.11"
+# Phiên bản ghim cứng — nâng cấp có chủ đích, đọc changelog (đã duyệt 2026-11-08).
+dependencies = [
+    "httpx==0.28.1",          # tải trang (timeout, retry, MockTransport cho test)
+    "beautifulsoup4==4.13.4", # đọc HTML (parser html.parser chuẩn — không cần lxml)
+    "pdfplumber==0.11.7",     # đọc PDF thông báo của Sở
+]
+
+[tool.setuptools]
+packages = ["ancu_crawler", "ancu_crawler.sources"]

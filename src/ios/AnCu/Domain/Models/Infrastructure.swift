@@ -11,6 +11,7 @@ struct InfraRoute: Identifiable, Hashable, Sendable {
     let segments: [[GeoPoint]]
     let sourceURL: URL
     let verifiedAt: Date
+    var geometryAccuracy: GeometryAccuracy = .illustrative
 }
 
 struct InfraNode: Identifiable, Hashable, Sendable {
@@ -20,4 +21,19 @@ struct InfraNode: Identifiable, Hashable, Sendable {
     let name: String
     let type: NodeType
     let location: GeoPoint
+    var geometryAccuracy: GeometryAccuracy = .illustrative
+}
+
+/// Độ chính xác hình học của tuyến/ga (data-strategy.md 2b). Thiếu/lạ → `.illustrative` (thận trọng nhất).
+enum GeometryAccuracy: String, Sendable, Hashable {
+    /// Đã xây, đối chiếu được (vd Metro 1).
+    case exact = "chinh_xac"
+    /// Theo hồ sơ dự án (đang thi công / chuẩn bị đầu tư).
+    case approximate = "gan_dung"
+    /// Chỉ có trong quy hoạch — hướng tuyến/vị trí ga mang tính minh họa.
+    case illustrative = "minh_hoa"
+
+    init(code: String?) {
+        self = code.flatMap(GeometryAccuracy.init(rawValue:)) ?? .illustrative
+    }
 }

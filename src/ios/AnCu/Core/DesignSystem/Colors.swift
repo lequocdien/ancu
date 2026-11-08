@@ -34,14 +34,14 @@ extension Color {
     }
 }
 
-// MARK: - Màu tuyến (fallback khi dữ liệu tuyến thiếu/sai `color_hex`)
+// MARK: - Màu tuyến THEO LOẠI (2026-11-07, architecture.md 5.6) — fallback khi catalog thiếu `color_hex`.
+// Màu = loại, kiểu nét = trạng thái. Metro xanh dương (không đỏ: cạnh cam Vành đai khó phân biệt với người mù màu
+// đỏ–lục); Cao tốc hồng đậm (không tím: trùng ghim "Đang xây").
 
 extension Color {
+    static let routeMetro = Color(rgb: 0x2563EB)
     static let routeRing = Color(rgb: 0xF97316)
-    static let routeExpressway = Color(rgb: 0xA855F7)
-    static let routeMetro1 = Color(rgb: 0xEF4444)
-    static let routeMetro2 = Color(rgb: 0x3B82F6)
-    static let routeMetroExt = Color(rgb: 0x22C55E)
+    static let routeExpressway = Color(rgb: 0xDB2777)
     static let routeNational = Color(rgb: 0x64748B)
 }
 

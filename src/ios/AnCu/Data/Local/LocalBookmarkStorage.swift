@@ -8,6 +8,8 @@ struct LocalBookmarkStorage {
         var notifyEnabled: Bool
         let createdAt: Date
         var isLocalOnly: Bool
+        /// Bản ghi cũ không có khóa này → `nil`.
+        var note: String?
     }
 
     let defaults: UserDefaults
@@ -18,13 +20,13 @@ struct LocalBookmarkStorage {
               let records = try? JSONDecoder().decode([Record].self, from: data)
         else { return [] }
         return records.map {
-            Bookmark(projectID: $0.projectID, notifyEnabled: $0.notifyEnabled, createdAt: $0.createdAt, isLocalOnly: $0.isLocalOnly)
+            Bookmark(projectID: $0.projectID, notifyEnabled: $0.notifyEnabled, createdAt: $0.createdAt, isLocalOnly: $0.isLocalOnly, note: $0.note)
         }
     }
 
     func save(_ bookmarks: [Bookmark]) throws {
         let records = bookmarks.map {
-            Record(projectID: $0.projectID, notifyEnabled: $0.notifyEnabled, createdAt: $0.createdAt, isLocalOnly: $0.isLocalOnly)
+            Record(projectID: $0.projectID, notifyEnabled: $0.notifyEnabled, createdAt: $0.createdAt, isLocalOnly: $0.isLocalOnly, note: $0.note)
         }
         do {
             defaults.set(try JSONEncoder().encode(records), forKey: key)
